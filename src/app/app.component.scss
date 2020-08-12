@@ -1,0 +1,21 @@
+.body-container{
+    display:flex;
+    flex-direction: column;
+}
+.header-block{
+    border-bottom: 2px solid gray;
+}
+.main-block{
+    display:flex;
+    flex-wrap: wrap;
+    height:560px;
+    align-items: stretch;
+}
+.navigation-block{
+    background-color: indianred;
+    flex:2
+}
+.body-block{
+    background-color: gray;
+    flex:10
+}
