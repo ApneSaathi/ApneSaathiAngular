@@ -12,10 +12,13 @@
     align-items: stretch;
 }
 .navigation-block{
-    background-color: indianred;
-    flex:2
+    background-color: white;//indianred;
+    flex:2;
+    //border-radius:1%;
+    border: 1px solid gray;
+
 }
 .body-block{
-    background-color: gray;
+    background-color: white;
     flex:10
 }

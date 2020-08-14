@@ -1,0 +1,40 @@
+.assign-block{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding:10px;
+    margin-left: 100px
+}
+.assign-item{
+    flex:0 1 20%;
+    //border:2px solid white;
+    margin: 10px;
+    background-color: #CCD1D1;
+    border-radius: 3%;
+    border: 5px solid transparent
+}
+.citizen-image-block
+{
+    width:50px;
+    height:50px;
+    border-radius: 50px;
+    float:left;
+    position: relative;
+    top:5px;
+    z-index:10
+}
+.citizen-info{
+    margin:10px;
+}
+// .checkbox-block{
+//     display:none;
+// }
+.checkbox-block {
+   // & .mat-checkbox-background, .mat-checkbox-frame {
+        //border-radius: 50% !important;
+        position: absolute;
+        /* float: right; */
+        left: 40%;
+        top: 14%;
+    //}
+  }

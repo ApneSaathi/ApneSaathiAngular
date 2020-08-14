@@ -1,1 +1,50 @@
-<p>menu works!</p>
+<!-- <mat-nav-list>
+    <mat-list-item [matMenuTriggerFor]="menu"> 
+        <!-- <mat-icon>unfold_more</mat-icon> 
+        <a matline>Example</a>
+    </mat-list-item>
+    <mat-menu #menu="matMenu"> 
+        <button mat-menu-item>List 1</button>
+        <button mat-menu-item>List 2</button>
+    </mat-menu>
+    <mat-list-item [matMenuTriggerFor]="menu2"> 
+        <!-- <mat-icon>unfold_more</mat-icon> 
+        <a matline>Example 2</a>
+    </mat-list-item>
+    <mat-menu #menu2="matMenu"> 
+        <button mat-menu-item>List 3</button>
+        <button mat-menu-item>List 4</button>
+    </mat-menu>
+</mat-nav-list> -->
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            Volunteers
+        </mat-expansion-panel-header>
+        <mat-panel-description>
+            <div class="menu-items-block">
+                <mat-list-item class="menu-item">
+                    Volunteers List
+                </mat-list-item>
+                <mat-list-item class="menu-item">
+                    Volunteers Queries
+                </mat-list-item>
+            </div>
+        </mat-panel-description>
+      </mat-expansion-panel>
+      <mat-expansion-panel >
+        <mat-expansion-panel-header>
+            Senior Citizens
+        </mat-expansion-panel-header>
+        <mat-panel-description>
+            <div class="menu-items-block">
+                <mat-list-item class="menu-item">
+                    Citizens List
+                </mat-list-item>
+                <mat-list-item class="menu-item">
+                    Citizens Queries
+                </mat-list-item>
+            </div>
+        </mat-panel-description>
+      </mat-expansion-panel>
+</mat-accordion>
