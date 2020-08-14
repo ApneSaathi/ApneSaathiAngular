@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 .header-block{
-    border-bottom: 2px solid gray;
+    //border-bottom: 2px solid gray;
 }
 .main-block{
     display:flex;
@@ -12,10 +12,10 @@
     align-items: stretch;
 }
 .navigation-block{
-    background-color: indianred;
+    //background-color: indianred;
     flex:2
 }
 .body-block{
-    background-color: gray;
+    //background-color: gray;
     flex:10
 }

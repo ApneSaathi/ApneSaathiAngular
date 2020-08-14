@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ApneSaathiAngular"
+    }
+  },
+  "defaultProject": "ApneSaathiAngular",
+  "cli": {
+    "analytics": false
+  }
 }
