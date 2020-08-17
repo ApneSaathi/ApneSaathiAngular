@@ -4,6 +4,7 @@
 }
 .header-block{
     //border-bottom: 2px solid gray;
+    height: 80px;
 }
 .main-block{
     display:flex;
@@ -12,10 +13,14 @@
     align-items: stretch;
 }
 .navigation-block{
-    //background-color: indianred;
-    flex:2
+    background-color: white;//indianred;
+    flex:2;
+    //border-radius:1%;
+    border-right: 1px solid #d3d3d3;
+    padding-top: 20px;
+
 }
 .body-block{
-    //background-color: gray;
+    background-color: white;
     flex:10
 }

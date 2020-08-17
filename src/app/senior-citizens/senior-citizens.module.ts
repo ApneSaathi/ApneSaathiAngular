@@ -7,6 +7,7 @@ import { SeniorCitizensListComponent } from './senior-citizens-list/senior-citiz
 import { AssignSeniorCitizensComponent } from './assign-senior-citizens/assign-senior-citizens.component';
 
 
+
 @NgModule({
   declarations: [SeniorCitizensComponent, SeniorCitizensListComponent, AssignSeniorCitizensComponent],
   imports: [

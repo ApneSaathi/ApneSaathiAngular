@@ -1,0 +1,53 @@
+.menu-items-block{
+    display:flex;
+    flex-direction: column;
+}
+.menu-items{
+    border: none;
+    background: none;
+    font-size: 15px;
+    padding-bottom: 6px;
+}
+.menu-block{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 10px;
+    margin-left: 14px
+}
+.menu-block img{
+    width: 17px;
+    height: 15px;
+    margin-top: 19px;
+}
+.dropdown-btn{
+    width: 17px;
+    height: 15px;
+    margin-right: 20px;
+    margin-top: 2px;
+}
+.menu-btn{
+    font-size: 18px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    color: rgba(0,0,0,.87);
+}
+.menu-icons-block{
+    margin: 10px;
+    background-color: none;
+    border-radius: 3%;
+    border: 5px solid transparent
+}
+.mat-expansion-panel{
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 5px;
+}
+.mat-accordion>.mat-expansion-panel-spacing:last-child{
+    margin-top: 0;
+}
+.mat-expansion-panel-header{
+    font-size: 18px;
+}

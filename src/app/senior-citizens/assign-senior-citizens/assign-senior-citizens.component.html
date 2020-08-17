@@ -1,1 +1,9 @@
-<p>assign-senior-citizens works!</p>
+<div class="assign-block">
+    <div class="assign-item" *ngFor="let citizen of tempCitizensNumber">
+        <img src="../../../assets/user.jpg" class="citizen-image-block" />
+        <div class="citizen-info">
+            <div>{{citizen.name}}</div>
+            <div>{{citizen.phone}}</div>
+        </div>
+    </div>
+</div>
