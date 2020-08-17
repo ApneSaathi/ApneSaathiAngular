@@ -1,1 +1,74 @@
-<p>volunteers-list works!</p>
+<!-- <p>volunteers-list works!</p> -->
+
+<mat-tab-group mat-align-tabs="Active Volunteers">
+    <mat-tab label="Active Volunteers">
+    
+    
+  <!-- Volunteers List  -->
+  
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Name column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <img src='../../../assets/userVolunteer.png' alt='Person' width='15' height='15'> {{element.name}} </mat-cell>
+    </ng-container>
+  
+    <!-- Rating Column -->
+    <ng-container matColumnDef="rating">
+      <mat-header-cell *matHeaderCellDef> Rating </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
+    </ng-container>
+  
+    <!-- ContactNumber Column -->
+    <ng-container matColumnDef="contactNumber">
+      <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.contactNumber}} </mat-cell>
+    </ng-container>
+  
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+    </ng-container>
+
+     <!-- District Column -->
+     <ng-container matColumnDef="district">
+      <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+    </ng-container>
+
+
+
+     <!-- Block Column -->
+     <ng-container matColumnDef="block">
+      <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
+    </ng-container>
+
+
+     <!-- AssignedSrCitizen Column -->
+     <ng-container matColumnDef="assignedSrCitizen">
+      <mat-header-cell *matHeaderCellDef> Assigned Sr.citizens </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.assignedSrCitizen}} </mat-cell>
+    </ng-container>
+
+   <!-- Actions Column -->
+   <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.actions}}
+        <img src='../../../assets/addUser1.png' alt='Person' width='15' height='15'> &nbsp;
+        <img src='../../../assets/transferVolunteer1.png' alt='Person' width='15' height='15'>&nbsp;
+        <img src='../../../assets/deboardUser1.png' alt='Person' width='15' height='15'>
+        
+    </mat-cell>
+  </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  
+    </mat-table>
+
+</mat-tab>
+<mat-tab label="Deboarded Volunteers">Content 2</mat-tab>
+</mat-tab-group>
