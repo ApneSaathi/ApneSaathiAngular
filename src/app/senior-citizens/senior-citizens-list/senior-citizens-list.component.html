@@ -1,1 +1,59 @@
-<p>senior-citizens-list works!</p>
+<!-- <p>senior-citizens-list works!</p> -->
+
+<mat-tab-group mat-align-tabs="Assigned Sr. Citizen's">
+    <mat-tab label="Assigned Sr. Citizen's">
+    
+    
+  <!-- senior-citizens-list  -->
+  
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Name column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <img src='../../../assets/userVolunteer.png' alt='Person' width='15' height='15'> {{element.name}} </mat-cell>
+    </ng-container>
+  
+    <!-- ContactNumber Column -->
+    <ng-container matColumnDef="contactNumber">
+      <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.contactNumber}} </mat-cell>
+    </ng-container>
+  
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+    </ng-container>
+
+     <!-- District Column -->
+     <ng-container matColumnDef="district">
+      <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+    </ng-container>
+
+
+
+     <!-- Block Column -->
+     <ng-container matColumnDef="block">
+      <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
+    </ng-container>
+
+
+     <!-- Assigned Volunteer Column -->
+     <ng-container matColumnDef="assignedVolunteer">
+      <mat-header-cell *matHeaderCellDef> Assigned Volunteer </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.assignedVolunteer}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  
+    </mat-table>
+
+</mat-tab>
+<mat-tab label="Unassigned Sr. Citizen's">Content 2</mat-tab>
+<mat-tab label="Deboarded Sr. Citizen's">Content 3</mat-tab>
+</mat-tab-group>

@@ -1,11 +1,19 @@
 .search-query {
-    //background: url("search-icon.png") no-repeat right ;
     padding: 0 34px 0 10px;
     border-radius: 5px;
     border: 1px solid #d3d3d3;
     width: 300px;
     height: 30px;
     background-color: rgb(244, 244, 244);
+}
+.form-search {
+    position:relative;
+    margin-top: 7px;
+}
+.search-icon {
+    position:absolute;
+	margin-left: -27px;
+	margin-top: 8px;
 }
 .top-header {
     margin: 0;
@@ -15,9 +23,6 @@
 }
 .logo img {
     width: 125px;
-}
-.form-search {
-    margin-top: 7px;
 }
 .header-items{
     margin-right: 200px;

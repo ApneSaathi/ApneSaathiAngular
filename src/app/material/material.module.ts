@@ -13,6 +13,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatInputModule} from '@angular/material/input';
 
 const matVariables=[
   MatListModule,
@@ -48,7 +49,8 @@ const matVariables=[
     OverlayModule,
     PortalModule,
     ScrollingModule,
-    MatTabsModule
+    MatTabsModule,
+    MatInputModule
 ];
 
 @NgModule({
