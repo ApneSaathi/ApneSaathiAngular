@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+import { environment } from 'src/environments/environment';
 
 export interface PeriodicElement {
   name: string;
@@ -38,9 +39,11 @@ export class SeniorCitizensListComponent implements OnInit {
   links = ["Assigned Sr. Citizen's", "Unassigned Sr. Citizen's", "Deboarded Sr. Citizen's"];
   activeLink = this.links[0];
 
+  public base_url;
   constructor() { }
 
   ngOnInit(): void {
+    this.base_url=environment.base_url;
   }
 
 }

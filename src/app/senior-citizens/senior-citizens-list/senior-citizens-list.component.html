@@ -12,7 +12,7 @@
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <img src='../../../assets/userVolunteer.png' alt='Person' width='15' height='15'> {{element.name}} </mat-cell>
+        <img [src]="base_url+'assets/userVolunteer.png' alt='Person' width='15' height='15'"> {{element.name}} </mat-cell>
     </ng-container>
   
     <!-- ContactNumber Column -->
