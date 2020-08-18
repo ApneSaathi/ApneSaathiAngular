@@ -4,6 +4,7 @@ import { DataSource } from '@angular/cdk/table';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+import { environment } from 'src/environments/environment';
 // import {MatTabsModule} from '@angular/material/tabs';
 
 export interface PeriodicElement {
@@ -47,9 +48,12 @@ export class VolunteersListComponent implements OnInit {
   links = ['Active Volunteers', 'Deboarded Volunteers'];
   activeLink = this.links[0];
   // background: ThemePalette = undefined;
+
+  public base_url;
   constructor() { }
 
   ngOnInit(): void {
+    this.base_url=environment.base_url;
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -8,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   constructor() { }
-
+  public base_url;
   ngOnInit(): void {
+    this.base_url=environment.base_url;
   }
 
 }
