@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assign-senior-citizens',
@@ -9,7 +10,9 @@ export class AssignSeniorCitizensComponent implements OnInit {
 
   constructor() { }
   public tempCitizensNumber:object[];
+  public base_url;
   ngOnInit(): void {
+    this.base_url=environment.base_url;
     this.tempCitizensNumber=[
       {id:1,name:"Citizen1",phone:1234567890},
       {id:2,name:"Citizen2",phone:1234567890},

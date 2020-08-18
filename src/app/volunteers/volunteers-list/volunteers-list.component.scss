@@ -15,3 +15,9 @@ table {
   td, th {
     width: 25%;
   }
+  ::ng-deep.mat-tab-label.mat-tab-label-active {
+    //background-color: #FCE500;
+    font-weight: 700;
+    color: #FF3D00;
+    padding:0px !important;
+    }
