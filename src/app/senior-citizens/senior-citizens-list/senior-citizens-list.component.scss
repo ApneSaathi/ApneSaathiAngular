@@ -1,17 +1,46 @@
 table {
     width: 100%;
 }
-  
 th.mat-sort-header-sorted {
     color: black;
 }
-
-  
 .mat-form-field {
     font-size: 14px;
     width: 100%;
 }
-  
 td, th {
     width: 25%;
+}
+.top-section {
+    display: flex;
+    margin: 15px 25px;
+}
+.add-button {
+    background-color: orangered;
+    color: white;
+    padding: 0 8px;
+    height: 24px;
+    border-radius: 5px;
+    border: none;
+}
+.options {
+    border-radius: 3px;
+    width: 125px;
+    height: 24px;
+    margin-right: 8px;
+}
+.state-form {
+    display: flex;
+    margin-left: 43%;
+}
+.img-icon {
+    margin-right: 8px;
+}
+.img-icon img {
+    width: 24px;
+}
+::ng-deep.mat-tab-label.mat-tab-label-active {
+    font-weight: 700;
+    color: #FF3D00;
+    padding:0px !important;
 }
