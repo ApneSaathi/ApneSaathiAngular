@@ -1,12 +1,45 @@
 <!-- <p>senior-citizens-list works!</p> -->
 
 <mat-tab-group mat-align-tabs="Assigned Sr. Citizen's">
-    <mat-tab label="Assigned Sr. Citizen's">
-    
-    
+  <mat-tab label="Assigned Sr. Citizen's">
+
+<div class="top-section">
+  <div class="add-button-section">
+    <span>Senior Citizen List</span>&nbsp;
+    <button mat-button class="add-button">+ Add</button>
+  </div>
+      <div class="state-form" >
+        <div class="img-icon">
+          <img [src]="base_url+'assets/Group 1184.png'">
+        </div>
+        <div class="filters">
+          <select class="options">
+            <option value="State" class="option1">State</option>
+            <option value="State1" class="option1">State1</option>
+            <option value="State2" class="option2">State2</option>
+            <option value="State3" class="option1">State3</option>
+            <option value="State4" class="option1">State4</option>
+          </select>
+          <select class="options">
+            <option value="District" class="option1">District</option>
+            <option value="District1" class="option1">District1</option>
+            <option value="District2" class="option2">District2</option>
+            <option value="District3" class="option1">District3</option>
+            <option value="District4" class="option1">District4</option>
+          </select>
+          <select class="options">
+            <option value="Block" class="option1">Block</option>
+            <option value="Block1" class="option1">Block1</option>
+            <option value="Block2" class="option2">Block2</option>
+            <option value="Block3" class="option1">Block3</option>
+            <option value="Block4" class="option1">Block4</option>
+          </select>
+        </div>
+      </div>
+</div>
+
   <!-- senior-citizens-list  -->
   
-
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- Name column -->
     <ng-container matColumnDef="name">

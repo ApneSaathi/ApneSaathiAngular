@@ -55,3 +55,6 @@
 .mat-expansion-panel-header{
     font-size: 18px;
 }
+::ng-deep.mat-expansion-panel-header.mat-expanded {
+    color: #FF3D00;
+}
