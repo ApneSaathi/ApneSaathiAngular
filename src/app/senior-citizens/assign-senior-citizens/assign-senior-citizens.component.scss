@@ -2,7 +2,7 @@
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding:30px;
+    padding:10px 30px 30px 30px;
     //margin-left: 100px
     justify-content: flex-start;
     height: 350px;
@@ -29,8 +29,8 @@
     border: 2px solid #CCD1D1;
 }
 .assign-image-selected-block{
-    border: 2px solid #FFFFFF;
-    box-shadow: 5px 5px 5px gray;
+    border: 3px solid #FFFFFF;
+    //box-shadow: 5px 5px 5px gray;
 
 }
 .assign-info{
@@ -81,4 +81,7 @@
       //display:block;
       top: 0px;
       right: 0px;
+  }
+  .assign-actions{
+      border-top:1px solid #CCD1D1
   }

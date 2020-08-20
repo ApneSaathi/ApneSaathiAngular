@@ -56,20 +56,40 @@ export class AssignSeniorCitizensComponent implements OnInit {
     this.addSelectedCitizens();
     //console.log(this.assignCitizenForm.value);
   }
-  onchecked(){
-    
-    console.log(this.assignCitizenForm.value);
-    //console.log(e.source);
+  onchecked(event){
+    //this.assignCitizenForm.controls['selectAll']
+    if(!event.checked && this.assignCitizenForm.controls['selectAll'].value){
+      this.assignCitizenForm.controls['selectAll'].patchValue(false);
+    }
+    else{
+      console.log(this.assignCitizenForm.value.selectedCitizens);
+      if(this.assignCitizenForm.value.selectedCitizens.findIndex(citizen=>{ 
+        console.log("ID:"+citizen.id+", Checked:"+citizen.checked);
+        return citizen.checked===false
+       })==-1){
+        this.assignCitizenForm.controls['selectAll'].patchValue(true);
+       }
+       
+      // if(this.assignCitizenForm.value.selectedCitizens.findIndex(citizen=>{ citizen.checked===false })==-1){
+      //   this.setAllCheckboxValues(true);
+      //   this.assignCitizenForm.controls['selectAll'].patchValue(true);
+      // }
+    }
+    //console.log(this.assignCitizenForm.value);
   }
   onChangeSelectAll(){
     let temp_checked=false;
     if(this.assignCitizenForm.controls['selectAll'].value){
       temp_checked=true;
     }
-    console.log(this.assignCitizenForm.value)
+    //console.log(this.assignCitizenForm.value)
+    this.setAllCheckboxValues(temp_checked);
+    //console.log(this.assignCitizenForm.value);
+  }
+  setAllCheckboxValues(check_value){
     this.assignCitizenForm.value.selectedCitizens.forEach((element , i) => {
       this.selectedCitizens.controls[i].patchValue({
-        checked:temp_checked
+        checked:check_value
       })
     });
   }
