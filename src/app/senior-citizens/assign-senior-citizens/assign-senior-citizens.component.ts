@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { FormBuilder, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-assign-senior-citizens',
@@ -8,7 +9,26 @@ import { environment } from 'src/environments/environment';
 })
 export class AssignSeniorCitizensComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
+  get selectedCitizens(){
+    return this.assignCitizenForm.get('selectedCitizens') as FormArray;
+  }
+  addSelectedCitizens(){
+    this.tempCitizensNumber.forEach(element => {
+      console.log(element);
+      this.selectedCitizens.push(
+        this.fb.group({
+          id: [element['id']],
+          checked:[false]
+        })
+        );
+    });
+    
+  }
+  assignCitizenForm=this.fb.group({
+      selectAll:[false],
+      selectedCitizens: this.fb.array([])
+  });
   public tempCitizensNumber:object[];
   public base_url;
   ngOnInit(): void {
@@ -30,6 +50,27 @@ export class AssignSeniorCitizensComponent implements OnInit {
       {id:14,name:"Citizen14",phone:1234567890},
       {id:15,name:"Citizen15",phone:1234567890},
     ];
+    // this.assignCitizenForm.valueChanges.subscribe(formArray=>{
+    //   console.log(formArray);
+    // });
+    this.addSelectedCitizens();
+    //console.log(this.assignCitizenForm.value);
   }
-
+  onchecked(){
+    
+    console.log(this.assignCitizenForm.value);
+    //console.log(e.source);
+  }
+  onChangeSelectAll(){
+    let temp_checked=false;
+    if(this.assignCitizenForm.controls['selectAll'].value){
+      temp_checked=true;
+    }
+    console.log(this.assignCitizenForm.value)
+    this.assignCitizenForm.value.selectedCitizens.forEach((element , i) => {
+      this.selectedCitizens.controls[i].patchValue({
+        checked:temp_checked
+      })
+    });
+  }
 }

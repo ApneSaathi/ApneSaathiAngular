@@ -14,6 +14,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 const matVariables=[
   MatListModule,
@@ -50,7 +52,9 @@ const matVariables=[
     PortalModule,
     ScrollingModule,
     MatTabsModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule
 ];
 
 @NgModule({

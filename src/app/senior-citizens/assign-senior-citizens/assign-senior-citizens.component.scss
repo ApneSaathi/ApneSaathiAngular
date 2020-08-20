@@ -2,39 +2,83 @@
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding:10px;
-    margin-left: 100px
+    padding:30px;
+    //margin-left: 100px
+    justify-content: flex-start;
+    height: 350px;
+    overflow-y: scroll;
 }
 .assign-item{
     flex:0 1 20%;
     //border:2px solid white;
     margin: 10px;
-    background-color: #CCD1D1;
-    border-radius: 3%;
+    // background-color: #CCD1D1;
+    // border-radius: 3%;
     border: 5px solid transparent
 }
-.citizen-image-block
+.assign-image-unselected-block
 {
     width:50px;
     height:50px;
     border-radius: 50px;
     float:left;
     position: relative;
-    top:5px;
-    z-index:10
+    top:-2px;
+    left:-10px;
+    z-index:10;
+    border: 2px solid #CCD1D1;
 }
-.citizen-info{
-    margin:10px;
+.assign-image-selected-block{
+    border: 2px solid #FFFFFF;
+    box-shadow: 5px 5px 5px gray;
+
 }
-// .checkbox-block{
-//     display:none;
-// }
-.checkbox-block {
-   // & .mat-checkbox-background, .mat-checkbox-frame {
-        //border-radius: 50% !important;
-        position: absolute;
-        /* float: right; */
-        left: 40%;
-        top: 14%;
-    //}
+.assign-info{
+    margin-left:10px;
+    background-color: #CCD1D1;
+    border-radius: 3%;
+    padding: 4px 0px 4px 25px;
+    position:relative;
+
+}
+.assign-info-checked{
+    background-color: #FFFFFF !important;
+    box-shadow: 5px 5px 5px gray !important;
+}
+.select-all{
+    padding-left:40px;
+}
+.list-card-group{
+    position:relative;
+}
+.list-card-checkbox{
+    z-index:10;
+    position: absolute;
+    right: -7px;
+    top: -10px;
+    //display:none
+    
+}
+.display-checkbox{
+    display:block !important;
+}
+.display-none{
+    display:none !important;
+    
+}
+::ng-deep .list-card-checkbox {
+    & .mat-checkbox-background, .mat-checkbox-frame {
+      border-radius: 70% !important;
+      width:20px;
+      height:20px;
+    }
+    & .mat-checkbox-checked{
+        top: 0px;
+        right: 0px;  
+    }
+  }
+  .mat-checkbox-checked ~ .list-card-checkbox{
+      //display:block;
+      top: 0px;
+      right: 0px;
   }

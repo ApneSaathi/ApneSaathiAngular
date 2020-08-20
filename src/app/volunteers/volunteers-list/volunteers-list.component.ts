@@ -5,6 +5,8 @@ import { DataSource } from '@angular/cdk/table';
 // import 'rxjs/add/observable/of';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 // import {MatTabsModule} from '@angular/material/tabs';
 
 export interface PeriodicElement {
@@ -50,10 +52,23 @@ export class VolunteersListComponent implements OnInit {
   // background: ThemePalette = undefined;
 
   public base_url;
-  constructor() { }
+  constructor(public dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.base_url=environment.base_url;
   }
-
+  opensrCitizenAssign(){
+      this.dialog.open(GlobalDialogComponent,
+        {
+          data:{
+            heading:"Assign Sr.citizens",
+          },
+          disableClose:true,
+          width: "70%",
+          autoFocus: false,
+          //position:{top:"50px"},
+          //height:"500px"
+        }
+      );
+  }
 }

@@ -58,7 +58,7 @@
    <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.actions}}
-        <img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15'> &nbsp;
+        <img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15' class="mouseover-pointer" (click)="opensrCitizenAssign()"> &nbsp;
         <img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15'>&nbsp;
         <img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'>
         
