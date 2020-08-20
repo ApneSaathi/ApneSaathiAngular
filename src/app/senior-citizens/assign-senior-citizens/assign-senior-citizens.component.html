@@ -1,9 +1,25 @@
-<div class="assign-block">
-    <div class="assign-item" *ngFor="let citizen of tempCitizensNumber">
-        <img [src]="base_url+'assets/user.jpg'" class="citizen-image-block" />
-        <div class="citizen-info">
-            <div>{{citizen.name}}</div>
-            <div>{{citizen.phone}}</div>
-        </div>
+<div [formGroup]="assignCitizenForm">
+<div class="select-all">
+    <label>
+        <mat-checkbox color="primary" formControlName="selectAll" (change)="onChangeSelectAll()">Select All</mat-checkbox> 
+    </label>
+</div>
+<div class="assign-block" >
+    <div class="assign-item"  formArrayName="selectedCitizens" *ngFor="let citizen of tempCitizensNumber; let i=index">
+        <label> 
+            <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" [ngClass]="{'assign-image-selected-block':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true}" />
+            <div class="assign-info" [formGroupName]="i" [ngClass]="{'assign-info-checked':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true}">
+                <mat-checkbox color="primary" class="list-card-checkbox" formControlName="checked" (change)="onchecked()" [value]="citizen.id" [ngClass]="{'display-checkbox':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true,'display-none':!assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value}" ></mat-checkbox>
+                <div>{{citizen.name}}</div>
+                <div>{{citizen.phone}}</div>
+                
+            </div>
+            
+        </label>
     </div>
+</div>
+<mat-dialog-actions align="center">
+    <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
+    <button mat-flat-button color="primary" class="medium-size-text">Assign</button>
+</mat-dialog-actions>
 </div>

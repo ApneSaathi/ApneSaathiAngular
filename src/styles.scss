@@ -2,3 +2,15 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Common Styles*/
+.mouseover-pointer{
+    cursor: pointer;
+}
+// .mat-dialog-container{
+//     padding-bottom:50px !important
+// }
+.medium-size-text{
+    font-size: 15px;
+    font-weight: lighter;
+}

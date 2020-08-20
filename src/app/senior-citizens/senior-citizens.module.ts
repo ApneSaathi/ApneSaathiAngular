@@ -7,6 +7,7 @@ import { SeniorCitizensListComponent } from './senior-citizens-list/senior-citiz
 import { AssignSeniorCitizensComponent } from './assign-senior-citizens/assign-senior-citizens.component';
 import {MaterialModule} from '../material/material.module';
 import {HttpClientModule} from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,6 +17,10 @@ import {HttpClientModule} from '@angular/common/http';
     SeniorCitizensRoutingModule,
     MaterialModule,
     HttpClientModule,
+    ReactiveFormsModule
+  ],
+  exports:[
+    AssignSeniorCitizensComponent
   ]
 })
 export class SeniorCitizensModule { }
