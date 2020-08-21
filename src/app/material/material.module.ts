@@ -16,6 +16,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatToolbarModule} from '@angular/material/toolbar'; 
 
 const matVariables=[
   MatListModule,
@@ -24,23 +29,10 @@ const matVariables=[
   MatExpansionModule,
   MatCardModule,
   MatCheckboxModule,
-  MatListModule,
-    MatMenuModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatCheckboxModule,
+    
     A11yModule,
     CdkTableModule,
-    MatCardModule,
     // MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatMenuModule,
     MatNativeDateModule,
     // MatPaginatorModule,
     MatRippleModule,
@@ -54,7 +46,18 @@ const matVariables=[
     MatTabsModule,
     MatInputModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+
+    MatSelectModule,
+    MatSortModule,
+    MatButtonToggleModule,
+    MatPaginatorModule,
+    MatToolbarModule
+
+
+
+
+
 ];
 
 @NgModule({
