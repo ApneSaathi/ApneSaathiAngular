@@ -22,7 +22,17 @@ export interface VolunteerDetails {
   actions:any;
 }
 
-
+export interface DeboarededVolunteers {
+  name: string; 
+  position: number;  
+  rating: number;
+  contactNumber: number;
+  state:string;
+  district:string;
+  block:string;
+  assignedSrCitizen:any;
+  
+}
 
 /**
  * @title Basic use of `<mat-table>` (uses display flex)
@@ -49,10 +59,20 @@ export class VolunteersListComponent implements OnInit {
     {position: 11, name: 'Hakunam', rating: 5, contactNumber: 9640141909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, actions:''},
   ];
 
-
+  DEBOARDED_VOLUNTEER: DeboarededVolunteers[] = [
+    {position: 1, name: 'Surya Teja', rating: 4.5, contactNumber: 9640140999,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
+    {position: 2, name: 'James', rating: 3, contactNumber: 9640140979,state:'Maharashtra',district:'Loreimpsum', block:'Block1', assignedSrCitizen:40, },
+    {position: 3, name: 'Uma Ram', rating: 4, contactNumber: 9640140989,state:'Gujarat',district:'rangareddy', block:'Block2', assignedSrCitizen:20, },
+    {position: 9, name: 'Soma', rating: 4, contactNumber: 9640140919,state:'MP',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
+    {position: 10, name: 'Hakuna', rating: 4, contactNumber: 9640140909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
+    {position: 11, name: 'Hakunam', rating: 5, contactNumber: 9640141909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
+  ];
 
   displayedColumns: string[] = [ 'name', 'rating', 'contactNumber', 'state','district','block','assignedSrCitizen','actions'];
   dataSource = new MatTableDataSource(this.VOLUNTEER_DATA);
+  deboardedColumns: string[] = [ 'name', 'rating', 'contactNumber', 'state','district','block','assignedSrCitizen','actions'];
+  dataSource1 = new MatTableDataSource(this.DEBOARDED_VOLUNTEER);
+  
   links = ['Active Volunteers', 'Deboarded Volunteers'];
   activeLink = this.links[0];
   // background: ThemePalette = undefined;
