@@ -11,7 +11,7 @@ import { MatSort } from '@angular/material/sort';
 // import {MatTabsModule} from '@angular/material/tabs';
 
 export interface VolunteerDetails {
-  name: string;
+  name: string; 
   position: number;
   rating: number;
   contactNumber: number;
