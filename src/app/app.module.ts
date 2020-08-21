@@ -9,9 +9,10 @@ import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './material/material.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { GlobalDialogComponent } from './global-dialog/global-dialog.component';
 import { SeniorCitizensModule } from './senior-citizens/senior-citizens.module';
+import { ApiInterceptor } from './services/api.interceptor'
 
 @NgModule({
   declarations: [
@@ -30,7 +31,10 @@ import { SeniorCitizensModule } from './senior-citizens/senior-citizens.module';
     SeniorCitizensModule
   ],
   entryComponents:[GlobalDialogComponent],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
