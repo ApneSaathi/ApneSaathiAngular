@@ -12,7 +12,7 @@ import { MatSort } from '@angular/material/sort';
 
 export interface VolunteerDetails {
   name: string; 
-  position: number;
+  position: number;  
   rating: number;
   contactNumber: number;
   state:string;
