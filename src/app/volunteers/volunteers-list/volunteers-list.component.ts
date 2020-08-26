@@ -9,6 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { MatSort } from '@angular/material/sort';
 import { ApiInfoService } from 'src/app/services/api-info.service';
+import {ActivatedRoute,Router} from '@angular/router';
+
+
 // import {MatTabsModule} from '@angular/material/tabs';
 // import {Volunteers} from 'src/app/volunteers/volunteers.mode';
 // export interface VolunteerDetails {
@@ -82,7 +85,7 @@ export class VolunteersListComponent implements OnInit {
   
   // objPost:VolunteerDetails;
 
-  displayedColumns: string[] = [ 'firstName', 'phoneNo', 'state','district','block'];
+  displayedColumns: string[] = [ 'firstName', 'phoneNo', 'state','district','block', 'actions'];
   dataSource ;
 
   deboardedColumns: string[] = [ 'name', 'rating', 'contactNumber', 'state','district','block','assignedSrCitizen','actions'];
@@ -94,6 +97,7 @@ export class VolunteersListComponent implements OnInit {
 
   // abc:VolunteerDetails[];
   // states: string
+  actions:any[]=[];
   states: string[] = [
 
     // 'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli and Daman and Diu',
@@ -144,11 +148,29 @@ export class VolunteersListComponent implements OnInit {
 
   
 
+ config:any;
+ collection = [];
+ public base_url;
+ constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router) 
+{
+  this.config={
+    currentPage:1,
+    itemsPerPage:10,
+    totalitems:0,
+  };
+    route.queryParams.subscribe(
+    params=>this.config.currentPage=params['page'] ? params['page']:1 
+    )
+      for(let i=1;i<=100;i++){
+        this.collection.push('items $(i)');
+      }
+
+}
  
+pageChange(newPage: number){
+  this.router.navigate([''],{queryParams:{page: newPage}});
+}
 
-
-  public base_url;
-  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService) { }
 
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -170,7 +192,20 @@ export class VolunteersListComponent implements OnInit {
       // this.objPost=data;
     // this.dataSource.sort = this.sort;
   })
+
   }
+
+  // pageChange1(){
+  //   this.base_url=environment.base_url;
+  //   let postData={status:"Active",pagenumber=1};
+  //   this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+  //     console.log(data);
+  //     this.dataSource=data.volunteers;
+  //     this.states=this.dataSource;
+  //     this.districts=this.dataSource;
+  //     this.blocks=this.dataSource;
+  
+  // }
 
 
   opensrCitizenAssign(){

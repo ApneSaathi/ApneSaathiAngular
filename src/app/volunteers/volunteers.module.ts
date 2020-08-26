@@ -6,14 +6,15 @@ import { VolunteersComponent } from './volunteers.component';
 import { VolunteersListComponent } from './volunteers-list/volunteers-list.component';
 import {MaterialModule} from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
   declarations: [VolunteersComponent, VolunteersListComponent],
   imports: [
     CommonModule,
     VolunteersRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ]
 })
 export class VolunteersModule { }
