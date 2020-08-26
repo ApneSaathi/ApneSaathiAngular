@@ -5,15 +5,15 @@ import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import { environment } from 'src/environments/environment';
 import {ApiInfoService} from 'src/app/services/api-info.service';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  contactNumber: number;
-  state:string;
-  district:string;
-  block:string;
-  assignedVolunteer:any;
-}
+/* export interface PeriodicElement {
+     name: string;
+     position: number;
+     contactNumber: number;
+     state:string;
+     district:string;
+     block:string;
+     assignedVolunteer:any;
+ }*/
 
 
 
@@ -23,8 +23,12 @@ export interface PeriodicElement {
   styleUrls: ['./senior-citizens-list.component.scss']
 })
 export class SeniorCitizensListComponent implements OnInit {
-  displayedColumns: string[] = [ 'name', 'contactNumber', 'state','district','block','assignedVolunteer'];
-  dataSource;
+  AssignedSeniorCitizensColumns: string[] = ['firstName', 'phoneNo', 'state','district','blockName','volunteerId'];
+  UnassignedSeniorCitizensColumns: string[] = ['firstName', 'phoneNo', 'state','district','blockName'];
+  DeboardedSeniorCitizensColumns: string[] = ['firstName', 'phoneNo', 'state','district','blockName','volunteerId'];
+  AssignedDataSource;
+  UnassignedDataSource;
+  DeboardedDataSource;
   
   links = ["Assigned Sr. Citizen's", "Unassigned Sr. Citizen's", "Deboarded Sr. Citizen's"];
   activeLink = this.links[0];
@@ -36,9 +40,17 @@ export class SeniorCitizensListComponent implements OnInit {
 
   ngOnInit(): void {
     this.base_url=environment.base_url;
-    this.apiInfoService.getSeniorCitizensList().subscribe((data) => {
-      console.log(data);
-      //this.dataSource = data;
+    this.apiInfoService.getAssignedSeniorCitizensList().subscribe((data) => {
+      //console.log(data);
+      this.AssignedDataSource = data.srCitizenList;
+    })
+    this.apiInfoService.getUnassignedSeniorCitizensList().subscribe((data) => {
+      //console.log(data);
+      this.UnassignedDataSource = data.srCitizenList;
+    })
+    this.apiInfoService.getDeboardedSeniorCitizensList().subscribe((data) => {
+      //console.log(data);
+      this.DeboardedDataSource = data.srCitizenList;
     })
   }
 

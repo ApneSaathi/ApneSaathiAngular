@@ -1,11 +1,11 @@
 <!-- <p>senior-citizens-list works!</p> -->
 
-<mat-tab-group mat-align-tabs="Assigned Sr. Citizen's">
-  <mat-tab label="Assigned Sr. Citizen's">
+<mat-tab-group mat-align-tabs="Assigned Sr. Citizen">
+  <mat-tab label="Assigned Sr. Citizen">
 
-<div class="top-section">
+<div class="assignedList-topSection">
   <div class="add-button-section">
-    <span class="button-span">Senior Citizen List</span>&nbsp;
+    <span class="assignedList-span">Senior Citizen List</span>&nbsp;
     <button mat-button class="add-button">+ Add</button>
   </div>
       <div class="state-form" >
@@ -38,20 +38,21 @@
       </div>
 </div>
 
-  <!-- senior-citizens-list  -->
+  <!-- Assigned Sr. Citizen's list  -->
   
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <mat-table [dataSource]="AssignedDataSource" class="mat-elevation-z8">
+
     <!-- Name column -->
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="firstName">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.name}} </mat-cell>
+        <img class="person-image" [src]="base_url+'assets/senior-citizen.png'" alt='Person'> {{element.firstName}} </mat-cell>
     </ng-container>
   
     <!-- ContactNumber Column -->
-    <ng-container matColumnDef="contactNumber">
+    <ng-container matColumnDef="phoneNo">
       <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.contactNumber}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
     </ng-container>
   
     <!-- State Column -->
@@ -66,27 +67,195 @@
       <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
     </ng-container>
 
-
-
      <!-- Block Column -->
-     <ng-container matColumnDef="block">
+     <ng-container matColumnDef="blockName">
       <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
     </ng-container>
-
 
      <!-- Assigned Volunteer Column -->
-     <ng-container matColumnDef="assignedVolunteer">
+     <ng-container matColumnDef="volunteerId">
       <mat-header-cell *matHeaderCellDef> Assigned Volunteer </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.assignedVolunteer}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.volunteerId}} </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-header-row *matHeaderRowDef="AssignedSeniorCitizensColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: AssignedSeniorCitizensColumns;"></mat-row>
   
-    </mat-table>
+  </mat-table>
 
 </mat-tab>
-<mat-tab label="Unassigned Sr. Citizen's">Content 2</mat-tab>
-<mat-tab label="Deboarded Sr. Citizen's">Content 3</mat-tab>
+
+<mat-tab label="Unassigned Sr. Citizen">
+  <span class="unassignedList-span">Senior Citizen List</span>
+  <div class="unassignedList-topSection">
+    <div class="assignVolunteer-button-section">
+      <button mat-button class="assignVolunteer-button">Assign Volunteer</button>
+    </div>
+        <div class="state-form" >
+          <div class="img-icon">
+            <img [src]="base_url+'assets/Group 1184.png'">
+          </div>
+          <div class="filters">
+            <select class="options">
+              <option value="State" class="option1">State</option>
+              <option value="State1" class="option1">State1</option>
+              <option value="State2" class="option2">State2</option>
+              <option value="State3" class="option1">State3</option>
+              <option value="State4" class="option1">State4</option>
+            </select>
+            <select class="options">
+              <option value="District" class="option1">District</option>
+              <option value="District1" class="option1">District1</option>
+              <option value="District2" class="option2">District2</option>
+              <option value="District3" class="option1">District3</option>
+              <option value="District4" class="option1">District4</option>
+            </select>
+            <select class="options">
+              <option value="Block" class="option1">Block</option>
+              <option value="Block1" class="option1">Block1</option>
+              <option value="Block2" class="option2">Block2</option>
+              <option value="Block3" class="option1">Block3</option>
+              <option value="Block4" class="option1">Block4</option>
+            </select>
+          </div>
+        </div>
+  </div>
+
+  <!-- Unassigned Sr. Citizen's list  -->
+  
+  <mat-table [dataSource]="UnassignedDataSource" class="mat-elevation-z8">
+
+    <!-- Name column -->
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input class="seniorCitizen-checkbox" type="checkbox" name="seniorCitizen" value="seniorCitizen">
+        <img class="person-image" [src]="base_url+'assets/senior-citizen.png'" alt='Person'> {{element.firstName}} </mat-cell>
+    </ng-container>
+  
+    <!-- ContactNumber Column -->
+    <ng-container matColumnDef="phoneNo">
+      <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
+    </ng-container>
+  
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+    </ng-container>
+
+     <!-- District Column -->
+     <ng-container matColumnDef="district">
+      <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+    </ng-container>
+
+     <!-- Block Column -->
+     <ng-container matColumnDef="blockName">
+      <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="UnassignedSeniorCitizensColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: UnassignedSeniorCitizensColumns;"></mat-row>
+  
+  </mat-table>
+
+</mat-tab>
+
+<mat-tab label="Deboarded Sr. Citizen">
+  
+  <div class="deboardedList-topSection">
+    <span class="deboardedList-span">Senior Citizen List</span>
+        <div class="state-form" >
+          <div class="img-icon">
+            <img [src]="base_url+'assets/Group 1184.png'">
+          </div>
+          <div class="filters">
+            <select class="options">
+              <option value="State" class="option1">State</option>
+              <option value="State1" class="option1">State1</option>
+              <option value="State2" class="option2">State2</option>
+              <option value="State3" class="option1">State3</option>
+              <option value="State4" class="option1">State4</option>
+            </select>
+            <select class="options">
+              <option value="District" class="option1">District</option>
+              <option value="District1" class="option1">District1</option>
+              <option value="District2" class="option2">District2</option>
+              <option value="District3" class="option1">District3</option>
+              <option value="District4" class="option1">District4</option>
+            </select>
+            <select class="options">
+              <option value="Block" class="option1">Block</option>
+              <option value="Block1" class="option1">Block1</option>
+              <option value="Block2" class="option2">Block2</option>
+              <option value="Block3" class="option1">Block3</option>
+              <option value="Block4" class="option1">Block4</option>
+            </select>
+          </div>
+        </div>
+  </div>
+
+  <!-- Deboarded Sr. Citizen's list  -->
+  
+  <mat-table [dataSource]="DeboardedDataSource" class="mat-elevation-z8">
+
+    <!-- Name column -->
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <img class="person-image" [src]="base_url+'assets/senior-citizen.png'" alt='Person'> {{element.firstName}} </mat-cell>
+    </ng-container>
+  
+    <!-- ContactNumber Column -->
+    <ng-container matColumnDef="phoneNo">
+      <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
+    </ng-container>
+  
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+    </ng-container>
+
+     <!-- District Column -->
+     <ng-container matColumnDef="district">
+      <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+    </ng-container>
+
+     <!-- Block Column -->
+     <ng-container matColumnDef="blockName">
+      <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
+    </ng-container>
+
+    <!-- Assigned Volunteer Column -->
+    <ng-container matColumnDef="volunteerId">
+      <mat-header-cell *matHeaderCellDef> Assigned Volunteer </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.volunteerId}} </mat-cell>
+    </ng-container>
+
+    <!-- Deboarded On Column -->
+    <!-- <ng-container matColumnDef="blockName">
+      <mat-header-cell *matHeaderCellDef> Deboarded On </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
+    </ng-container> -->
+
+    <!-- Reasons Column -->
+    <!-- <ng-container matColumnDef="blockName">
+      <mat-header-cell *matHeaderCellDef> Reasons </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
+    </ng-container> -->
+
+    <mat-header-row *matHeaderRowDef="DeboardedSeniorCitizensColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: DeboardedSeniorCitizensColumns;"></mat-row>
+  
+  </mat-table>
+</mat-tab>
+
 </mat-tab-group>
