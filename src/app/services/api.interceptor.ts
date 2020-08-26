@@ -3,9 +3,11 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import {catchError, retry } from "rxjs/operators"
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -20,6 +22,14 @@ export class ApiInterceptor implements HttpInterceptor {
       }
     });
     console.log("Request:",request);
-    return next.handle(httpReq);
+    return next.handle(httpReq).pipe(
+      retry(1),
+      catchError((error: HttpErrorResponse) => {
+        // this.snackBar.open("<div color='warning'>Something went wring</div>",'',{
+        //   duration: 2000
+        // });
+        return throwError(error);
+      })
+    );
   }
 }

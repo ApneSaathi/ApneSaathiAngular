@@ -20,7 +20,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 
 const matVariables=[
   MatListModule,
@@ -52,12 +53,8 @@ const matVariables=[
     MatSortModule,
     MatButtonToggleModule,
     MatPaginatorModule,
-    MatToolbarModule
-
-
-
-
-
+    MatToolbarModule,
+    MatSnackBarModule
 ];
 
 @NgModule({
