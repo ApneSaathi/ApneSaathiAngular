@@ -1,0 +1,40 @@
+.notification-container{
+    display:flex;
+    position: relative;
+    justify-content: center;
+}
+.success-icon
+{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #ff7043;
+    margin-top: -3px;
+    margin-right: 10px;
+    position:relative
+}
+.tick1{
+    background-color: white;
+    height: 7px;
+    width: 2px;
+    position: absolute;
+    transform: rotate(-51deg);
+    border-radius: 40%;
+    top: 12px;
+    left: 7px;
+
+}
+.tick2{
+    background-color: white;
+    height: 14px;
+    width: 2px;
+    position: absolute;
+    transform: rotate(45deg);
+    border-radius: 40%;
+    left: 14px;
+    top: 6px;
+}
+.notification-message{
+    font-size: 14px;
+    font-weight: 450;
+}

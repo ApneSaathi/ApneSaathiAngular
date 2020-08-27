@@ -12,7 +12,8 @@ import {MaterialModule} from './material/material.module';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { GlobalDialogComponent } from './global-dialog/global-dialog.component';
 import { SeniorCitizensModule } from './senior-citizens/senior-citizens.module';
-import { ApiInterceptor } from './services/api.interceptor'
+import { ApiInterceptor } from './services/api.interceptor';
+import { NotificationMessageComponent } from './notification-message/notification-message.component'
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ApiInterceptor } from './services/api.interceptor'
     HeaderComponent,
     FooterComponent,
     MenuComponent,
-    GlobalDialogComponent
+    GlobalDialogComponent,
+    NotificationMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,7 @@ import { ApiInterceptor } from './services/api.interceptor'
     HttpClientModule,
     SeniorCitizensModule
   ],
-  entryComponents:[GlobalDialogComponent],
+  entryComponents:[GlobalDialogComponent, NotificationMessageComponent],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}

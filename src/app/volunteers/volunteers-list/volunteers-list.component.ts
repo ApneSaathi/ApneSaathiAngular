@@ -208,11 +208,12 @@ pageChange(newPage: number){
   // }
 
 
-  opensrCitizenAssign(){
+  opensrCitizenAssign(volunteer){
       this.dialog.open(GlobalDialogComponent,
         {
           data:{
             heading:"Assign Sr.citizens",
+            volunteerObj: volunteer
           },
           disableClose:true,
           width: "70%",

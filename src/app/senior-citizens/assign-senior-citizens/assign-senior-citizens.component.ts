@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { ApiInfoService } from 'src/app/services/api-info.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
+import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
+import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 
 @Component({
   selector: 'app-assign-senior-citizens',
@@ -18,8 +22,12 @@ export class AssignSeniorCitizensComponent implements OnInit {
   public srCitizensList:object[];
   public base_url;
   public enable_assign_button:boolean=true;
-
-  constructor(private fb: FormBuilder, private api_info: ApiInfoService) { }
+  public loadingSpinner:boolean = true;
+  constructor(
+    private fb: FormBuilder,
+    private api_info: ApiInfoService,
+    private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<GlobalDialogComponent>) { }
   get selectedCitizens(){
     return this.assignCitizenForm.get('selectedCitizens') as FormArray;
   }
@@ -48,6 +56,7 @@ export class AssignSeniorCitizensComponent implements OnInit {
       console.log(data);
       this.srCitizensList=data.srCitizenList;
       this.addSelectedCitizens();
+      this.loadingSpinner=false;
     });
     this.assignCitizenForm.get('selectedCitizens').valueChanges
     .subscribe(value=> {
@@ -133,6 +142,7 @@ export class AssignSeniorCitizensComponent implements OnInit {
    * assignCitizens function is to assign sr Citizens to the volunteer
    */
   assignCitizens(){
+    this.loadingSpinner=true;
     let finalListIds= this.assignCitizenForm.value.selectedCitizens
     .filter(citizen => citizen.checked===true )
     .map(element=>{
@@ -144,17 +154,43 @@ export class AssignSeniorCitizensComponent implements OnInit {
     let assignParamsObj={
       url:"http://15.207.42.209:8080/Volunteer/assignSrCitizen",
       postData:{
-        //idvolunteer:this.volunteerObj.idvolunteer,
-        idvolunteer:this.volunteerObj.contactNumber,
+        idvolunteer:this.volunteerObj.idvolunteer,
+        //idvolunteer:this.volunteerObj.contactNumber,
         role:"1",
         adminId:"2",
-        "srCitizenList":finalListIds
+        srCitizenList:finalListIds
       }
     };
     // dynamicPostRequest funcion invoke to get the sr CItizen list from API
-    // this.api_info.dynamicPostRequest(paramsObj).subscribe(data=>{
-    //   console.log("Data",data);
-    // })
-    console.log(assignParamsObj);
+    this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
+      this.loadingSpinner=false;
+      console.log("Assign Response",data);
+      let message= this.volunteerObj.firstName+" was Succesfully assigned with "+finalListIds.length+" Sr.Citizens";
+      if(data && data.message=='Success'){
+        //message="Something went wrong";
+        this.dialogRef.close();
+      }
+      else{
+        //this.dialogRef.close();
+        message="Something went wrong";
+      }
+      this.showNotification({message: message,success:true});
+    },
+    // error=>{
+    //   this.loadingSpinner=false;
+    //   console.log("Error Response",error);
+    //   let error_msg="Something went wrong";
+    //   console.log(error_msg);
+    //   this.showNotification({message: error_msg});
+    // }
+    )
+    //console.log(assignParamsObj);
+  }
+  showNotification(notificationData){
+    this.snackBar.openFromComponent(NotificationMessageComponent,{
+      data:notificationData,
+      duration:2000,
+      panelClass: "notification-snackbar"
+    });
   }
 }
