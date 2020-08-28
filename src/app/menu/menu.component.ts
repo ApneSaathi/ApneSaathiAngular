@@ -9,10 +9,15 @@ import { environment } from 'src/environments/environment';
 export class MenuComponent implements OnInit {
 
   public base_url;
+  activeLink;
   constructor() { }
 
   ngOnInit(): void {
     this.base_url=environment.base_url;
+  }
+
+  isButtonClicked(clickedLink) {
+    this.activeLink=clickedLink;
   }
 
 }

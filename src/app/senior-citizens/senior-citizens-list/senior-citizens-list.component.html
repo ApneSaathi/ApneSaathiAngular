@@ -241,16 +241,16 @@
     </ng-container>
 
     <!-- Deboarded On Column -->
-    <!-- <ng-container matColumnDef="blockName">
+    <ng-container matColumnDef="deboardedOn">
       <mat-header-cell *matHeaderCellDef> Deboarded On </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
-    </ng-container> -->
+      <mat-cell *matCellDef="let element"> {{element.deboardedOn}} </mat-cell>
+    </ng-container>
 
     <!-- Reasons Column -->
-    <!-- <ng-container matColumnDef="blockName">
+    <ng-container matColumnDef="reasons">
       <mat-header-cell *matHeaderCellDef> Reasons </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
-    </ng-container> -->
+      <mat-cell *matCellDef="let element"> {{element.reasons}} </mat-cell>
+    </ng-container>
 
     <mat-header-row *matHeaderRowDef="DeboardedSeniorCitizensColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: DeboardedSeniorCitizensColumns;"></mat-row>
