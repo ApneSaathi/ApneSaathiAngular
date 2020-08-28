@@ -8,11 +8,13 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import {catchError, retry } from "rxjs/operators"
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationMessageComponent } from '../notification-message/notification-message.component';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private snackBar: MatSnackBar) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let httpReq = request.clone({
@@ -25,11 +27,16 @@ export class ApiInterceptor implements HttpInterceptor {
     return next.handle(httpReq).pipe(
       retry(1),
       catchError((error: HttpErrorResponse) => {
-        // this.snackBar.open("<div color='warning'>Something went wring</div>",'',{
-        //   duration: 2000
-        // });
+        this.showNotification({message:"API Call failed"});
         return throwError(error);
       })
     );
+  }
+  showNotification(notificationData){
+    this.snackBar.openFromComponent(NotificationMessageComponent,{
+      data:notificationData,
+      duration:2000,
+      panelClass: "notification-snackbar"
+    });
   }
 }

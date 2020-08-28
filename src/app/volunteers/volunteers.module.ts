@@ -5,7 +5,7 @@ import { VolunteersRoutingModule } from './volunteers-routing.module';
 import { VolunteersComponent } from './volunteers.component';
 import { VolunteersListComponent } from './volunteers-list/volunteers-list.component';
 import {MaterialModule} from '../material/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
   declarations: [VolunteersComponent, VolunteersListComponent],
@@ -14,7 +14,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     VolunteersRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ]
 })
 export class VolunteersModule { }

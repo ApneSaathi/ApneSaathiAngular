@@ -1,7 +1,7 @@
 <div [formGroup]="assignCitizenForm">
 <div class="select-all">
     <label>
-        <mat-checkbox color="primary" formControlName="selectAll" (change)="onChangeSelectAll()">Select All</mat-checkbox> 
+        <mat-checkbox [disabled]="loadingSpinner" color="primary" formControlName="selectAll" (change)="onChangeSelectAll()">Select All</mat-checkbox> 
     </label>
 </div>
 <div class="assign-block" >
@@ -9,7 +9,7 @@
         <label> 
             <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" [ngClass]="{'assign-image-selected-block':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true}" />
             <div class="assign-info" [formGroupName]="i" [ngClass]="{'assign-info-checked':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true}">
-                <mat-checkbox color="primary" class="list-card-checkbox" formControlName="checked" (change)="onchecked($event)" [value]="citizen.id" [ngClass]="{'display-checkbox':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true,'display-none':!assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value}" ></mat-checkbox>
+                <mat-checkbox  [disabled]="loadingSpinner" color="primary" class="list-card-checkbox" formControlName="checked" (change)="onchecked($event)" [value]="citizen.id" [ngClass]="{'display-checkbox':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true,'display-none':!assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value}" ></mat-checkbox>
                 <div>{{citizen.firstName}}</div>
                 <div>{{citizen.phoneNo}}</div>
                 
@@ -17,6 +17,9 @@
             
         </label>
     </div>
+</div>
+<div class="loading-spinner" *ngIf="loadingSpinner">
+    <mat-spinner [diameter]=50></mat-spinner>
 </div>
 <mat-dialog-actions align="center" class="assign-actions">
     <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
