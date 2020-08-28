@@ -4,43 +4,46 @@
   <mat-tab label="Active Volunteers">
   
     <mat-toolbar>
-      <mat-toolbar-row style='padding-bottom: 14px;margin-top: 14px;'>
-      <span>Volunteers List</span>&nbsp;
-      <button mat-button style="background-color: orangered;color:white;padding-bottom: 15px;width: 52px; height:30px;">+ Add</button>
+      <mat-toolbar-row >
+    <div class="onBoardedVolunteerHeader">
+      <span>Volunteers List</span>&nbsp;</div>
+        <button mat-button class="addButton">+ Add</button>
+      
+    
       <span class="example-spacer"></span>
       <div class="img-icon">
         <img src="../../../assets/Group 1184.png">
       </div>
 
-      
+      <!-- <form [formGroup]="createFilterGroup"> -->
       <div class="form-group">
         <!-- <label>State</label> -->
-        <select class="form-control" name="state" >
+        <select class="form-control" name="state" [(ngModel)]="filterStates" (change)="getDistrict($event.target.value)">
           <option value="">State</option>
           <option *ngFor="let state of states" value="{{idvolunteer}}">{{state.state}}</option>
         </select>
       </div>
       <!-- District -->
       <div class="form-group">
-        <select class="form-control" name="district" >
+        <select class="form-control" name="district" [(ngModel)]="filterDistricts" (change)="getBlock($event.target.value)">
           <option value="">District</option>
           <option *ngFor="let district of districts" value="{{idvolunteer}}">{{district.district}}</option>
         </select>
       </div>
       <!-- Block -->
       <div class="form-group">
-        <select class="form-control" name="block" >
+        <select class="form-control" name="block" [(ngModel)]="filterDistricts" (change)="getBlock($event.target.value)">
           <option value="">Block</option>
-          <option *ngFor="let block of blocks" value="{{idvolunteer}}">{{block.block}}</option>
+          <option *ngFor="let block of filterBlocks" value="{{idvolunteer}}">{{block.block}}</option>
         </select>
       </div>
-
+    <!-- </form> -->
   
     </mat-toolbar-row>
     </mat-toolbar>
 <!-- Volunteers List  -->
 
-<mat-table [dataSource]="dataSource  " matSort class="mat-elevation-z8">
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   Name column
   <ng-container matColumnDef="firstName">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
@@ -123,6 +126,11 @@
 <mat-tab label="Deboarded Volunteers">
     
 <!-- Volunteers List  -->
+<mat-toolbar>
+  <mat-toolbar-row>
+  <div class="deboardedheader"><span>Deboarded Volunteers List</span></div>
+  </mat-toolbar-row>
+  </mat-toolbar>
 
 <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   Name column

@@ -49,6 +49,19 @@ export class ApiInfoService {
     return this.http.post<any>(url,opost);
   }
 
+  postVolunteersListState(opost): Observable<any> {
+    const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
+    return this.http.post<any>(url,opost);
+  }
+
+
+  postVolunteersListDistrict(opost): Observable<any> {
+    const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
+    return this.http.post<any>(url,opost);
+  }
+
+
+
   postVolunteersListPagination(opost): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
     return this.http.post<any>(url,opost);
@@ -60,5 +73,9 @@ postDeboardedVolunteersList(opost): Observable<any> {
   const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
   return this.http.post<any>(url,opost);
 }
+
+
+
+
 
 }

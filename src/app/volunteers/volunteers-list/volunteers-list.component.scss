@@ -56,88 +56,6 @@ table {
       }
   
     
-    
-    //   .menu-items-block{
-    //     display:flex;
-    //     flex-direction: column;
-    // }
-    // .menu-items{
-    //     border: none;
-    //     background: none;
-    //     font-size: 15px;
-    //     padding-bottom: 6px;
-    // }
-    
-    
-    // .example-label {
-    
-    //   display: table-cell;
-    
-    //   font-size: 14px;
-    
-    //   margin-left: 8px;
-    
-    //   min-width: 120px;
-    
-    // }
-    
-    
-    
-    // .example-button-row {
-    
-    //   display: table-cell;
-    
-    //   width: 490px;
-    
-    // }
-    
-    
-    
-    // .example-button-row .mat-button-base {
-    
-    //   margin: 8px 8px 8px 0;
-    
-    // }
-      
-    
-    
-    // .example-flex-container {
-    
-    //   display: flex;
-    
-    //   justify-content: space-between;
-    
-    //   flex-wrap: wrap;
-    
-    // }
-    
-    
-    
-    // .example-button-container {
-    
-    //   display: flex;
-    
-    //   justify-content: center;
-    
-    //   width: 120px;
-    
-    // }
-    
-    
-    
-    
-    
-    // .mat-sort-header-container {
-    
-    //   align-items: center;
-    
-    // }
-    
-    // mat-button-toggle-group {
-    //   margin-left: 48px;
-      
-    // }
-    
     .example-spacer {
       flex: 1 1 auto;
     }
@@ -239,3 +157,36 @@ table {
     border-color:#d3d3d3;
     margin-bottom: 16px;
   }
+
+
+  .deboardedheader{
+    
+    font-weight: 600;
+    margin-left: 8px;
+    font-size: 15px;
+  }
+
+  .onBoardedVolunteerHeader{
+    font-weight: 600;
+    margin-left: 10px;
+    font-size: 16px;
+    display:flex;
+   
+  }
+
+ .addButton{
+  display:flex;
+  background-color: orangered;
+  height:23px;width:5px;
+  font-size:13px;
+  color: white;
+    align-items: center;
+    padding: 10px 9px ;
+    margin-left:5px;
+    margin-top:1px;
+    font-weight:150px;
+    margin-bottom: 7px;
+    // margin-right:10px;
+    min-width:54px;
+    line-height:12px;
+ }
