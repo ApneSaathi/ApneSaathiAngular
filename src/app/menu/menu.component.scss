@@ -27,22 +27,24 @@
 .mat-expansion-panel{
     border-radius: 0;
     box-shadow: none;
-    margin-bottom: 5px;
 }
 .mat-accordion>.mat-expansion-panel-spacing:last-child{
     margin-top: 0;
 }
 .mat-expansion-panel-header{
     font-size: 18px;
+    height: 50px;
 }
 ::ng-deep .mat-expansion-panel-header.mat-expanded .dropdown-link{
     color: #FF3D00 !important;
 }
 ::ng-deep .mat-expansion-panel-header.mat-expanded, ::ng-deep .mat-expansion-panel-header.mat-expanded:hover {
     background-color: rgb(253, 217, 245) !important;
+    border-left: 4px solid red;
 }
 ::ng-deep .mat-expansion-panel-body {
     background-color: rgb(254, 235, 249);
+    border-left: 4px solid red;
 }
 .mat-accordion .mat-expansion-panel:last-of-type, .mat-accordion .mat-expansion-panel:first-of-type {
     border-radius: 0 !important;
