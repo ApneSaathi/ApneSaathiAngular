@@ -1,12 +1,13 @@
 .menu-items-block{
     display:flex;
     flex-direction: column;
+    padding-top: 12px;
 }
 .menu-items{
     border: none;
     background: none;
     font-size: 15px;
-    padding-bottom: 6px;
+    padding-bottom: 12px;
 }
 .dropdown-link, .menu-button-link{
     text-decoration: none;

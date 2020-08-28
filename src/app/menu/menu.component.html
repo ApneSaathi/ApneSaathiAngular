@@ -10,13 +10,13 @@
     <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
             <img class="dropdown-btn volunteers" [src]="base_url+'assets/businessman-and-strategy (2).png'">
-            <a class="dropdown-link" routerLink="/volunteers">Volunteers</a>
+            <a class="dropdown-link" (click) = "isButtonClicked('volunteers')" routerLink="/volunteers">Volunteers</a>
             <span class="mat-expansion-arrow"></span>
         </mat-expansion-panel-header>
         <mat-panel-description>
             <div class="menu-items-block">
                 <button class="menu-items" (click) = "isButtonClicked('volunteerList')">
-                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerList'}" routerLink="/volunteers">List of volunteers</a>
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerList'||'volunteers' && activeLink!='volunteerQuires'}" routerLink="/volunteers">List of volunteers</a>
                 </button>
                 <button class="menu-items" (click) = "isButtonClicked('volunteerQuires')">
                     <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerQuires'}" routerLink="">Volunteer Quires</a>
@@ -28,13 +28,13 @@
     <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
             <img class="dropdown-btn citizens" [src]="base_url+'assets/group (2).png'">
-            <a class="dropdown-link" routerLink="/seniorCitizens">Senior Citizens</a>
+            <a class="dropdown-link" (click) = "isButtonClicked('citizens')" routerLink="/seniorCitizens">Senior Citizens</a>
             <span class="mat-expansion-arrow"></span>
         </mat-expansion-panel-header>
         <mat-panel-description>
             <div class="menu-items-block">
                 <button class="menu-items" (click) = "isButtonClicked('CitizenList')">
-                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenList'}" routerLink="/seniorCitizens">List of Sr. Citizen</a>
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenList' || 'citizens' && activeLink!='CitizenQuires'}" routerLink="/seniorCitizens">List of Sr. Citizen</a>
                 </button>
                 <button class="menu-items" (click) = "isButtonClicked('CitizenQuires')">
                     <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenQuires'}" routerLink="">Sr. Citizen Quires</a>
