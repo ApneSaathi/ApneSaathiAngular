@@ -121,7 +121,70 @@
 
 
 <mat-tab label="Deboarded Volunteers">
+    
+<!-- Volunteers List  -->
+
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  Name column
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.firstName}} </mat-cell>
+  </ng-container>
+
+  <!-- Rating Column -->
+  <ng-container matColumnDef="rating">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
+  </ng-container>
+
+  <!-- ContactNumber Column -->
+  <ng-container matColumnDef="phoneNo">
+    <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
+  </ng-container>
+
+  <!-- State Column -->
+  <ng-container matColumnDef="state">
+    <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+  </ng-container>
+
+   <!-- District Column -->
+   <ng-container matColumnDef="district">
+    <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+  </ng-container>
+
+   <!-- Block Column -->
+   <ng-container matColumnDef="block">
+    <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
+  </ng-container>
+
+
+   <!-- AssignedSrCitizen Column -->
+   <ng-container matColumnDef="assignedSrCitizen">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sr.citizens </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.assignedSrCitizen}} </mat-cell>
+  </ng-container>
+  
+ <!-- Actions Column -->
+ <ng-container matColumnDef="actions" >
+  <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
+  <!-- <mat-cell *matCellDef="let element"> {{actions}}
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15'></button>
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15'></button>
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
+      
+  </mat-cell> -->
+</ng-container>
+  <mat-header-row *matHeaderRowDef="deboardedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row of dataSource; columns: deboardedColumns;"></mat-row>
+
  
+  </mat-table> 
+
 </mat-tab>
 </mat-tab-group>
 

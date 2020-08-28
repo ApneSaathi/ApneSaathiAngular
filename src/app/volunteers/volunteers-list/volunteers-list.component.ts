@@ -54,7 +54,7 @@ export class VolunteersListComponent implements OnInit {
   displayedColumns: string[] = [ 'firstName', 'phoneNo', 'state','district','block', 'actions'];
   dataSource ;
 
-  deboardedColumns: string[] = [ 'name', 'rating', 'contactNumber', 'state','district','block','assignedSrCitizen','actions'];
+  deboardedColumns: string[] = [  'firstName', 'phoneNo', 'state','district','block',];
   dataSource1 = new MatTableDataSource(this.DEBOARDED_VOLUNTEER);
   
   links = ['Active Volunteers', 'Deboarded Volunteers'];
@@ -127,7 +127,13 @@ itemsPerPage:Number=7;
 
   }
 
-
+deboarededVolunteerList(){
+  let postData={status:"Active"};
+    
+    this.apiInfoService.postDeboardedVolunteersList(postData).subscribe((data)=>{
+    this.dataSource=data.volunteers;
+    })
+}
   getData(){
     let postData={status:"Active",limit:10,pagenumber:0};
     this.apiInfoService.postVolunteersListPagination(postData).subscribe((data)=> 
