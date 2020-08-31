@@ -15,28 +15,52 @@
         <img src="../../../assets/Group 1184.png">
       </div>
 
-      <!-- <form [formGroup]="createFilterGroup"> -->
       <div class="form-group">
         <!-- <label>State</label> -->
-        <select class="form-control" name="state" [(ngModel)]="filterStates" (change)="getDistrict($event.target.value)">
+        <select class="form-control" name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
+          <option value="">State</option>
+          <option *ngFor="let state of statesList" value="{{state}}">{{state}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+      <select class="form-control" name="district"  [(ngModel)]="selectedDistrict" (change)="onChangeDistrict($event.target.value)">
+        <option value="">District</option>
+        <option *ngFor="let district of districtsList" value="{{district}}">{{district}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <select class="form-control" name="block"  [(ngModel)]="selectedBlock" (change)="onChangeBlock($event.target.value)">
+        <option value="">District</option>
+        <option *ngFor="let block of blocksList" value="{{block}}">{{block}}</option>
+      </select>
+    </div>
+
+
+
+
+
+       <!-- <form [formGroup]="createFilterGroup"> 
+      <div class="form-group"> -->
+        <!-- <label>State</label> -->
+        <!-- <select class="form-control" name="state"  [(ngModel)]="filterState" (change)="onChangeState($event.target.value)">
           <option value="">State</option>
           <option *ngFor="let state of states" value="{{idvolunteer}}">{{state.state}}</option>
         </select>
-      </div>
+      </div> -->
       <!-- District -->
-      <div class="form-group">
-        <select class="form-control" name="district" [(ngModel)]="filterDistricts" (change)="getBlock($event.target.value)">
+      <!-- <div class="form-group">
+        <select class="form-control" name="district" [(ngModel)]="filterDistrict" (change)="onChangeDistrict($event.target.value)">
           <option value="">District</option>
           <option *ngFor="let district of districts" value="{{idvolunteer}}">{{district.district}}</option>
         </select>
-      </div>
+      </div> -->
       <!-- Block -->
-      <div class="form-group">
+      <!-- <div class="form-group">
         <select class="form-control" name="block" [(ngModel)]="filterDistricts" (change)="getBlock($event.target.value)">
           <option value="">Block</option>
           <option *ngFor="let block of filterBlocks" value="{{idvolunteer}}">{{block.block}}</option>
         </select>
-      </div>
+      </div> -->
     <!-- </form> -->
   
     </mat-toolbar-row>
@@ -99,7 +123,7 @@
   </mat-cell>
 </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row of dataSource; columns: displayedColumns;"></mat-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   <!-- <mat-row *matRowDef="let row of dataSource;let i=index|slice :(page-1)*pageSize:(page-1)*pageSize*pageSize ; columns: displayedColumns;"></mat-row> -->
   
      
@@ -113,10 +137,10 @@
   </mat-table> 
 
   <!-- <ngx-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="data.length"></ngx-pagination> -->
-  <div>
+  <!-- <div>
     <pagination-controls id="listing_pagination" maxSize="5" directionlinks="true" (pageChange)="page =$event"></pagination-controls>
-  </div>
-<button (click)="getData()">getUsers</button>
+  </div> -->
+<!-- <button (click)="getData()">getUsers</button> -->
 
  
 
@@ -188,7 +212,7 @@
   </mat-cell> -->
 </ng-container>
   <mat-header-row *matHeaderRowDef="deboardedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row of dataSource; columns: deboardedColumns;"></mat-row>
+  <mat-row *matRowDef="let row; columns: deboardedColumns;"></mat-row>
 
  
   </mat-table> 
@@ -233,6 +257,6 @@
 </ul>  -->
 
 <!-- <mat-paginator></mat-paginator> -->
-  
+  <!-- <button (click)=getStates()>states</button> -->
 </mat-toolbar-row>
 </mat-toolbar>
