@@ -7,6 +7,14 @@
         <img class="search-icon" [src]="base_url+'assets/search-icon.png'">
     </form> -->
     <div class="header-items user-login">
-        <img [src]="base_url+'assets/volunteer.png'" style="height: 43px;float: right">
+        <!-- <img [src]="base_url+'assets/volunteer.png'" style="height: 43px;float: right"> -->
+        <!-- {{loginInfo}} -->
+        <img class='login-icon' [matMenuTriggerFor]="afterMenu" *ngIf="loginInfo.gender=='F'" [src]="base_url+'assets/profile_female.png'">
+        <img class='login-icon' [matMenuTriggerFor]="afterMenu" *ngIf="loginInfo.gender!='F'" [src]="base_url+'assets/profile_male.png'">
+        
+        <mat-menu #afterMenu="matMenu" xPosition="after">
+            <button mat-menu-item style="font-weight: bold;">{{loginInfo.firstName+' '+loginInfo.lastName}}</button>
+            <button mat-menu-item class="mouseover-pointer" (click)="logout()">Logout</button>
+        </mat-menu>
     </div>
 </div>

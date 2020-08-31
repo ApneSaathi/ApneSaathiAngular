@@ -17,6 +17,7 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor(private snackBar: MatSnackBar) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    /* Setting headers for the http calls **/
     let httpReq = request.clone({
       setHeaders: {
         "Content-Type": "application/json",
@@ -25,13 +26,25 @@ export class ApiInterceptor implements HttpInterceptor {
     });
     console.log("Request:",request);
     return next.handle(httpReq).pipe(
-      retry(1),
+      //retry(1),
+      /* Handling errors of http call */
       catchError((error: HttpErrorResponse) => {
-        this.showNotification({message:"API Call failed"});
+        let error_message="API Call failed";
+        if(error.error.message !=''){
+          error_message=error.error.message;
+        }
+        else if(error.message !=''){
+          error_message=error.message;
+        }
+        this.showNotification({message:error_message}); // ivoking error notification function
         return throwError(error);
       })
     );
   }
+  /**
+   * showNotification function is to display notification
+   * @param notificationData 
+   */
   showNotification(notificationData){
     this.snackBar.openFromComponent(NotificationMessageComponent,{
       data:notificationData,

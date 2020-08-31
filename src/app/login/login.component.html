@@ -1,0 +1,36 @@
+<form class="login-container" [formGroup]="loginForm" (ngSubmit)="login()">
+<mat-card >
+    <mat-card-header>
+      <mat-card-title>
+        <img class='login-logo' [src]="base_url+'assets/login-logo.png'"/>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="login-body">
+        <div class="login-fields-block">
+            <mat-form-field floatLabel='never'>
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="userName" #username placeholder="Ex. abcxyz" autocomplete="off">
+                <mat-error *ngIf="loginForm.get('userName').errors && loginForm.get('userName').errors.required && (loginForm.get('userName').touched || loginForm.get('userName').dirty)">
+                    Username is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('userName').errors && loginForm.get('userName').errors.minlength">
+                    You should provide minimum of {{loginForm.get('userName').errors.minlength.requiredLength}} characters
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('userName').errors && loginForm.get('userName').errors.maxlength">
+                    You should provide maximum of {{loginForm.get('userName').errors.maxlength.requiredLength}} characters
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field floatLabel='never'>
+                <mat-label>Password</mat-label>
+                <input matInput  type='password' #password formControlName="password" placeholder="***********">
+                <mat-error *ngIf="loginForm.get('password').errors && loginForm.get('password').errors.required && (loginForm.get('password').touched || loginForm.get('password').dirty)">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="center">
+      <button mat-flat-button  type="submit" color="primary" [disabled]="loginForm.status == 'INVALID'">Login</button>
+    </mat-card-actions>
+  </mat-card>
+</form> 

@@ -1,9 +1,9 @@
 <div class='body-container'>
-  <header class='header-block'>
+  <header class='header-block' *ngIf="!isLoginUrl">
     <app-header></app-header>
   </header>
   <main class="main-block">
-      <nav class="navigation-block">
+      <nav class="navigation-block" *ngIf="!isLoginUrl">
         <app-menu></app-menu>
       </nav>
       <article class="body-block">

@@ -1,0 +1,19 @@
+.login-container {
+    width:30%;
+    left:35%;
+    top:20%;
+    position:absolute;
+    box-shadow: 2px 2px 2px 2px gray;
+    border-radius: 25px;;
+  }
+  .login-fields-block{
+      display:flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      padding-top:15px
+  }
+  ::ng-deep .mat-card-actions, .login-body{
+    border-top: 2px solid #ff7043
+  }
+  
