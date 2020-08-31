@@ -5,7 +5,10 @@ import { SeniorCitizensComponent } from './senior-citizens.component';
 import { AssignSeniorCitizensComponent } from './assign-senior-citizens/assign-senior-citizens.component';
 import { SeniorCitizensListComponent } from './senior-citizens-list/senior-citizens-list.component';
 
-const routes: Routes = [{ path: '', component: SeniorCitizensListComponent }];
+const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'seniorCitizensList'},
+  { path: 'seniorCitizensList', component: SeniorCitizensListComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

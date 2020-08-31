@@ -13,7 +13,10 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { GlobalDialogComponent } from './global-dialog/global-dialog.component';
 import { SeniorCitizensModule } from './senior-citizens/senior-citizens.module';
 import { ApiInterceptor } from './services/api.interceptor';
-import { NotificationMessageComponent } from './notification-message/notification-message.component'
+import { NotificationMessageComponent } from './notification-message/notification-message.component';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProtectGuard } from "./protect.guard";
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { NotificationMessageComponent } from './notification-message/notificatio
     FooterComponent,
     MenuComponent,
     GlobalDialogComponent,
-    NotificationMessageComponent
+    NotificationMessageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -30,12 +34,14 @@ import { NotificationMessageComponent } from './notification-message/notificatio
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    SeniorCitizensModule
+    SeniorCitizensModule,
+    ReactiveFormsModule
   ],
   entryComponents:[GlobalDialogComponent, NotificationMessageComponent],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true},
+    ProtectGuard
   ],
   bootstrap: [AppComponent]
 })
