@@ -1,66 +1,74 @@
-<div class="menu-block">
-    <img [src]="base_url+'assets/bullet-list.png'">
-    <div class="menu-icons-block">
-        <button class="menu-btn">
-            <a class="menu-items-link" routerLink="">Dashboard</a>
-        </button>
-    </div>
-</div>
 <mat-accordion>
-    <mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-            <img class="dropdown-btn" [src]="base_url+'assets/businessman-and-strategy (2).png'">
-            Volunteers
+            <img class="dashboard" [src]="base_url+'assets/bullet-list.png'">
+            <a class="dropdown-link" routerLink="">Dashboard</a>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <img class="dropdown-btn volunteers" [src]="base_url+'assets/businessman-and-strategy (2).png'">
+            <a class="dropdown-link" (click) = "isButtonClicked('volunteers')" routerLink="/volunteers">Volunteers</a>
+            <span class="mat-expansion-arrow"></span>
         </mat-expansion-panel-header>
         <mat-panel-description>
             <div class="menu-items-block">
-                <button class="menu-items">
-                    <a class="menu-items-link" routerLink="/volunteers">List of volunteers</a>
+                <button class="menu-items" (click) = "isButtonClicked('volunteerList')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerList'||'volunteers' && activeLink!='volunteerQuires'}" routerLink="/volunteers">List of volunteers</a>
                 </button>
-                <button class="menu-items">
-                    <a class="menu-items-link" routerLink="">Volunteer Quires</a>
+                <button class="menu-items" (click) = "isButtonClicked('volunteerQuires')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerQuires'}" routerLink="">Volunteer Quires</a>
                 </button>
             </div>
         </mat-panel-description>
     </mat-expansion-panel>
-    <mat-expansion-panel >
+
+    <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-            <img class="dropdown-btn" [src]="base_url+'assets/group (2).png'">
-            Senior Citizens
+            <img class="dropdown-btn citizens" [src]="base_url+'assets/group (2).png'">
+            <a class="dropdown-link" (click) = "isButtonClicked('citizens')" routerLink="/seniorCitizens">Senior Citizens</a>
+            <span class="mat-expansion-arrow"></span>
         </mat-expansion-panel-header>
         <mat-panel-description>
             <div class="menu-items-block">
-                <button class="menu-items">
-                    <a class="menu-items-link" routerLink="/seniorCitizens">List of Sr. Citizen</a>
+                <button class="menu-items" (click) = "isButtonClicked('CitizenList')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenList' || 'citizens' && activeLink!='CitizenQuires'}" routerLink="/seniorCitizens">List of Sr. Citizen</a>
                 </button>
-                <button class="menu-items">
-                    <a class="menu-items-link" routerLink="">Sr. Citizen Quires</a>
+                <button class="menu-items" (click) = "isButtonClicked('CitizenQuires')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenQuires'}" routerLink="">Sr. Citizen Quires</a>
                 </button>
             </div>
         </mat-panel-description>
     </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <img class="announcements" [src]="base_url+'assets/settings.png'">
+            <a class="dropdown-link" routerLink="">Announcements</a>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <img class="dataDownload" [src]="base_url+'assets/group.png'">
+            <a class="dropdown-link" routerLink="">Data Download</a>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <img class="otherRequests" [src]="base_url+'assets/Group 4976.png'">
+            <a class="dropdown-link" routerLink="">Other Requests</a>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <img class="staffList" [src]="base_url+'assets/Group 4.png'">
+            <a class="dropdown-link" routerLink="">Staff List</a>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
 </mat-accordion>
-<div class="menu-block">
-    <img [src]="base_url+'assets/settings.png'">
-    <div class="menu-icons-block">
-        <button class="menu-btn">
-            <a class="menu-items-link" routerLink="">Announcements</a>
-        </button>
-    </div>
-</div>
-<div class="menu-block">
-    <img [src]="base_url+'assets/group.png'">
-    <div class="menu-icons-block">
-        <button class="menu-btn">
-            <a class="menu-items-link" routerLink="">Data Download</a>
-        </button>
-    </div>
-</div>
-<div class="menu-block">
-    <img [src]="base_url+'assets/Group 4976.png'">
-    <div class="menu-icons-block">
-        <button class="menu-btn">
-            <a class="menu-items-link" routerLink="">Other Requests</a>
-        </button>
-    </div>
-</div>
