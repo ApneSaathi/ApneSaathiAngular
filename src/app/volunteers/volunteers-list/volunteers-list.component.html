@@ -15,9 +15,9 @@
         <img src="../../../assets/Group 1184.png">
       </div>
 
-      <div class="form-group">
+      <div class="form-group" >
         <!-- <label>State</label> -->
-        <select class="form-control" name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
+        <select class="form-control"  name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
           <option value="">State</option>
           <option *ngFor="let state of statesList" value="{{state}}">{{state}}</option>
         </select>

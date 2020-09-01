@@ -159,7 +159,7 @@ getBlocks(){
   onChangeState(selectedState) {
     if (selectedState) {
       this.getDistricts();
-        let postData={status:"Active",state:this.selectedState}
+        let postData={status:"Active",filterState:this.selectedState}
         this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
           this.dataSource=data.volunteers;
                   }
@@ -170,7 +170,7 @@ getBlocks(){
   onChangeDistrict(selectedDistrict) {
     if (selectedDistrict) {
       this.getBlocks();
-      let postData={status:"Active",state:this.selectedState,district:this.selectedDistrict}
+      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
                 }
@@ -180,9 +180,12 @@ getBlocks(){
 
   onChangeBlock(selectedBlock) {
     if (selectedBlock) {
-      let postData={status:"Active",state:this.selectedState,district:this.selectedDistrict,block:this.selectedBlock}
+      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
+        this.filterState=data.volunteers.state;
+        this.filterDistrict=data.volunteers.district;
+        this.filterBlock=data.volunteers.block;
                 }
       )};
   }

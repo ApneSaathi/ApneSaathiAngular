@@ -76,7 +76,7 @@ getBlocks(selectedState,selectedDistrict){
           "Gyaraspur","Sironj","Basoda","Vidisha","Nateran","Lateri","Kurwai"
         ],
       },
-      
+
     "Bihar":{
         "Araria":[
           "Araria","Bhargama","Jokihat","Kursakanta","Palasi","Raniganj","Forbesganj","Narpatganj","Sikty"
@@ -120,6 +120,9 @@ getBlocks(selectedState,selectedDistrict){
           "Nandurbar":[
             "Dhadgaon","Taloda","Shahada","Nandurbar","Navapur","Akkalkuva"
           ],
+          "Pimpri":[
+            "Block 10"
+          ]
         },
 
       "Jharkhand":{
