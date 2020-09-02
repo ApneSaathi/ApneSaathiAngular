@@ -30,45 +30,24 @@
     </div>
     <div class="form-group">
       <select class="form-control" name="block"  [(ngModel)]="selectedBlock" (change)="onChangeBlock($event.target.value)">
-        <option value="">District</option>
+        <option value="">Block</option>
         <option *ngFor="let block of blocksList" value="{{block}}">{{block}}</option>
       </select>
     </div>
-
-
-
-
-
-       <!-- <form [formGroup]="createFilterGroup"> 
-      <div class="form-group"> -->
-        <!-- <label>State</label> -->
-        <!-- <select class="form-control" name="state"  [(ngModel)]="filterState" (change)="onChangeState($event.target.value)">
-          <option value="">State</option>
-          <option *ngFor="let state of states" value="{{idvolunteer}}">{{state.state}}</option>
-        </select>
-      </div> -->
-      <!-- District -->
-      <!-- <div class="form-group">
-        <select class="form-control" name="district" [(ngModel)]="filterDistrict" (change)="onChangeDistrict($event.target.value)">
-          <option value="">District</option>
-          <option *ngFor="let district of districts" value="{{idvolunteer}}">{{district.district}}</option>
-        </select>
-      </div> -->
-      <!-- Block -->
-      <!-- <div class="form-group">
-        <select class="form-control" name="block" [(ngModel)]="filterDistricts" (change)="getBlock($event.target.value)">
-          <option value="">Block</option>
-          <option *ngFor="let block of filterBlocks" value="{{idvolunteer}}">{{block.block}}</option>
-        </select>
-      </div> -->
-    <!-- </form> -->
+    <div class="form-group">
+      <select class="form-control" name="sortBy"  [(ngModel)]="selectedSort" (change)="onChangeSort($event.target.value)">
+        <option value="">SortBy</option>
+        <option *ngFor="let sortBy of sortBys" value="{{sortBy}}">{{sortBy}}</option>
+      </select>
+    </div>
   
     </mat-toolbar-row>
     </mat-toolbar>
 <!-- Volunteers List  -->
 
-<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-  Name column
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
+ matSortActive="rating,count_SrCitizen" matSortDisableClear matSortDirection="desc">
+  <!-- Name column -->
   <ng-container matColumnDef="firstName">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
     <mat-cell *matCellDef="let element">
@@ -77,7 +56,7 @@
 
   <!-- Rating Column -->
   <ng-container matColumnDef="rating">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Rating </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
   </ng-container>
 
@@ -107,11 +86,10 @@
 
 
    <!-- AssignedSrCitizen Column -->
-   <ng-container matColumnDef="assignedSrCitizen">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sr.citizens </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.assignedSrCitizen}} </mat-cell>
+  <ng-container matColumnDef="count_SrCitizen">
+    <mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Assigned Sr.citizens </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
   </ng-container>
-  
  <!-- Actions Column -->
  <ng-container matColumnDef="actions" >
   <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
@@ -156,8 +134,8 @@
   </mat-toolbar-row>
   </mat-toolbar>
 
-<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-  Name column
+<mat-table [dataSource]="deboardedDataSource" class="mat-elevation-z8">
+  <!-- Name column -->
   <ng-container matColumnDef="firstName">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
     <mat-cell *matCellDef="let element">
@@ -166,7 +144,7 @@
 
   <!-- Rating Column -->
   <ng-container matColumnDef="rating">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Rating </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
   </ng-container>
 
@@ -196,11 +174,14 @@
 
 
    <!-- AssignedSrCitizen Column -->
-   <ng-container matColumnDef="assignedSrCitizen">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sr.citizens </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.assignedSrCitizen}} </mat-cell>
+   <ng-container matColumnDef="count_SrCitizen">
+    <mat-header-cell *matHeaderCellDef> Assigned Sr.citizens </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
   </ng-container>
-  
+  <!-- <ng-container matColumnDef="count_SrCitizen">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sr.citizens </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
+  </ng-container> -->
  <!-- Actions Column -->
  <ng-container matColumnDef="actions" >
   <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
