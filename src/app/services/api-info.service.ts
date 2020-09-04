@@ -43,25 +43,32 @@ export class ApiInfoService {
     return this.http.post<any>(api_Url,postData);
 
   }
-// opost.status="Active";
-// opost.
+
+
+
+
+  // Active Volunteer List
   postVolunteersList(opost): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
     return this.http.post<any>(url,opost);
   }
 
-  postVolunteersListState(opost): Observable<any> {
+  postVolunteersListStates(opost) {
+    const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
+    return this.http.post<any>(url,opost);
+    
+  }
+
+  postVolunteersListDistricts(opost) {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
     return this.http.post<any>(url,opost);
   }
 
-
-  postVolunteersListDistrict(opost): Observable<any> {
+  postVolunteersListBlocks(opost) {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
     return this.http.post<any>(url,opost);
   }
-
-
+  
 
   postVolunteersListPagination(opost): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
@@ -70,9 +77,9 @@ export class ApiInfoService {
 
 
   // deboarded volunteerslist 
-postDeboardedVolunteersList(opost): Observable<any> {
+  getDeboardedVolunteersList(): Observable<any> {
   const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
-  return this.http.post<any>(url,opost);
+  return this.http.post<any>(url,{status:"Deboarded"});
 }
 
   fileUpload(inputObject){
