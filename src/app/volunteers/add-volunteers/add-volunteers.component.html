@@ -1,0 +1,35 @@
+
+<form (ngSubmit)="submitFile()" enctype='multipart/form-data'>
+    <div class="upload-container">
+        <input type="file" #volunteerfile (change)="onFileSelected($event)" accept=".csv" hidden="true">
+        <label class="upload-title">Import CSV File</label>
+        <mat-progress-bar mode="buffer" [value]="fileUpload.message" *ngIf="fileUpload.status==='progress'"></mat-progress-bar>
+        <div (click)="volunteerfile.click()" class="upload-btn-block">
+            <button type="button" class="custom-upload-btn" mat-flat-button color="none">
+                <span class="upload-text-color">
+                    Choose file
+                </span>
+            </button>
+            <span class="upload-text-color">
+                <i>{{upload_display_file_name}}</i>
+            </span>
+        </div>
+        <div align="right" class="subscript-block">*For adding volunteers in bulk(Max:1MB)</div>
+        <div *ngIf="uploadError.fileTypeError || uploadError.fileNameError || uploadError.fileSizeError">
+            <mat-error *ngIf="uploadError.fileTypeError">
+                Only <strong>.csv</strong> files are allowed<br>
+            </mat-error>
+            <mat-error *ngIf="uploadError.fileNameError">
+                Spaces are not allowed in file name<br>
+            </mat-error>
+            <mat-error *ngIf="uploadError.fileSizeError">
+                File size exceeding maximum limit of 1MB
+            </mat-error>
+        </div>
+    </div>
+    <mat-dialog-actions align="center" class="assign-actions">
+        <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
+        <button mat-flat-button color="primary"  class="upload-btn medium-size-text" [disabled]="volunteerfile.value=='' || uploadError.fileTypeError || uploadError.fileNameError || uploadError.fileSizeError || fileUpload.status==='progress'" >Upload</button>
+    </mat-dialog-actions>
+</form>
+

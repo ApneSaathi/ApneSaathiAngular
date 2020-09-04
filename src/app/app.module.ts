@@ -17,6 +17,7 @@ import { NotificationMessageComponent } from './notification-message/notificatio
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProtectGuard } from "./protect.guard";
+import { VolunteersModule } from './volunteers/volunteers.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ProtectGuard } from "./protect.guard";
     MaterialModule,
     HttpClientModule,
     SeniorCitizensModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    VolunteersModule
   ],
   entryComponents:[GlobalDialogComponent, NotificationMessageComponent],
   providers: [

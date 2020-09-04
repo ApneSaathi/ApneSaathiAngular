@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpEventType} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { VolunteerDetails} from '../volunteers/volunteers-list/volunteers-list.component';
 @Injectable({
   providedIn: 'root'
@@ -74,8 +75,42 @@ postDeboardedVolunteersList(opost): Observable<any> {
   return this.http.post<any>(url,opost);
 }
 
+  fileUpload(inputObject){
+    let queryParams='';
+      let postData={};
+      if(inputObject.queryParams){
+        queryParams="?"+inputObject.queryParams.join("&");
+      }
+      if(inputObject.postData){
+        postData=inputObject.postData;
+      }
+      let api_Url=inputObject.url+queryParams;
+      return this.http.post<any>(api_Url,postData,{
+        reportProgress:true,
+        observe: 'events',
+      }).pipe(
+        map(event => this.getEventMessage(event,postData))
+      );
+  }
+  getEventMessage(event: HttpEvent<any>, formData) {
+    switch(event.type){
+      case HttpEventType.UploadProgress:
+        return this.fileUploadProgress(event);
+        break;
+      case HttpEventType.Response:
+        return this.apiResponse(event);
+        break;
+      default:
+          return `File surprising upload event: ${event.type}.`;
 
-
-
+    }
+  }
+  fileUploadProgress(event){
+    const PercentDone= Math.round(100* event.loaded/event.total);
+    return { status: 'progress', message: PercentDone };
+  }
+ apiResponse(event) {
+    return event.body;
+  }
 
 }

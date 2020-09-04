@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , EventEmitter, Input,  Output} from '@angular/core';
+import { Component, OnInit, ViewChild , EventEmitter, Input,  Output, OnDestroy} from '@angular/core';
 import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 // import { Observable } from 'rxjs/Observable';
@@ -12,6 +12,7 @@ import { ApiInfoService } from 'src/app/services/api-info.service';
 import {ActivatedRoute,Router} from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormGroup, FormControl } from '@angular/forms';
+import { SubscriptionsContainer } from 'src/app/subscriptions-container';
 
 
 
@@ -38,7 +39,7 @@ export interface DeboarededVolunteers {
   templateUrl: './volunteers-list.component.html',
   styleUrls: ['./volunteers-list.component.scss']
 })
-export class VolunteersListComponent implements OnInit {
+export class VolunteersListComponent implements OnInit, OnDestroy {
   createFilterGroup: FormGroup;
  
  
@@ -105,6 +106,7 @@ pageSize:Number=10;
 itemsPerPage:Number=7;
   
  public base_url;
+ public subs = new SubscriptionsContainer();
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router) {
    this.data=Array<any>();
  }
@@ -117,7 +119,7 @@ itemsPerPage:Number=7;
     this.base_url=environment.base_url;
     let postData={status:"Active"};
     // postData.status="Active";
-    this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       // console.log(data);
       this.dataSource=data.volunteers;
       // this.collection=data.volunteers;
@@ -147,13 +149,13 @@ itemsPerPage:Number=7;
 deboarededVolunteerList(){
   let postData={status:"Deboarded"};
     
-    this.apiInfoService.postDeboardedVolunteersList(postData).subscribe((data)=>{
+  this.subs.add=this.apiInfoService.postDeboardedVolunteersList(postData).subscribe((data)=>{
     this.dataSource=data.volunteers;
     })
 }
   getData(){
     let postData={status:"Active",limit:10,pagenumber:0};
-    this.apiInfoService.postVolunteersListPagination(postData).subscribe((data)=> 
+    this.subs.add=this.apiInfoService.postVolunteersListPagination(postData).subscribe((data)=> 
     {console.log(data),
     this.dataSource=data.volunteers;
     // this.data=data.volunteers,
@@ -187,7 +189,7 @@ deboarededVolunteerList(){
 
 getState(){
   let postData={status:"Active",limit:10,pagenumber:0};
-    this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
+  this.subs.add=this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
     {
      this.dataSource=data.volunteers;
      this.states=this.dataSource.states;
@@ -198,7 +200,7 @@ getState(){
 
 getDistrict(event){
   let postData={status:"Active",limit:10,pagenumber:0,state:event};
-    this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
+  this.subs.add=this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
     {
      this.dataSource=data.volunteers;
      this.districts=this.dataSource.districts;
@@ -208,7 +210,7 @@ getDistrict(event){
 }
 getBlock(event){
   let postData={status:"Active",limit:10,pagenumber:0,block:event};
-  this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
+  this.subs.add=this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
   {
    this.dataSource=data.volunteers;
    this.blocks=this.dataSource.blocks;
@@ -240,17 +242,37 @@ getBlock(event){
 // }
 
 opensrCitizenAssign(){
-      this.dialog.open(GlobalDialogComponent,
-        {
-          data:{
-            heading:"Assign Sr.citizens",
-          },
-          disableClose:true,
-          width: "70%",
-          autoFocus: false,
-          //position:{top:"50px"},
-          //height:"500px"
-        }
-      );
+    let congigObject ={
+      data:{
+        heading:"Assign Sr.citizens",
+        feature: "assignCitizensSingleVolunteer"
+      },
+      disableClose:true,
+      width: "70%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
+  }
+  addVolunteers(){
+    let congigObject ={
+      data:{
+        heading:"Add Volunteer",
+        feature: "addVolunteer"
+      },
+      disableClose:true,
+      width: "50%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
+  }
+  openGlobalPopup(configurationObject){
+    this.dialog.open(GlobalDialogComponent,configurationObject);
+  }
+  ngOnDestroy(){
+    this.subs.dispose();
   }
 }

@@ -18,15 +18,18 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     /* Setting headers for the http calls **/
-    let httpReq = request.clone({
-      setHeaders: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
-    });
+    let httpReq=request;
+    if(request.url !="http://15.207.42.209:8080/Volunteer/getCSVFile"){
+      httpReq = request.clone({
+        setHeaders: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      });
+    }
     console.log("Request:",request);
     return next.handle(httpReq).pipe(
-      //retry(1),
+      retry(1),
       /* Handling errors of http call */
       catchError((error: HttpErrorResponse) => {
         let error_message="API Call failed";

@@ -4,7 +4,12 @@
     </h3>
 </div>
 <div>
-    <app-assign-senior-citizens [volunteerObj]="data.volunteerObj"></app-assign-senior-citizens>
+    <ng-template [ngIf]="data.feature=='assignCitizensSingleVolunteer'">
+        <app-assign-senior-citizens [volunteerObj]="data.volunteerObj"></app-assign-senior-citizens>
+    </ng-template>
+    <ng-template [ngIf]="data.feature=='addVolunteer'">
+        <app-add-volunteers></app-add-volunteers>
+    </ng-template>
 </div>
 <!-- <mat-dialog-content >
     <app-assign-senior-citizens></app-assign-senior-citizens>
