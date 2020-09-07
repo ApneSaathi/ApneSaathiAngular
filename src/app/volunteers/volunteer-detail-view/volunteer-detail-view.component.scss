@@ -1,0 +1,185 @@
+.volunteerInfo {
+    height: 100%;
+    background-color: rgb(248,248,248);
+    padding-top: 30px;
+}
+.volunteerProfile {
+    background-color: white;
+    margin: 10px 25px 0 25px;
+    border-radius: 5px;
+    display: flex;
+    box-shadow: 1px 1px 20px 0px rgb(230,230,230);
+}
+.profilePic {
+    display: flex;
+    padding: 15px;
+    border-right: 1px solid gainsboro;
+    width: 15%;
+}
+.personalInfo {
+    padding: 15px 0 15px 15px;
+    width: 100%;
+}
+.actions {
+    float: right;
+}
+.person-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    display: flex;
+    align-self: center;
+}
+.person-name {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+.action-link {
+    margin-right: 10px;
+    text-decoration: none;
+}
+.personalDetails {
+    margin-top: 8px;
+}
+.contactNumber-block {
+    display: inline-block;
+    margin-right: 14px;
+    width: 22%;
+}
+.emailId-block {
+    display: inline-block;
+    margin-right: 14px;
+    width: 25%;
+}
+.state-block {
+    display: inline-block;
+    margin-right: 14px;
+    width: 15%;
+}
+.district-block {
+    display: inline-block;
+    margin-right: 14px;
+    width: 15%;
+}
+.block-block {
+    display: inline-block;
+    margin-right: 14px;
+    width: 12%;
+}
+.personalDetails-span {
+    color: darkgray;
+}
+.personalDetails-value {
+    font-weight: 500;
+}
+.progressSummary-title {
+    margin-bottom: 8px;
+}
+.progressSummary-title span {
+    font-weight: 500;
+}
+.progressSummary-details {
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    box-shadow: 1px 1px 20px 0px rgb(230,230,230);
+}
+.progressSummary-details span {
+    padding: 10px;
+}
+.options {
+    border: none;
+    background-color: inherit;
+    margin-right: 5px;
+}
+.options:focus {
+    outline: none;
+}
+.progressReviews {
+    display: flex;
+    margin: 12px 25px;
+}
+.reviews-title {
+    margin-bottom: 8px;
+}
+.reviewsRatings {
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    box-shadow: 1px 1px 20px 0px rgb(230,230,230);
+}
+.reviewsRatings span {
+    padding: 10px;
+}
+.viewAll-link {
+    text-decoration: none;
+    color: orangered;
+    float: right;
+    margin-right: 10px;
+}
+.addReview-button {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    background-color: orangered;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+}
+.addReview-button:focus {
+    outline: none;
+}
+.reviews-title span {
+    margin-right: 8px;
+    font-weight: 500;
+}
+.progressSummary {
+    width: 50%;
+    margin-right: 15px;
+}
+.reviews {
+    width: 50%;
+    margin-left: 15px;
+}
+.dropdown-menu {
+    float: right;
+}
+.srCitizenList-section {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin: 20px 25px;
+}
+.srCitizenList-button {
+    background-color: orangered;
+    color: white;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 5px 12px;
+    border: 0;
+    border-radius: 5px;
+}
+.srCitizenList-button:focus {
+    outline: none;
+}
+.srCitizenList-span {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    font-weight: 500;
+}
+.back-link img {
+    width: 15px;
+    height: 15px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+.back-link {
+    margin-left: 25px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    cursor: pointer;
+}

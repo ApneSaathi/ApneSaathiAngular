@@ -9,10 +9,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { MatSort } from '@angular/material/sort';
 import { ApiInfoService } from 'src/app/services/api-info.service';
-import {ActivatedRoute,Router} from '@angular/router';
+import {ActivatedRoute,Router, ParamMap} from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormGroup, FormControl } from '@angular/forms';
 import{LocationService} from '../../services/location.service';
+import { identifierModuleUrl } from '@angular/compiler';
 
 
 
@@ -95,6 +96,7 @@ pageSize:Number=10;
 itemsPerPage:Number=7;
   
  public base_url;
+ public selectedId;
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
@@ -105,6 +107,12 @@ itemsPerPage:Number=7;
   
   ngOnInit(): void {
     this.base_url=environment.base_url;
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id'));
+      this.selectedId = id;
+    });
+
     let postData={status:"Active"};
     this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       // console.log(data);
@@ -310,4 +318,9 @@ opensrCitizenAssign(){
         }
       );
   }
+
+  volunteerDetails(element){
+    this.router.navigate(['volunteers/VolunteerDetailView',{id: element.idvolunteer}]);
+  }
+
 }

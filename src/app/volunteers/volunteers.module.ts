@@ -7,8 +7,9 @@ import { VolunteersListComponent } from './volunteers-list/volunteers-list.compo
 import {MaterialModule} from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { VolunteerDetailViewComponent } from './volunteer-detail-view/volunteer-detail-view.component';
 @NgModule({
-  declarations: [VolunteersComponent, VolunteersListComponent],
+  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent],
   imports: [
     CommonModule,
     VolunteersRoutingModule,
