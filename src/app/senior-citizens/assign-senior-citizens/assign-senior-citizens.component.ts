@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { ApiInfoService } from 'src/app/services/api-info.service';
@@ -6,13 +6,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
+import { SubscriptionsContainer } from 'src/app/subscriptions-container';
 
 @Component({
   selector: 'app-assign-senior-citizens',
   templateUrl: './assign-senior-citizens.component.html',
   styleUrls: ['./assign-senior-citizens.component.scss']
 })
-export class AssignSeniorCitizensComponent implements OnInit {
+export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
 
   @Input() volunteerObj;
   assignCitizenForm=this.fb.group({
@@ -23,6 +24,7 @@ export class AssignSeniorCitizensComponent implements OnInit {
   public base_url;
   public enable_assign_button:boolean=true;
   public loadingSpinner:boolean = true;
+  public subs= new SubscriptionsContainer();
   constructor(
     private fb: FormBuilder,
     private api_info: ApiInfoService,
@@ -52,13 +54,13 @@ export class AssignSeniorCitizensComponent implements OnInit {
       }
     };
     // dynamicPostRequest funcion invoke to get the sr CItizen list from API
-    this.api_info.dynamicPostRequest(paramsObj).subscribe(data=>{
+    this.subs.add=this.api_info.dynamicPostRequest(paramsObj).subscribe(data=>{
       console.log(data);
       this.srCitizensList=data.srCitizenList;
       this.addSelectedCitizens();
       this.loadingSpinner=false;
     });
-    this.assignCitizenForm.get('selectedCitizens').valueChanges
+    this.subs.add=this.assignCitizenForm.get('selectedCitizens').valueChanges
     .subscribe(value=> {
       console.log(value.findIndex(citizen => citizen.checked==true))
       if(value.findIndex(citizen => citizen.checked==true) != -1){
@@ -162,7 +164,7 @@ export class AssignSeniorCitizensComponent implements OnInit {
       }
     };
     // dynamicPostRequest funcion invoke to get the sr CItizen list from API
-    this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
+    this.subs.add=this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
       this.loadingSpinner=false;
       console.log("Assign Response",data);
       let message= this.volunteerObj.firstName+" was Succesfully assigned with "+finalListIds.length+" Sr.Citizens";
@@ -192,5 +194,8 @@ export class AssignSeniorCitizensComponent implements OnInit {
       duration:2000,
       panelClass: "notification-snackbar"
     });
+  }
+  ngOnDestroy(){
+    this.subs.dispose();
   }
 }

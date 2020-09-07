@@ -17,6 +17,9 @@ import { identifierModuleUrl } from '@angular/compiler';
 
 
 
+import {merge, Observable, of as observableOf} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+
 export interface DeboarededVolunteers {
   name: string; 
   position: number;  
@@ -45,36 +48,31 @@ export class VolunteersListComponent implements OnInit {
   districts: {};
   blocks:{};
 
-  filterState:string;
-  filterDistrict:string;
-  filterBlock:string;
+  // filterState:string;
+  // filterDistrict:string;
+  // filterBlock:string;
   statesList:string[];
   districtsList:string[];
   blocksList:string[];
   selectedState:string;
   selectedDistrict:string;
   selectedBlock:string;
+  selectedSort:any;
+  sortBy;
   sortBys: string[] = [
-
-    'Rating', 'AssignedSrCitizen', 'phoneNo',
-  
-
+    'SortBy','rating','assignedSrCitizen'
   ];
+
  
-  DEBOARDED_VOLUNTEER: DeboarededVolunteers[] = [
-    {position: 1, name: 'Surya Teja', rating: 4.5, contactNumber: 9640140999,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-    {position: 2, name: 'James', rating: 3, contactNumber: 9640140979,state:'Maharashtra',district:'Loreimpsum', block:'Block1', assignedSrCitizen:40, },
-    {position: 3, name: 'Uma Ram', rating: 4, contactNumber: 9640140989,state:'Gujarat',district:'rangareddy', block:'Block2', assignedSrCitizen:20, },
-    {position: 9, name: 'Soma', rating: 4, contactNumber: 9640140919,state:'MP',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-    {position: 10, name: 'Hakuna', rating: 4, contactNumber: 9640140909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-    {position: 11, name: 'Hakunam', rating: 5, contactNumber: 9640141909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-  ];
-  
 
-  displayedColumns: string[] = [ 'firstName', 'phoneNo', 'state','district','block', 'actions'];
-  dataSource ;
-  deboardedColumns: string[] = [  'firstName', 'phoneNo', 'state','district','block',];
-  dataSource1 = new MatTableDataSource(this.DEBOARDED_VOLUNTEER);
+
+
+
+  dataSource:MatTableDataSource<any[]>;
+  displayedColumns: string[] = [ 'firstName','rating' ,'phoneNo', 'state','district','block', 'count_SrCitizen','actions'];
+  deboardedDataSource; 
+  deboardedColumns: string[] = [  'firstName', 'rating','phoneNo', 'state','district','block','count_SrCitizen'];
+  // dataSource1 = new MatTableDataSource(this.DEBOARDED_VOLUNTEER);
   
   links = ['Active Volunteers', 'Deboarded Volunteers'];
   activeLink = this.links[0];
@@ -82,6 +80,10 @@ export class VolunteersListComponent implements OnInit {
   actions:any[]=[];
  
 
+
+  resultsLength = 0;
+  isLoadingResults = true;
+  isRateLimitReached = false;
   // startIndex=0;
   // endIndex=12;
   // length;
@@ -92,16 +94,17 @@ export class VolunteersListComponent implements OnInit {
 data:Array<any>;
 totalRecords: String;
 page:Number=1;
-pageSize:Number=10;
+pageSize:Number=7;
 itemsPerPage:Number=7;
   
  public base_url;
  public selectedId;
+  exampleDatabase: any;
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
 
- @ViewChild(MatSort, {static: true}) sort: MatSort;
+ @ViewChild(MatSort,{static:true}) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   
   
@@ -116,33 +119,22 @@ itemsPerPage:Number=7;
     let postData={status:"Active"};
     this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       // console.log(data);
-      this.dataSource=data.volunteers;
-      this.states=this.dataSource;
-      this.districts=this.dataSource;
-      this.blocks=this.dataSource;
-
-// this.createFilterGroup =new FormGroup({
-//   filterStates: new FormControl(''),
-//   filterDistricts:  new FormControl(''),
-//   filterBlocks:  new FormControl(''),
-//   // sortBy:  new FormControl(''),
-
-// });
-
-      // this.getState(event);
-
-      // this.createFilterGroup =new FormGroup({
-      //     filterState: new FormControl(''),
-      //     district:  new FormControl(''),
-      //     block:  new FormControl(''),
-      //     // sortBy:  new FormControl(''),
-      //   });
-
-      // this.getData();
-      // this.onChangeState(this.filterState);
+      this.dataSource=new MatTableDataSource(data.volunteers);
+      this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+      
+      
   });
   this.getStates();
-  }
+  this.deboarededVolunteerList();
+  // this.selectedState="State";
+  // this.selectedDistrict="District";
+  // this.selectedBlock="Block";
+  // this.selectedSort="SortBy";
+}
+
 
   getStates(){
     this.statesList=this.locationService.getStates();
@@ -153,7 +145,6 @@ itemsPerPage:Number=7;
   }
 
   getDistricts(){
-    
     this.districtsList=this.locationService.getDistricts(this.selectedState);
     console.log(this.districtsList);
   }
@@ -164,7 +155,22 @@ getBlocks(){
 }
 
 
-  onChangeState(selectedState) {
+onChangeState(selectedState) {
+    if(selectedState=="State"){
+      selectedState=null;
+      let postData={status:"Active"}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.states=data.volunteers.states;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+      this.blocksList=null;
+        // this.filterState=null;
+        this.districtsList=null;
+    });
+  }
     if (selectedState) {
       this.getDistricts();
         let postData={status:"Active",filterState:this.selectedState}
@@ -172,10 +178,27 @@ getBlocks(){
           this.dataSource=data.volunteers;
                   }
         )};
-}
+      }
 
 
   onChangeDistrict(selectedDistrict) {
+    if(selectedDistrict=="District"){
+      this.getDistricts();
+      selectedDistrict=null;
+      let postData={status:"Active",filterState:this.selectedState}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+      this.blocksList=null;
+        // this.filterState=null;
+        // this.districtsList=null;
+    });
+   
+  }
+
     if (selectedDistrict) {
       this.getBlocks();
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
@@ -187,99 +210,63 @@ getBlocks(){
 
 
   onChangeBlock(selectedBlock) {
+    if(selectedBlock=="Block"){
+      this.getBlocks();
+      selectedBlock=null;
+      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+        // this.filterState=null;
+        this.blocksList=null;
+    });
+   
+  }
     if (selectedBlock) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
-        this.filterState=data.volunteers.state;
-        this.filterDistrict=data.volunteers.district;
-        this.filterBlock=data.volunteers.block;
+        // this.filterState=data.volunteers.state;
+        // this.filterDistrict=data.volunteers.district;
+        // this.filterBlock=data.volunteers.block;
                 }
       )};
   }
   
 
+  onChangeSort(selectedSortBy) {
+    if (selectedSortBy) {
+      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock,sortBy:selectedSortBy,sortType:"ASC"}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        // this.filterState=data.volunteers.state;
+        // this.filterDistrict=data.volunteers.district;
+        // this.filterBlock=data.volunteers.block;
+        
+                }
+      )};
+  }
+  
 
-
-deboarededVolunteerList(){
-  let postData={status:"Deboarded"};
+    deboarededVolunteerList(){
+        // let postData={status:"Deboarded"};
     
-    this.apiInfoService.postDeboardedVolunteersList(postData).subscribe((data)=>{
-    this.dataSource=data.volunteers;
+    this.apiInfoService.getDeboardedVolunteersList().subscribe((data)=>{
+    this.deboardedDataSource=data.volunteers;
     })
 }
 
-
-
-
-
-
-
-
-  // getData(){
-  //   let postData={status:"Active",limit:10,pagenumber:0};
-  //   this.apiInfoService.postVolunteersListPagination(postData).subscribe((data)=> 
-  //   {console.log(data),
+transferVolunteer(){
+  // let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
+  // this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
   //   this.dataSource=data.volunteers;
-  //   // this.data=data.volunteers,
+    // console.log("abc");
+  // });
+}
 
-  //     if(this.dataSource.filterStates){
-  //       this.getDistrict(this.filterStates);
-  //     }
-  //     if(this.dataSource.filterDistricts){
-  //       this.getBlock(this.filterDistricts);
-  //     }
-
-  //   this.totalRecords=data.volunteers.length;
-  //   }
-  //   )
-  // }
-
-  // getState(event){
-  //   let postData={status:"Active",limit:10,pagenumber:0,state:event};
-  //     this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
-  //     {console.log(data);
-  //       if(data.volunteers.state){
-  //         this.dataSource=data.volunteers,
-  // this.filterStates=data.volunteers.state;
-  //         this.filterDistricts=null;
-  //          this.filterBlocks=null;
-  //       }
-      
-  //     }
-  //     )
-  // }
-
-// getState(){
-//   let postData={status:"Active",limit:10,pagenumber:0};
-//     this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
-//     {
-//      this.dataSource=data.volunteers;
-//      this.states=this.dataSource.states;
-        
-//     }
-//     )
-// }
-
-// getDistrict(event){
-//   let postData={status:"Active",limit:10,pagenumber:0,state:event};
-//     this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
-//     {
-//      this.dataSource=data.volunteers;
-//      this.districts=this.dataSource.districts;
-        
-//     }
-//     )
-// }
-// getBlock(event){
-//   let postData={status:"Active",limit:10,pagenumber:0,block:event};
-//   this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
-//   {
-//    this.dataSource=data.volunteers;
-//    this.blocks=this.dataSource.blocks;
-      
-//   })
-// }
 
 // getArrayFromNumber(length){
 //   return new Array(length/10);

@@ -8,8 +8,12 @@ import {MaterialModule} from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { VolunteerDetailViewComponent } from './volunteer-detail-view/volunteer-detail-view.component';
+import { AddVolunteersComponent } from './add-volunteers/add-volunteers.component';
+
+
 @NgModule({
-  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent],
+  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent],
+
   imports: [
     CommonModule,
     VolunteersRoutingModule,
@@ -17,6 +21,7 @@ import { VolunteerDetailViewComponent } from './volunteer-detail-view/volunteer-
     ReactiveFormsModule,
     NgxPaginationModule,
     FormsModule
-  ]
+  ],
+  exports:[AddVolunteersComponent]
 })
 export class VolunteersModule { }
