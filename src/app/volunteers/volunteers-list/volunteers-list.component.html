@@ -7,7 +7,7 @@
       <mat-toolbar-row >
     <div class="onBoardedVolunteerHeader">
       <span>Volunteers List</span>&nbsp;</div>
-        <button mat-button class="addButton" (click)="addVolunteers()">+ Add</button>
+        <button mat-button class="addButton">+ Add</button>
       
     
       <span class="example-spacer"></span>
@@ -18,25 +18,25 @@
       <div class="form-group" >
         <!-- <label>State</label> -->
         <select class="form-control"  name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
-          <option value="">State</option>
+          <option value="State"   selected="selected">State</option>
           <option *ngFor="let state of statesList" value="{{state}}">{{state}}</option>
         </select>
       </div>
       <div class="form-group">
       <select class="form-control" name="district"  [(ngModel)]="selectedDistrict" (change)="onChangeDistrict($event.target.value)">
-        <option value="">District</option>
+        <option value="District">District</option>
         <option *ngFor="let district of districtsList" value="{{district}}">{{district}}</option>
       </select>
     </div>
     <div class="form-group">
       <select class="form-control" name="block"  [(ngModel)]="selectedBlock" (change)="onChangeBlock($event.target.value)">
-        <option value="">Block</option>
+        <option value="Block" >Block</option>
         <option *ngFor="let block of blocksList" value="{{block}}">{{block}}</option>
       </select>
     </div>
     <div class="form-group">
       <select class="form-control" name="sortBy"  [(ngModel)]="selectedSort" (change)="onChangeSort($event.target.value)">
-        <option value="">SortBy</option>
+        <!-- <option value="">SortBy</option> -->
         <option *ngFor="let sortBy of sortBys" value="{{sortBy}}">{{sortBy}}</option>
       </select>
     </div>
@@ -94,8 +94,8 @@
  <ng-container matColumnDef="actions" >
   <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
   <mat-cell *matCellDef="let element"> {{actions}}
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15' class="mouseover-pointer" (click)="opensrCitizenAssign(element)"></button>
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15'></button>
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15'></button>
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;' (click)="transferVolunteer()"><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15' ><a href="../volunteers-list"></a></button>
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
       
   </mat-cell>
@@ -119,9 +119,27 @@
     <pagination-controls id="listing_pagination" maxSize="5" directionlinks="true" (pageChange)="page =$event"></pagination-controls>
   </div> -->
 <!-- <button (click)="getData()">getUsers</button> -->
-
+<!-- <ul class="pagination">
+  <li class="page-item">
+<button mat-button><a class="previous" href="#" aria-label="Previous">&laquo;</a></button>
+{{totalRecords}} -->
+<!-- </li> -->
+<!-- <li *ngFor="let i of getArrayFromNumber(dataSource.length);let in=index" class="page-item">
+  <a class="page-link" (click)="updateIndex(in)">{{in+1}}</a>
+</li> -->
+<li class="page-item">
+  <button mat-button><a class="previous" href="#" aria-label="Previous">&laquo;</a></button>
+</li>
+  <button mat-button ><a class="page-link" href="../volunteers-list/volunteers-list.component.ts" >1</a></button>
+  <button mat-button ><a class="page-link" href="#" >2</a></button>
+  <button mat-button ><a class="page-link" href="#" >3</a></button>
+  <button mat-button><a class="next" href="#">&raquo;</a></button> 
+<!-- </ul>   -->
  
-
+<mat-paginator [length]="100"
+              [pageSize]="7" >
+</mat-paginator>
+<!-- {{resultsLength}} -->
 </mat-tab>
 
 
@@ -221,23 +239,9 @@
   <pagination-controls (pageChange)="pageChange1($event)" class="my-pagination"></pagination-controls>
 </div>
 <span class="example-spacer"></span>
-<ul class="pagination">
-  <li class="page-item">
-<button mat-button><a class="previous" href="#" aria-label="Previous">&laquo;</a></button>
-</li>
-<li *ngFor="let i of getArrayFromNumber(dataSource.length);let in=index" class="page-item">
-  <a class="page-link" (click)="updateIndex(in)">{{in+1}}</a>
-</li>
-<li class="page-item">
-  <a class="next" href="#" aria-label="Next">&raquo;</a>
-</li>
-  <button mat-button ><a class="page-link" href="../volunteers-list/volunteers-list.component.ts" >1</a></button>
-  <button mat-button ><a class="page-link" href="#" >2</a></button>
-  <button mat-button ><a class="page-link" href="#" >3</a></button>
-  <button mat-button><a class="next" href="#">&raquo;</a></button> 
-</ul>  -->
 
-<!-- <mat-paginator></mat-paginator> -->
+
+<mat-paginator></mat-paginator> -->
   <!-- <button (click)=getStates()>states</button> -->
 </mat-toolbar-row>
 </mat-toolbar>

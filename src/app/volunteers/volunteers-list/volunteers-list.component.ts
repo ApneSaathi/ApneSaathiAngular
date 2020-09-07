@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , EventEmitter, Input,  Output, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild , EventEmitter, Input,  Output} from '@angular/core';
 import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 // import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,6 @@ import { ApiInfoService } from 'src/app/services/api-info.service';
 import {ActivatedRoute,Router} from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SubscriptionsContainer } from 'src/app/subscriptions-container';
 import{LocationService} from '../../services/location.service';
 
 
@@ -42,40 +41,31 @@ export interface DeboarededVolunteers {
   templateUrl: './volunteers-list.component.html',
   styleUrls: ['./volunteers-list.component.scss']
 })
-export class VolunteersListComponent implements OnInit, OnDestroy {
+export class VolunteersListComponent implements OnInit {
   createFilterGroup: FormGroup;
   states: {};
   districts: {};
   blocks:{};
 
-  filterState:string;
-  filterDistrict:string;
-  filterBlock:string;
+  // filterState:string;
+  // filterDistrict:string;
+  // filterBlock:string;
   statesList:string[];
   districtsList:string[];
   blocksList:string[];
   selectedState:string;
   selectedDistrict:string;
   selectedBlock:string;
-  selectedSort:string[];
+  selectedSort:any;
   sortBy;
   sortBys: string[] = [
-    'rating','assignedSrCitizen'
+    'SortBy','rating','assignedSrCitizen'
   ];
 
  
 
 
-//  selectedSorts=this.sortBys.
-  // DEBOARDED_VOLUNTEER: DeboarededVolunteers[] = [
-  //   {position: 1, name: 'Surya Teja', rating: 4.5, contactNumber: 9640140999,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-  //   {position: 2, name: 'James', rating: 3, contactNumber: 9640140979,state:'Maharashtra',district:'Loreimpsum', block:'Block1', assignedSrCitizen:40, },
-  //   {position: 3, name: 'Uma Ram', rating: 4, contactNumber: 9640140989,state:'Gujarat',district:'rangareddy', block:'Block2', assignedSrCitizen:20, },
-  //   {position: 9, name: 'Soma', rating: 4, contactNumber: 9640140919,state:'MP',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-  //   {position: 10, name: 'Hakuna', rating: 4, contactNumber: 9640140909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-  //   {position: 11, name: 'Hakunam', rating: 5, contactNumber: 9640141909,state:'Telangana',district:'rangareddy', block:'Block1', assignedSrCitizen:20, },
-  // ];
-  
+
 
   dataSource:MatTableDataSource<any[]>;
   displayedColumns: string[] = [ 'firstName','rating' ,'phoneNo', 'state','district','block', 'count_SrCitizen','actions'];
@@ -103,13 +93,12 @@ export class VolunteersListComponent implements OnInit, OnDestroy {
 data:Array<any>;
 totalRecords: String;
 page:Number=1;
-pageSize:Number=10;
+pageSize:Number=7;
 itemsPerPage:Number=7;
   
  public base_url;
- public subs = new SubscriptionsContainer();
- exampleDatabase: any;
- constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router, private locationService:LocationService) {
+  exampleDatabase: any;
+ constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
 
@@ -120,54 +109,22 @@ itemsPerPage:Number=7;
   ngOnInit(): void {
     this.base_url=environment.base_url;
     let postData={status:"Active"};
-    // postData.status="Active";
-    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+    this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       // console.log(data);
       this.dataSource=new MatTableDataSource(data.volunteers);
-      // this.states=this.dataSource;
-      // this.districts=this.dataSource;
-      // this.blocks=this.dataSource;
       this.dataSource.sort=this.sort;
-      // this.sortBy=this.dataSource;
-// this.createFilterGroup =new FormGroup({
-//   filterStates: new FormControl(''),
-//   filterDistricts:  new FormControl(''),
-//   filterBlocks:  new FormControl(''),
-//   // sortBy:  new FormControl(''),
-
-// });
-
+      this.dataSource.paginator=this.paginator;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+      
       
   });
   this.getStates();
   this.deboarededVolunteerList();
-
-  // If the user changes the sort order, reset back to the first page.
-  // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-  // merge(this.sort.sortChange)
-  //   .pipe(
-  //     startWith({}),
-  //     switchMap(() => {
-  //       this.isLoadingResults = true;
-  //       return this.exampleDatabase!.getRepoIssues(
-  //         this.sort.active, this.sort.direction, this.paginator.pageIndex);
-  //     }),
-  //     map(data => {
-  //       // Flip flag to show that loading has finished.
-  //       this.isLoadingResults = false;
-  //       this.isRateLimitReached = false;
-  //       // this.resultsLength = data;
-
-  //       return data;
-  //     }),
-  //     catchError(() => {
-  //       this.isLoadingResults = false;
-  //       // Catch if the GitHub API has reached its rate limit. Return empty data.
-  //       this.isRateLimitReached = true;
-  //       return observableOf([]);
-  //     })
-  //   ).subscribe(data => this.dataSource = data);
+  // this.selectedState="State";
+  // this.selectedDistrict="District";
+  // this.selectedBlock="Block";
+  // this.selectedSort="SortBy";
 }
 
 
@@ -180,7 +137,6 @@ itemsPerPage:Number=7;
   }
 
   getDistricts(){
-    
     this.districtsList=this.locationService.getDistricts(this.selectedState);
     console.log(this.districtsList);
   }
@@ -191,7 +147,22 @@ getBlocks(){
 }
 
 
-  onChangeState(selectedState) {
+onChangeState(selectedState) {
+    if(selectedState=="State"){
+      selectedState=null;
+      let postData={status:"Active"}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.states=data.volunteers.states;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+      this.blocksList=null;
+        // this.filterState=null;
+        this.districtsList=null;
+    });
+  }
     if (selectedState) {
       this.getDistricts();
         let postData={status:"Active",filterState:this.selectedState}
@@ -203,6 +174,23 @@ getBlocks(){
 
 
   onChangeDistrict(selectedDistrict) {
+    if(selectedDistrict=="District"){
+      this.getDistricts();
+      selectedDistrict=null;
+      let postData={status:"Active",filterState:this.selectedState}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+      this.blocksList=null;
+        // this.filterState=null;
+        // this.districtsList=null;
+    });
+   
+  }
+
     if (selectedDistrict) {
       this.getBlocks();
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
@@ -214,13 +202,28 @@ getBlocks(){
 
 
   onChangeBlock(selectedBlock) {
+    if(selectedBlock=="Block"){
+      this.getBlocks();
+      selectedBlock=null;
+      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
+      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        this.dataSource.sort=this.sort;
+      this.dataSource.paginator=this.paginator;
+      this.totalRecords=data.volunteers.length;
+      this.resultsLength=data.volunteers.length;
+        // this.filterState=null;
+        this.blocksList=null;
+    });
+   
+  }
     if (selectedBlock) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
-        this.filterState=data.volunteers.state;
-        this.filterDistrict=data.volunteers.district;
-        this.filterBlock=data.volunteers.block;
+        // this.filterState=data.volunteers.state;
+        // this.filterDistrict=data.volunteers.district;
+        // this.filterBlock=data.volunteers.block;
                 }
       )};
   }
@@ -231,65 +234,30 @@ getBlocks(){
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock,sortBy:selectedSortBy,sortType:"ASC"}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
-        this.filterState=data.volunteers.state;
-        this.filterDistrict=data.volunteers.district;
-        this.filterBlock=data.volunteers.block;
+        // this.filterState=data.volunteers.state;
+        // this.filterDistrict=data.volunteers.district;
+        // this.filterBlock=data.volunteers.block;
         
                 }
       )};
   }
   
 
-
-
-
     deboarededVolunteerList(){
         // let postData={status:"Deboarded"};
     
-    this.apiInfoService.getDeboardedVolunteersList().subscribe(data=>{
-      this.deboardedDataSource=data.volunteers;
+    this.apiInfoService.getDeboardedVolunteersList().subscribe((data)=>{
+    this.deboardedDataSource=data.volunteers;
     })
 }
 
-
-
-
-
-
-
-
-  // getData(){
-  //   let postData={status:"Active",limit:10,pagenumber:0};
-  //   this.apiInfoService.postVolunteersListPagination(postData).subscribe((data)=> 
-  //   {console.log(data),
+transferVolunteer(){
+  // let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
+  // this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
   //   this.dataSource=data.volunteers;
-  //   // this.data=data.volunteers,
-
-  //     if(this.dataSource.filterStates){
-  //       this.getDistrict(this.filterStates);
-  //     }
-  //     if(this.dataSource.filterDistricts){
-  //       this.getBlock(this.filterDistricts);
-  //     }
-
-  //   this.totalRecords=data.volunteers.length;
-  //   }
-  //   )
-  // }
-
-  
-
-// getState(){
-//   let postData={status:"Active",limit:10,pagenumber:0};
-//     this.apiInfoService.postVolunteersListDistrict(postData).subscribe((data)=> 
-//     {
-//      this.dataSource=data.volunteers;
-//      this.states=this.dataSource.states;
-        
-//     }
-//     )
-// }
-
+    // console.log("abc");
+  // });
+}
 
 
 // getArrayFromNumber(length){
@@ -316,37 +284,17 @@ getBlocks(){
 // }
 
 opensrCitizenAssign(){
-    let congigObject ={
-      data:{
-        heading:"Assign Sr.citizens",
-        feature: "assignCitizensSingleVolunteer"
-      },
-      disableClose:true,
-      width: "70%",
-      autoFocus: false,
-      //position:{top:"50px"},
-      //height:"500px"
-    };
-    this.openGlobalPopup(congigObject);
-  }
-  addVolunteers(){
-    let congigObject ={
-      data:{
-        heading:"Add Volunteer",
-        feature: "addVolunteer"
-      },
-      disableClose:true,
-      width: "50%",
-      autoFocus: false,
-      //position:{top:"50px"},
-      //height:"500px"
-    };
-    this.openGlobalPopup(congigObject);
-  }
-  openGlobalPopup(configurationObject){
-    this.dialog.open(GlobalDialogComponent,configurationObject);
-  }
-  ngOnDestroy(){
-    this.subs.dispose();
+      this.dialog.open(GlobalDialogComponent,
+        {
+          data:{
+            heading:"Assign Sr.citizens",
+          },
+          disableClose:true,
+          width: "70%",
+          autoFocus: false,
+          //position:{top:"50px"},
+          //height:"500px"
+        }
+      );
   }
 }
