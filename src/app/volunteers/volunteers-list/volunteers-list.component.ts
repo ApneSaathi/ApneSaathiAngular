@@ -341,19 +341,19 @@ transferVolunteer(){
 //   }
 // }
 
-opensrCitizenAssign(){
-      this.dialog.open(GlobalDialogComponent,
-        {
-          data:{
-            heading:"Assign Sr.citizens",
-          },
-          disableClose:true,
-          width: "70%",
-          autoFocus: false,
-          //position:{top:"50px"},
-          //height:"500px"
-        }
-      );
+  opensrCitizenAssign(){
+    let congigObject ={
+      data:{
+        heading:"Assign Sr.citizens",
+        feature: "assignCitizensSingleVolunteer"
+      },
+      disableClose:true,
+      width: "70%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
   }
   addVolunteers(){
     let congigObject ={
@@ -372,6 +372,8 @@ opensrCitizenAssign(){
   openGlobalPopup(configurationObject){
     this.dialog.open(GlobalDialogComponent,configurationObject);
   }
+ 
+
 
   ngOnDestroy(){
     this.subs.dispose();
