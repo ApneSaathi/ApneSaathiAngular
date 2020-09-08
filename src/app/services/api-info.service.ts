@@ -108,7 +108,7 @@ export class ApiInfoService {
         return this.apiResponse(event);
         break;
       default:
-          return `File surprising upload event: ${event.type}.`;
+          return { status: 'connecting', message: 'Connecting' };
 
     }
   }

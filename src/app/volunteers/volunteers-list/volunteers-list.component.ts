@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild , EventEmitter, Input,  Output, OnDestroy} from '@angular/core';
-import {MatTableModule, MatTableDataSource} from '@angular/material/table';
-import { DataSource } from '@angular/cdk/table';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
@@ -77,7 +75,7 @@ export class VolunteersListComponent implements OnInit, OnDestroy {
   // ];
   
 
-  dataSource:MatTableDataSource<any[]>;
+  dataSource:any[];
   displayedColumns: string[] = [ 'firstName','rating' ,'phoneNo', 'state','district','block', 'count_SrCitizen','actions'];
   deboardedDataSource; 
   deboardedColumns: string[] = [  'firstName', 'rating','phoneNo', 'state','district','block','count_SrCitizen'];
@@ -103,12 +101,15 @@ export class VolunteersListComponent implements OnInit, OnDestroy {
 data:Array<any>;
 totalRecords: String;
 page:Number=1;
-pageSize:Number=10;
-itemsPerPage:Number=7;
+//pageSize:Number=10;
+itemsPerPage:Number=10;
   
  public base_url;
  public subs = new SubscriptionsContainer();
  exampleDatabase: any;
+ active_total;
+ p;
+ p1;
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router, private locationService:LocationService) {
    this.data=Array<any>();
  }
@@ -119,28 +120,11 @@ itemsPerPage:Number=7;
   
   ngOnInit(): void {
     this.base_url=environment.base_url;
-    let postData={status:"Active"};
+    let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
     // postData.status="Active";
-    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-      // console.log(data);
-      this.dataSource=new MatTableDataSource(data.volunteers);
-      // this.states=this.dataSource;
-      // this.districts=this.dataSource;
-      // this.blocks=this.dataSource;
-      this.dataSource.sort=this.sort;
-      // this.sortBy=this.dataSource;
-// this.createFilterGroup =new FormGroup({
-//   filterStates: new FormControl(''),
-//   filterDistricts:  new FormControl(''),
-//   filterBlocks:  new FormControl(''),
-//   // sortBy:  new FormControl(''),
-
-// });
-
-      
-  });
-  this.getStates();
-  this.deboarededVolunteerList();
+    this.getPageData(postData);
+    this.getStates();
+    this.deboarededVolunteerList();
 
   // If the user changes the sort order, reset back to the first page.
   // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -170,7 +154,21 @@ itemsPerPage:Number=7;
   //   ).subscribe(data => this.dataSource = data);
 }
 
-
+// paginate(event: any) {
+//   this.dataSource = this.source_data.slice(event * 5 - 5, event * 5);
+// }
+  getPaginationData(e){
+    let postData={status:"Active",limit:this.itemsPerPage,pagenumber:e-1};
+    // postData.status="Active";
+    this.getPageData(postData);
+  }
+  getPageData(postData){
+    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      console.log(data);
+      this.dataSource=data.volunteers;
+      this.active_total=50; 
+     });
+  }
   getStates(){
     this.statesList=this.locationService.getStates();
     console.log(this.statesList);
@@ -195,7 +193,7 @@ getBlocks(){
     if (selectedState) {
       this.getDistricts();
         let postData={status:"Active",filterState:this.selectedState}
-        this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
           this.dataSource=data.volunteers;
                   }
         )};
@@ -206,7 +204,7 @@ getBlocks(){
     if (selectedDistrict) {
       this.getBlocks();
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
                 }
       )};
@@ -216,7 +214,7 @@ getBlocks(){
   onChangeBlock(selectedBlock) {
     if (selectedBlock) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
         this.filterState=data.volunteers.state;
         this.filterDistrict=data.volunteers.district;
@@ -229,7 +227,7 @@ getBlocks(){
   onChangeSort(selectedSortBy) {
     if (selectedSortBy) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock,sortBy:selectedSortBy,sortType:"ASC"}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
         this.filterState=data.volunteers.state;
         this.filterDistrict=data.volunteers.district;
@@ -246,7 +244,7 @@ getBlocks(){
     deboarededVolunteerList(){
         // let postData={status:"Deboarded"};
     
-    this.apiInfoService.getDeboardedVolunteersList().subscribe(data=>{
+    this.subs.add=this.apiInfoService.getDeboardedVolunteersList().subscribe(data=>{
       this.deboardedDataSource=data.volunteers;
     })
 }

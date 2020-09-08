@@ -45,7 +45,7 @@
     </mat-toolbar>
 <!-- Volunteers List  -->
 
-<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
+<mat-table [dataSource]="dataSource | paginate:{ itemsPerPage: itemsPerPage, currentPage: p1, id: 'first', totalItems: active_total }" matSort class="mat-elevation-z8"
  matSortActive="rating,count_SrCitizen" matSortDisableClear matSortDirection="desc">
   <!-- Name column -->
   <ng-container matColumnDef="firstName">
@@ -113,7 +113,9 @@
   }; columns: displayedColumns;"></mat-row> -->
  
   </mat-table> 
-
+  <div align="right">
+    <pagination-controls previousLabel="" nextLabel="" (pageChange)="p1 = $event;getPaginationData($event)" id="first" class="my-pagination"></pagination-controls>
+  </div>
   <!-- <ngx-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="data.length"></ngx-pagination> -->
   <!-- <div>
     <pagination-controls id="listing_pagination" maxSize="5" directionlinks="true" (pageChange)="page =$event"></pagination-controls>
@@ -203,7 +205,7 @@
 
 <mat-toolbar>
 <mat-toolbar-row>
-<p style="font-size: 11px;color:gray;">Showing <b>11</b> out of <b>13037</b></p>
+<!-- <p style="font-size: 11px;color:gray;">Showing <b>11</b> out of <b>13037</b></p> -->
 <span class="example-spacer"></span>
 
 

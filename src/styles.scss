@@ -23,8 +23,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     //font-weight: bold;
     text-align: center;
     vertical-align: middle;
-    height: 30px !important;
+    height: auto !important;
     padding:10px 20px;
+    max-width: 75vw !important;
 }
 // Loading Spinner
 .loading-spinner
@@ -36,3 +37,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     top: 50%;
     left:50%;
 }
+//Pagination
+// ::ng-deep .ngx-pagination .current {
+//     background: #ff7043 !important;
+//   }
+  .ngx-pagination {
+    padding-left: 0px !important;
+  }
+  .ngx-pagination li {
+      //border: 1px solid rgb(201, 198, 198);
+      margin:0px !important;
+      //box-shadow: 1px 1px 1px 1px #888888 !important;
+      border-radius: 2px !important;
+  }
+  .ngx-pagination .current,
+  .btn-info {
+    background: #ff7043 !important;
+    border-radius: transparent !important;
+  }
+  .ngx-pagination a, .ngx-pagination button{
+      color:#ff7043 !important;
+  }
+  .ngx-pagination .current:hover {
+    background: #ff7043 !important;
+    //border-radius: 20px !important; 
+    //border: 1px solid gray !important;
+  }
