@@ -95,7 +95,7 @@ data:Array<any>;
 totalRecords: String;
 page:Number=1;
 //pageSize:Number=7;
-itemsPerPage:Number=7;
+itemsPerPage:Number=10;
   
  public base_url;
  public selectedId;
@@ -176,6 +176,15 @@ itemsPerPage:Number=7;
 // }
   getPaginationData(e){
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:e-1};
+    if(this.selectedState){
+      postData['filterState']=this.selectedState;
+    }
+    if(this.selectedDistrict){
+      postData['filterDistrict']=this.selectedDistrict;
+    }
+    if(this.selectedBlock){
+      postData['filterBlock']=this.selectedBlock;
+    }
     // postData.status="Active";
     this.getPageData(postData);
   }
@@ -212,55 +221,39 @@ getBlocks(){
 
 onChangeState(selectedState) {
     if(selectedState=="State"){
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
       selectedState=null;
-      let postData={status:"Active"}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-      //   this.dataSource.sort=this.sort;
-      // this.dataSource.paginator=this.paginator;
-      this.states=data.volunteers.states;
-      this.totalRecords=data.volunteers.length;
-      this.resultsLength=data.volunteers.length;
+      this.getPageData(postData);
+      // this.states=data.volunteers.states;
+      // this.totalRecords=data.volunteers.length;
+      // this.resultsLength=data.volunteers.length;
       this.blocksList=null;
-        // this.filterState=null;
-        this.districtsList=null;
-    });
-  }
+      this.districtsList=null;
+    }
     if (selectedState) {
       this.getDistricts();
-        let postData={status:"Active",filterState:this.selectedState}
-        this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-          this.dataSource=data.volunteers;
-                  }
-        )};
-      }
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0,filterState:this.selectedState};
+      this.getPageData(postData);
+    }
+  }
 
 
   onChangeDistrict(selectedDistrict) {
     if(selectedDistrict=="District"){
       this.getDistricts();
       selectedDistrict=null;
-      let postData={status:"Active",filterState:this.selectedState}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-      //   this.dataSource.sort=this.sort;
-      // this.dataSource.paginator=this.paginator;
-      this.totalRecords=data.volunteers.length;
-      this.resultsLength=data.volunteers.length;
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+      this.getPageData(postData);
       this.blocksList=null;
-        // this.filterState=null;
-        // this.districtsList=null;
-    });
    
-  }
+    }
 
     if (selectedDistrict) {
       this.getBlocks();
-      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
-      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-                }
-      )};
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0,filterState:this.selectedState,filterDistrict:this.selectedDistrict};
+      this.getPageData(postData);
+    };
+    
   }
 
 
