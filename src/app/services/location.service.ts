@@ -12,13 +12,20 @@ export class LocationService {
 }
 
 getDistricts(selectedState){
+  if(selectedState=="State"){
+    return null;
+  }
   return Object.keys(this.Locations[selectedState]);
 }
 
 getBlocks(selectedState,selectedDistrict){
+  if(selectedDistrict=="District"){
+    return Object.keys(this.Locations[selectedState]);
+  }
   return this.Locations[selectedState][selectedDistrict];
 }
   Locations={
+
     "Uttar Pradesh":{
         "Balrampur":[
           "Balrampur","Gaindaz Buzurg","Gaisadi","Pachperwa","Rehra Bazar","Shivpura",
