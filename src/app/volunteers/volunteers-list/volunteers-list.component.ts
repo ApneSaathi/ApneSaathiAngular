@@ -5,7 +5,7 @@ import { DataSource } from '@angular/cdk/table';
 // import 'rxjs/add/observable/of';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import { environment } from 'src/environments/environment';
-import { MatDialog } from '@angular/material/dialog';
+// import { MatDialog } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { MatSort } from '@angular/material/sort';
 import { ApiInfoService } from 'src/app/services/api-info.service';
@@ -13,11 +13,10 @@ import {ActivatedRoute,Router} from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormGroup, FormControl } from '@angular/forms';
 import{LocationService} from '../../services/location.service';
-
-
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { VolunteersComponent } from '../volunteers.component';
 
 export interface DeboarededVolunteers {
   name: string; 
@@ -106,6 +105,18 @@ itemsPerPage:Number=7;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   
   
+  openDialog(): void {
+    const dialogRef = this.dialog.open(VolunteersComponent, {
+      width: '250px',
+      // data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
+
   ngOnInit(): void {
     this.base_url=environment.base_url;
     let postData={status:"Active"};
@@ -126,6 +137,7 @@ itemsPerPage:Number=7;
   // this.selectedBlock="Block";
   // this.selectedSort="SortBy";
 }
+
 
 
   getStates(){
