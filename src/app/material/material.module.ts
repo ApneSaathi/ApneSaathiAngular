@@ -59,6 +59,8 @@ const matVariables=[
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatProgressBarModule
+
+    
 ];
 
 @NgModule({
