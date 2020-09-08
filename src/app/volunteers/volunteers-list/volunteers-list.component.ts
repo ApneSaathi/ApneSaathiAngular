@@ -54,9 +54,9 @@ export class VolunteersListComponent implements OnInit,  OnDestroy {
   statesList:string[];
   districtsList:string[];
   blocksList:string[];
-  selectedState:string;
-  selectedDistrict:string;
-  selectedBlock:string;
+  selectedState:string='';
+  selectedDistrict:string='';
+  selectedBlock:string='';
   selectedSort:any;
   sortBy;
   sortBys: string[] = [
@@ -376,18 +376,6 @@ transferVolunteer(element){
 
   ngOnDestroy(){
     this.subs.dispose();
-      this.dialog.open(GlobalDialogComponent,
-        {
-          data:{
-            heading:"Assign Sr.citizens",
-          },
-          disableClose:true,
-          width: "70%",
-          autoFocus: false,
-          //position:{top:"50px"},
-          //height:"500px"
-        }
-      );
   }
   volunteerDetails(element){
     this.router.navigate(['volunteers/VolunteerDetailView',{id: element.idvolunteer}]);

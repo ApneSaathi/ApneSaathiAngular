@@ -18,19 +18,19 @@
       <div class="form-group" >
         <!-- <label>State</label> -->
         <select class="form-control"  name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
-          <option value="State"   selected="selected">State</option>
+          <option value=""   selected="selected">State</option>
           <option *ngFor="let state of statesList" value="{{state}}">{{state}}</option>
         </select>
       </div>
       <div class="form-group">
       <select class="form-control" name="district"  [(ngModel)]="selectedDistrict" (change)="onChangeDistrict($event.target.value)">
-        <option value="District">District</option>
+        <option value="">District</option>
         <option *ngFor="let district of districtsList" value="{{district}}">{{district}}</option>
       </select>
     </div>
     <div class="form-group">
       <select class="form-control" name="block"  [(ngModel)]="selectedBlock" (change)="onChangeBlock($event.target.value)">
-        <option value="Block" >Block</option>
+        <option value="" >Block</option>
         <option *ngFor="let block of blocksList" value="{{block}}">{{block}}</option>
       </select>
     </div>
