@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , EventEmitter, Input,  Output} from '@angular/core';
+import { Component, OnInit, ViewChild , EventEmitter, Input,  Output, OnDestroy} from '@angular/core';
 import {MatTableModule, MatTableDataSource} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 // import { Observable } from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { MatSort } from '@angular/material/sort';
 import { ApiInfoService } from 'src/app/services/api-info.service';
-import {ActivatedRoute,Router} from '@angular/router';
+import {ActivatedRoute,Router, ParamMap} from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormGroup, FormControl } from '@angular/forms';
 import{LocationService} from '../../services/location.service';
@@ -17,6 +17,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { VolunteersComponent } from '../volunteers.component';
+import { identifierModuleUrl } from '@angular/compiler';
+import { SubscriptionsContainer } from 'src/app/subscriptions-container';
 
 export interface DeboarededVolunteers {
   name: string; 
@@ -66,7 +68,7 @@ export class VolunteersListComponent implements OnInit {
 
 
 
-  dataSource:MatTableDataSource<any[]>;
+  dataSource:any[];
   displayedColumns: string[] = [ 'firstName','rating' ,'phoneNo', 'state','district','block', 'count_SrCitizen','actions'];
   deboardedDataSource; 
   deboardedColumns: string[] = [  'firstName', 'rating','phoneNo', 'state','district','block','count_SrCitizen'];
@@ -92,11 +94,16 @@ export class VolunteersListComponent implements OnInit {
 data:Array<any>;
 totalRecords: String;
 page:Number=1;
-pageSize:Number=7;
+//pageSize:Number=7;
 itemsPerPage:Number=7;
   
  public base_url;
+ public selectedId;
   exampleDatabase: any;
+  active_total;
+ p;
+ p1;
+ public subs = new SubscriptionsContainer();
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
@@ -119,27 +126,66 @@ itemsPerPage:Number=7;
 
   ngOnInit(): void {
     this.base_url=environment.base_url;
-    let postData={status:"Active"};
-    this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-      // console.log(data);
-      this.dataSource=new MatTableDataSource(data.volunteers);
-      this.dataSource.sort=this.sort;
-      this.dataSource.paginator=this.paginator;
-      this.totalRecords=data.volunteers.length;
-      this.resultsLength=data.volunteers.length;
-      
-      
-  });
-  this.getStates();
-  this.deboarededVolunteerList();
-  // this.selectedState="State";
-  // this.selectedDistrict="District";
-  // this.selectedBlock="Block";
-  // this.selectedSort="SortBy";
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id'));
+      this.selectedId = id;
+    });
+    let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+    // postData.status="Active";
+    this.getPageData(postData);
+    this.getStates();
+    this.deboarededVolunteerList();
+
+  // If the user changes the sort order, reset back to the first page.
+  // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+  // merge(this.sort.sortChange)
+  //   .pipe(
+  //     startWith({}),
+  //     switchMap(() => {
+  //       this.isLoadingResults = true;
+  //       return this.exampleDatabase!.getRepoIssues(
+  //         this.sort.active, this.sort.direction, this.paginator.pageIndex);
+  //     }),
+  //     map(data => {
+  //       // Flip flag to show that loading has finished.
+  //       this.isLoadingResults = false;
+  //       this.isRateLimitReached = false;
+  //       // this.resultsLength = data;
+
+  //       return data;
+  //     }),
+  //     catchError(() => {
+  //       this.isLoadingResults = false;
+  //       // Catch if the GitHub API has reached its rate limit. Return empty data.
+  //       this.isRateLimitReached = true;
+  //       return observableOf([]);
+  //     })
+  //   ).subscribe(data => this.dataSource = data);
 }
 
 
 
+// paginate(event: any) {
+//   this.dataSource = this.source_data.slice(event * 5 - 5, event * 5);
+// }
+  getPaginationData(e){
+    let postData={status:"Active",limit:this.itemsPerPage,pagenumber:e-1};
+    // postData.status="Active";
+    this.getPageData(postData);
+  }
+  getPageData(postData){
+    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      console.log(data);
+      this.dataSource=data.volunteers;
+      this.active_total=50;
+      // this.dataSource=new MatTableDataSource(data.volunteers);
+      // this.dataSource.sort=this.sort;
+      // this.dataSource.paginator=this.paginator;
+      // this.totalRecords=data.volunteers.length;
+      // this.resultsLength=data.volunteers.length;
+     });
+  }
   getStates(){
     this.statesList=this.locationService.getStates();
     console.log(this.statesList);
@@ -165,8 +211,8 @@ onChangeState(selectedState) {
       let postData={status:"Active"}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
-        this.dataSource.sort=this.sort;
-      this.dataSource.paginator=this.paginator;
+      //   this.dataSource.sort=this.sort;
+      // this.dataSource.paginator=this.paginator;
       this.states=data.volunteers.states;
       this.totalRecords=data.volunteers.length;
       this.resultsLength=data.volunteers.length;
@@ -178,7 +224,7 @@ onChangeState(selectedState) {
     if (selectedState) {
       this.getDistricts();
         let postData={status:"Active",filterState:this.selectedState}
-        this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
           this.dataSource=data.volunteers;
                   }
         )};
@@ -192,8 +238,8 @@ onChangeState(selectedState) {
       let postData={status:"Active",filterState:this.selectedState}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
-        this.dataSource.sort=this.sort;
-      this.dataSource.paginator=this.paginator;
+      //   this.dataSource.sort=this.sort;
+      // this.dataSource.paginator=this.paginator;
       this.totalRecords=data.volunteers.length;
       this.resultsLength=data.volunteers.length;
       this.blocksList=null;
@@ -206,7 +252,7 @@ onChangeState(selectedState) {
     if (selectedDistrict) {
       this.getBlocks();
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
                 }
       )};
@@ -220,8 +266,8 @@ onChangeState(selectedState) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
       this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
-        this.dataSource.sort=this.sort;
-      this.dataSource.paginator=this.paginator;
+      //   this.dataSource.sort=this.sort;
+      // this.dataSource.paginator=this.paginator;
       this.totalRecords=data.volunteers.length;
       this.resultsLength=data.volunteers.length;
         // this.filterState=null;
@@ -231,7 +277,7 @@ onChangeState(selectedState) {
   }
     if (selectedBlock) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
         // this.filterState=data.volunteers.state;
         // this.filterDistrict=data.volunteers.district;
@@ -244,7 +290,7 @@ onChangeState(selectedState) {
   onChangeSort(selectedSortBy) {
     if (selectedSortBy) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock,sortBy:selectedSortBy,sortType:"ASC"}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
         this.dataSource=data.volunteers;
         // this.filterState=data.volunteers.state;
         // this.filterDistrict=data.volunteers.district;
@@ -258,8 +304,8 @@ onChangeState(selectedState) {
     deboarededVolunteerList(){
         // let postData={status:"Deboarded"};
     
-    this.apiInfoService.getDeboardedVolunteersList().subscribe((data)=>{
-    this.deboardedDataSource=data.volunteers;
+    this.subs.add=this.apiInfoService.getDeboardedVolunteersList().subscribe(data=>{
+      this.deboardedDataSource=data.volunteers;
     })
 }
 
@@ -309,4 +355,9 @@ opensrCitizenAssign(){
         }
       );
   }
+
+  volunteerDetails(element){
+    this.router.navigate(['volunteers/VolunteerDetailView',{id: element.idvolunteer}]);
+  }
+
 }

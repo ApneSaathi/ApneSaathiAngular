@@ -1,0 +1,74 @@
+<div class="volunteerInfo">
+    <a class="back-link" (click)="gotoVolunteerList()"><img [src]="base_url+'assets/arrow-left.png'">Back To List</a>
+    <div class="volunteerProfile">
+        <div class="profilePic">
+            <img class="person-img" [src]="base_url+'assets/senior-citizen.png'">
+            <span class="person-name">{{volunteerDetailsDataSource.firstName}}</span>
+        </div>
+        <div class="personalInfo">
+            <span class="personalInfo-span">Personal Info:</span>
+            <div class="actions">
+                <a class="action-link" routerLink="">
+                    <img class="transferVolunteer" [src]="base_url+'assets/Vector.png'">
+                </a>
+                <a class="action-link" routerLink="">
+                    <img class="deboardedVolunteer" [src]="base_url+'assets/Group 2.png'">
+                </a>
+            </div>
+            <div class="personalDetails">
+                <div class="contactNumber-block">
+                    <span class="personalDetails-span">Contact Number: </span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource.phoneNo}}</span>
+                </div>
+                <div class="emailId-block">
+                    <span class="personalDetails-span">Email ID: </span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource.email}}</span>
+                </div>
+                <div class="state-block">
+                    <span class="personalDetails-span">State: </span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource.state}}</span>
+                </div>
+                <div class="district-block">
+                    <span class="personalDetails-span">District: </span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource.district}}</span>
+                </div>
+                <div class="block-block">
+                    <span class="personalDetails-span">Block: </span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource.block}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="progressReviews">
+        <div class="progressSummary">
+            <div class="progressSummary-title">
+                <span>Progress Summary</span>
+                <div class="dropdown-menu">
+                    <select class="options">
+                        <option value="Yesterday" class="option1">Yesterday</option>
+                        <option value="Today" class="option2">Today</option>
+                        <option value="Tomorrow" class="option3">Tomorrow</option>
+                    </select>
+                </div>
+            </div>
+            <div class="progressSummary-details">
+                <span>Total calls:</span>
+            </div>
+        </div>
+        
+        <div class="reviews">
+            <div class="reviews-title">
+                <span>Reviews</span>
+                <button class="addReview-button">+</button>
+                <a class="viewAll-link" routerLink="">View All</a>
+            </div>
+            <div class="reviewsRatings">
+                <span>Ratings</span>
+            </div>
+        </div>
+    </div>
+    <div class="srCitizenList-section">
+        <span class="srCitizenList-span">Sr.Citizen's List</span>&nbsp;
+        <button mat-button class="srCitizenList-button">+ Add</button>
+    </div>
+</div>

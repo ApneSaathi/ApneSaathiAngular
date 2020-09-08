@@ -29,7 +29,7 @@ export class ApiInterceptor implements HttpInterceptor {
     }
     console.log("Request:",request);
     return next.handle(httpReq).pipe(
-      retry(1),
+      //retry(1),
       /* Handling errors of http call */
       catchError((error: HttpErrorResponse) => {
         let error_message="API Call failed";

@@ -9,14 +9,20 @@
     font-size: 15px;
     padding-bottom: 12px;
 }
+.menu-items:focus {
+    outline: none;
+}
 .dropdown-link, .menu-button-link{
     text-decoration: none;
     color: rgba(0,0,0,.87);
 }
+.menu-button-link{
+    margin-left: -18px;
+}
 .mat-expansion-panel-header img {
     width: 17px;
     height: 15px;
-    margin: 2px 15px 0 -1px;
+    margin: 2px 15px 0 0;
 }
 .dropdown-btn{
     width: 17px;
@@ -41,6 +47,7 @@
 ::ng-deep .mat-expansion-panel-header.mat-expanded, ::ng-deep .mat-expansion-panel-header.mat-expanded:hover {
     background-color: rgb(253, 217, 245) !important;
     border-left: 4px solid red;
+    padding-left: 20px;
 }
 ::ng-deep .mat-expansion-panel-body {
     background-color: rgb(254, 235, 249);
@@ -51,6 +58,7 @@
 }
 .link-active{
     font-weight: bold;
+    margin-left: -10px;
 }
 .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
     background-color: white;

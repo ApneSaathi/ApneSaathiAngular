@@ -2,6 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiInfoService } from 'src/app/services/api-info.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SubscriptionsContainer } from 'src/app/subscriptions-container';
+import { MatDialogRef } from '@angular/material/dialog';
+import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 
 @Component({
   selector: 'app-add-volunteers',
@@ -16,7 +20,12 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
     fileSizeError:false
   };
   public fileNameError:boolean= false;
-  constructor(private apiInfo: ApiInfoService, private sharedService: SharedService) { }
+  constructor(
+    private apiInfo: ApiInfoService, 
+    private sharedService: SharedService,
+    private dialogRef: MatDialogRef<GlobalDialogComponent>,
+    private snackBar:MatSnackBar
+    ) { }
   selectedFile:File=null;
   public upload_display_file_name:string="No file Choosen";
   public fileUpload = {status: '', message: '', filePath: ''};
@@ -40,9 +49,9 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
     this.uploadError.fileNameError=false;
     this.uploadError.fileSizeError=false;
     this.upload_display_file_name=this.selectedFile.name.length > 20? "..."+this.selectedFile.name.substr(this.selectedFile.name.length - 20):this.selectedFile.name;
-    if(fileExtension.toLowerCase()!='csv'){
-      this.uploadError.fileTypeError=true;
-    }
+    // if(fileExtension.toLowerCase()!='csv'){
+    //   this.uploadError.fileTypeError=true;
+    // }
     //else 
     if(/\s/g.test(this.selectedFile.name)){
       this.uploadError.fileNameError=true;
@@ -69,8 +78,31 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
       res => {
         console.log("Upload Result:",res);
         this.fileUpload = res
+        let message='';
+        let success=true;
+        let duration=2000;
+        if(res.statusCode=='0' || res.statusCode==0){
+          message= "Volunteers data has been uploaded.!"
+          duration=2000;
+          this.dialogRef.close();
+        }
+        else {
+          message= res.message;
+          success=false;
+          duration=5000;
+        }
+        if(this.fileUpload.status!='progress' && this.fileUpload.status!='connecting'){
+          this.showNotification({message: message,success},duration);
+        }
       }
     );
+  }
+  showNotification(notificationData,duration=2000){
+    this.snackBar.openFromComponent(NotificationMessageComponent,{
+      data:notificationData,
+      duration:duration,
+      panelClass: "notification-snackbar"
+    });
   }
   ngOnDestroy(){
     this.subs.dispose();
