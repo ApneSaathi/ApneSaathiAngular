@@ -95,7 +95,7 @@
   <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
   <mat-cell *matCellDef="let element"> {{actions}}
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15' class="mouseover-pointer" (click)="opensrCitizenAssign(element)"></button>
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;' (click)="transferVolunteer()"><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15' ><a href="../volunteers-list"></a></button>
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;' (click)="transferVolunteer(element)"><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15' ><a href="../volunteers-list"></a></button>
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
       
   </mat-cell>

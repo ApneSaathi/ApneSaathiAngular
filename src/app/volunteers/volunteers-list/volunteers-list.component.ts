@@ -107,7 +107,7 @@ itemsPerPage:Number=7;
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
-
+//  private dialogRef:MatDialogRef<VolunteersComponent>
  @ViewChild(MatSort,{static:true}) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   
@@ -132,6 +132,11 @@ itemsPerPage:Number=7;
     });
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
     // postData.status="Active";
+    this.selectedState="State";
+    this.selectedDistrict="District";
+    this.selectedBlock="Block";
+    this.selectedSort="SortBy";
+    
     this.getPageData(postData);
     this.getStates();
     this.deboarededVolunteerList();
@@ -309,7 +314,8 @@ onChangeState(selectedState) {
     })
 }
 
-transferVolunteer(){
+transferVolunteer(element){
+  // this.apiInfoService.populateForm(element);
   // let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
   // this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
   //   this.dataSource=data.volunteers;
