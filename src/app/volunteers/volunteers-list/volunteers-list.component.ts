@@ -42,7 +42,7 @@ export interface DeboarededVolunteers {
   templateUrl: './volunteers-list.component.html',
   styleUrls: ['./volunteers-list.component.scss']
 })
-export class VolunteersListComponent implements OnInit {
+export class VolunteersListComponent implements OnInit,  OnDestroy {
   createFilterGroup: FormGroup;
   states: {};
   districts: {};
@@ -355,7 +355,39 @@ opensrCitizenAssign(){
         }
       );
   }
+  addVolunteers(){
+    let congigObject ={
+      data:{
+        heading:"Add Volunteer",
+        feature: "addVolunteer"
+      },
+      disableClose:true,
+      width: "50%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
+  }
+  openGlobalPopup(configurationObject){
+    this.dialog.open(GlobalDialogComponent,configurationObject);
+  }
 
+  ngOnDestroy(){
+    this.subs.dispose();
+      this.dialog.open(GlobalDialogComponent,
+        {
+          data:{
+            heading:"Assign Sr.citizens",
+          },
+          disableClose:true,
+          width: "70%",
+          autoFocus: false,
+          //position:{top:"50px"},
+          //height:"500px"
+        }
+      );
+  }
   volunteerDetails(element){
     this.router.navigate(['volunteers/VolunteerDetailView',{id: element.idvolunteer}]);
   }
