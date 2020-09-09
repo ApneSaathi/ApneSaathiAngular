@@ -39,7 +39,8 @@ export class ApiInterceptor implements HttpInterceptor {
         else if(error.message !=''){
           error_message=error.message;
         }
-        this.showNotification({message:error_message}); // ivoking error notification function
+        if(request.url !="http://15.207.42.209:8080/Volunteer/getVolunteersList")
+          this.showNotification({message:error_message}); // ivoking error notification function
         return throwError(error);
       })
     );

@@ -1,9 +1,11 @@
 <!-- <p>volunteers-list works!</p> -->
-
+<div class="loading-spinner" *ngIf="loadingSpinner">
+  <mat-spinner [diameter]=50></mat-spinner>
+</div>
 <mat-tab-group mat-align-tabs="Active Volunteers">
   <mat-tab label="Active Volunteers">
   
-    <mat-toolbar>
+    <mat-toolbar >
       <mat-toolbar-row >
     <div class="onBoardedVolunteerHeader">
       <span>Volunteers List</span>&nbsp;</div>
@@ -12,7 +14,7 @@
     
       <span class="example-spacer"></span>
       <div class="img-icon">
-        <img src="../../../assets/Group 1184.png">
+        <img [src]="base_url+'assets/Group 1184.png'">
       </div>
 
       <div class="form-group" >
@@ -45,7 +47,7 @@
     </mat-toolbar>
 <!-- Volunteers List  -->
 
-<mat-table [dataSource]="dataSource | paginate:{ itemsPerPage: itemsPerPage, currentPage: p1, id: 'first', totalItems: active_total }" matSort class="mat-elevation-z8"
+<mat-table *ngIf="noData.message==''" [dataSource]="dataSource | paginate:{ itemsPerPage: itemsPerPage, currentPage: p1, id: 'first', totalItems: active_total }" matSort class="mat-elevation-z8"
  matSortActive="rating,count_SrCitizen" matSortDisableClear matSortDirection="desc">
   <!-- Name column -->
   <ng-container matColumnDef="firstName">
@@ -56,7 +58,13 @@
 
   <!-- Rating Column -->
   <ng-container matColumnDef="rating">
-    <mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Rating </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef (click)="sortColumn('rating')"> 
+      Rating
+      <span class="sort-arrows-contaner mouseover-pointer">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="(sortObj.key=='rating'&&sortObj.type=='ASC') || sortObj.key!='rating'" [ngClass]="{'sort-asc-active':sortObj.key=='rating'&&sortObj.type=='ASC', 'sort-asc':sortObj.key!='rating'}">arrow_drop_up</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="(sortObj.key=='rating'&&sortObj.type=='DESC') || sortObj.key!='rating'" [ngClass]="{'sort-desc-active':sortObj.key=='rating'&&sortObj.type=='DESC', 'sort-desc':sortObj.key!='rating'}">arrow_drop_down</mat-icon>
+    </span>
+    </mat-header-cell>
     <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)"> {{element.rating}} </mat-cell>
   </ng-container>
 
@@ -87,8 +95,14 @@
 
    <!-- AssignedSrCitizen Column -->
   <ng-container matColumnDef="count_SrCitizen">
-    <mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Assigned Sr.citizens </mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)"> {{element.count_SrCitizen}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef (click)="sortColumn('assignedSrCitizen')"> 
+      Assigned Sr.citizens
+      <span class="sort-arrows-contaner mouseover-pointer">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="(sortObj.key=='assignedSrCitizen'&&sortObj.type=='ASC') || sortObj.key!='assignedSrCitizen'" [ngClass]="{'sort-asc-active': sortObj.key=='assignedSrCitizen'&&sortObj.type=='ASC', 'sort-asc': sortObj.key!='assignedSrCitizen'}">arrow_drop_up</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="(sortObj.key=='assignedSrCitizen'&&sortObj.type=='DESC') || sortObj.key!='assignedSrCitizen'" [ngClass]="{'sort-desc-active':sortObj.key=='assignedSrCitizen'&&sortObj.type=='DESC', 'sort-desc':sortObj.key!='assignedSrCitizen' }">arrow_drop_down</mat-icon>
+    </span> 
+    </mat-header-cell>
+    <mat-cell class="header-align-center" *matCellDef="let element" (click)="volunteerDetails(element)"> {{element.count_SrCitizen}} </mat-cell>
   </ng-container>
  <!-- Actions Column -->
  <ng-container matColumnDef="actions" >
@@ -113,8 +127,11 @@
   }; columns: displayedColumns;"></mat-row> -->
  
   </mat-table> 
-  <div align="right">
+  <div align="right" *ngIf="noData.message==''">
     <pagination-controls previousLabel="" nextLabel="" (pageChange)="p1 = $event;getPaginationData($event)" id="first" class="my-pagination"></pagination-controls>
+  </div>
+  <div align="center" *ngIf="noData.message!=''" class="no-data-container">
+    <span class="no-data">{{noData.message}}</span>
   </div>
   <!-- <ngx-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="data.length"></ngx-pagination> -->
   <!-- <div>

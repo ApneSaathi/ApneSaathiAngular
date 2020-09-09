@@ -31,7 +31,10 @@ export interface DeboarededVolunteers {
   assignedSrCitizen:any;
   
 }
-
+export interface sortObjectInterface {
+  key: string; 
+  type: string; 
+}
 /**
  * @title Basic use of `<mat-table>` (uses display flex)
  */
@@ -95,7 +98,7 @@ data:Array<any>;
 totalRecords: String;
 page:Number=1;
 //pageSize:Number=7;
-itemsPerPage:Number=10;
+itemsPerPage:Number=7;
   
  public base_url;
  public selectedId;
@@ -104,6 +107,10 @@ itemsPerPage:Number=10;
  p;
  p1;
  public subs = new SubscriptionsContainer();
+ public noData={message:''};
+ public loadingSpinner:boolean=true;
+
+ public sortObj:sortObjectInterface={'key':'',type:''};
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
@@ -132,9 +139,9 @@ itemsPerPage:Number=10;
     });
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
     // postData.status="Active";
-    this.selectedState="State";
-    this.selectedDistrict="District";
-    this.selectedBlock="Block";
+    // this.selectedState="State";
+    // this.selectedDistrict="District";
+    // this.selectedBlock="Block";
     this.selectedSort="SortBy";
     
     this.getPageData(postData);
@@ -176,6 +183,9 @@ itemsPerPage:Number=10;
 // }
   getPaginationData(e){
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:e-1};
+    console.log("this.selectedState:",this.selectedState)
+    console.log("this.selectedDistrict:",this.selectedDistrict)
+    console.log("this.selectedBlock:",this.selectedBlock)
     if(this.selectedState){
       postData['filterState']=this.selectedState;
     }
@@ -189,15 +199,27 @@ itemsPerPage:Number=10;
     this.getPageData(postData);
   }
   getPageData(postData){
+    this.loadingSpinner=true;
     this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       console.log(data);
       this.dataSource=data.volunteers;
-      this.active_total=50;
+      this.active_total=data.volunteers[0].totalVolunteer?data.volunteers[0].totalVolunteer:0;
+      this.noData.message='';
+      this.loadingSpinner=false;
       // this.dataSource=new MatTableDataSource(data.volunteers);
       // this.dataSource.sort=this.sort;
       // this.dataSource.paginator=this.paginator;
       // this.totalRecords=data.volunteers.length;
       // this.resultsLength=data.volunteers.length;
+     },
+     errorResponse=>{
+       console.log("error:",errorResponse);
+       if(errorResponse.error.statusCode ==1){
+        this.dataSource=[];
+        this.active_total=0;
+        this.noData.message="No Records Found";
+        this.loadingSpinner=false;
+       }
      });
   }
   getStates(){
@@ -220,7 +242,7 @@ getBlocks(){
 
 
 onChangeState(selectedState) {
-    if(selectedState=="State"){
+    if(selectedState=="State" || selectedState=='' || !selectedState){
       let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
       selectedState=null;
       this.getPageData(postData);
@@ -239,10 +261,13 @@ onChangeState(selectedState) {
 
 
   onChangeDistrict(selectedDistrict) {
-    if(selectedDistrict=="District"){
+    if(selectedDistrict=="District" || selectedDistrict=='' || !selectedDistrict){
       this.getDistricts();
       selectedDistrict=null;
       let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+      if(this.selectedState!=''){
+        postData['filterState']=this.selectedState;
+      }
       this.getPageData(postData);
       this.blocksList=null;
    
@@ -258,46 +283,62 @@ onChangeState(selectedState) {
 
 
   onChangeBlock(selectedBlock) {
-    if(selectedBlock=="Block"){
+    if(selectedBlock=="Block" || selectedBlock=='' || !selectedBlock){
       this.getBlocks();
       selectedBlock=null;
-      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
-      this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-      //   this.dataSource.sort=this.sort;
-      // this.dataSource.paginator=this.paginator;
-      this.totalRecords=data.volunteers.length;
-      this.resultsLength=data.volunteers.length;
-        // this.filterState=null;
-        this.blocksList=null;
-    });
-   
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+      if(this.selectedState!=''){
+        postData['filterState']=this.selectedState;
+      }
+      if(this.selectedDistrict!=''){
+        postData['filterDistrict']=this.selectedDistrict;
+      }
+      this.getPageData(postData);
   }
     if (selectedBlock) {
-      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
-      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-        // this.filterState=data.volunteers.state;
-        // this.filterDistrict=data.volunteers.district;
-        // this.filterBlock=data.volunteers.block;
-                }
-      )};
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0,filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock};
+      this.getPageData(postData);
+    };
   }
   
 
   onChangeSort(selectedSortBy) {
+    let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
     if (selectedSortBy) {
-      let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock,sortBy:selectedSortBy,sortType:"ASC"}
-      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-        // this.filterState=data.volunteers.state;
-        // this.filterDistrict=data.volunteers.district;
-        // this.filterBlock=data.volunteers.block;
-        
-                }
-      )};
+        postData['sortBy']=selectedSortBy;
+        postData['sortType']="ASC";
+    };
+    if(this.selectedState!=''){
+      postData['filterState']=this.selectedState;
+    }
+    if(this.selectedDistrict!=''){
+      postData['filterDistrict']=this.selectedDistrict;
+    }
+    if(this.selectedBlock!=''){
+      postData['filterBlock']=this.selectedBlock;
+    }
+    this.getPageData(postData);
   }
-  
+  sortColumn(sortColumn){
+      if(this.sortObj.key && this.sortObj.key==sortColumn){
+        this.sortObj.type=this.sortObj.type=='ASC'?this.sortObj.type='DESC':'ASC'
+      }
+      else{
+        this.sortObj.type='ASC';
+      }
+      this.sortObj.key=sortColumn;
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0,sortBy:this.sortObj.key,sortType:this.sortObj.type};
+      if(this.selectedState!=''){
+        postData['filterState']=this.selectedState;
+      }
+      if(this.selectedDistrict!=''){
+        postData['filterDistrict']=this.selectedDistrict;
+      }
+      if(this.selectedBlock!=''){
+        postData['filterBlock']=this.selectedBlock;
+      }
+      this.getPageData(postData);
+  }
 
     deboarededVolunteerList(){
         // let postData={status:"Deboarded"};
@@ -340,11 +381,12 @@ transferVolunteer(element){
 //   }
 // }
 
-  opensrCitizenAssign(){
+  opensrCitizenAssign(volunteer){
     let congigObject ={
       data:{
         heading:"Assign Sr.citizens",
-        feature: "assignCitizensSingleVolunteer"
+        feature: "assignCitizensSingleVolunteer",
+        volunteerObj: volunteer
       },
       disableClose:true,
       width: "70%",
