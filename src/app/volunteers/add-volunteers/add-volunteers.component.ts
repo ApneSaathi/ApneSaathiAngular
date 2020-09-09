@@ -80,10 +80,10 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
         this.fileUpload = res
         let message='';
         let success=true;
-        let duration=2000;
+        let duration=5000;
         if(res.statusCode=='0' || res.statusCode==0){
           message= "Volunteers data has been uploaded.!"
-          duration=2000;
+          duration=5000;
           this.dialogRef.close();
         }
         else {

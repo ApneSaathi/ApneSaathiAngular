@@ -191,7 +191,7 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
   showNotification(notificationData){
     this.snackBar.openFromComponent(NotificationMessageComponent,{
       data:notificationData,
-      duration:2000,
+      duration:5000,
       panelClass: "notification-snackbar"
     });
   }

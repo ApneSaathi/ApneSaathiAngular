@@ -36,6 +36,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     position:absolute;
     top: 50%;
     left:50%;
+    z-index: 11111;
 }
 //Pagination
 // ::ng-deep .ngx-pagination .current {
@@ -62,4 +63,30 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background: #ff7043 !important;
     //border-radius: 20px !important; 
     //border: 1px solid gray !important;
+  }
+
+  // Sort Arrows
+  .sort-arrows-contaner{
+    display:flex; 
+    flex-direction:column;
+    position:relative;
+  }
+  .sort-asc{
+    position: absolute;
+    bottom: 2px;
+  }
+  .sort-desc{
+    position: relative;
+    top: 5px;
+  }
+  .sort-asc-active{
+    bottom: 0px;
+  }
+  .sort-desc-active{
+    top: 0px;
+  }
+  // Mat Table
+  .header-align-center {
+    text-align: center;
+    justify-content:center;
   }
