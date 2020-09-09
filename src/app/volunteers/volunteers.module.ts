@@ -9,10 +9,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { VolunteerDetailViewComponent } from './volunteer-detail-view/volunteer-detail-view.component';
 import { AddVolunteersComponent } from './add-volunteers/add-volunteers.component';
+import { TransferVolunteerComponent } from './transfer-volunteer/transfer-volunteer.component';
 
 
 @NgModule({
-  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent],
+  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent, TransferVolunteerComponent],
 
   imports: [
     CommonModule,
@@ -22,6 +23,6 @@ import { AddVolunteersComponent } from './add-volunteers/add-volunteers.componen
     NgxPaginationModule,
     FormsModule
   ],
-  exports:[AddVolunteersComponent]
+  exports:[AddVolunteersComponent,TransferVolunteerComponent]
 })
 export class VolunteersModule { }

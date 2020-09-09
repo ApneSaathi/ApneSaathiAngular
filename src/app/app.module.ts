@@ -18,6 +18,8 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProtectGuard } from "./protect.guard";
 import { VolunteersModule } from './volunteers/volunteers.module';
+import { VolunteersComponent } from './volunteers/volunteers.component';
+import { TransferVolunteerComponent } from './volunteers/transfer-volunteer/transfer-volunteer.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { VolunteersModule } from './volunteers/volunteers.module';
     ReactiveFormsModule,
     VolunteersModule
   ],
-  entryComponents:[GlobalDialogComponent, NotificationMessageComponent],
+  entryComponents:[GlobalDialogComponent, NotificationMessageComponent,TransferVolunteerComponent],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true},

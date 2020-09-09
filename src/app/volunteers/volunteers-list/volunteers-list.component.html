@@ -17,13 +17,23 @@
         <img [src]="base_url+'assets/Group 1184.png'">
       </div>
 
+      <!-- <mat-form-field >
+        <mat-label>State</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let state of statesList" value="{{state}}">{{state}}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+
+
       <div class="form-group" >
         <!-- <label>State</label> -->
+         
         <select class="form-control"  name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
           <option value=""   selected="selected">State</option>
           <option *ngFor="let state of statesList" value="{{state}}">{{state}}</option>
         </select>
-      </div>
+      </div> 
       <div class="form-group">
       <select class="form-control" name="district"  [(ngModel)]="selectedDistrict" (change)="onChangeDistrict($event.target.value)">
         <option value="">District</option>
@@ -109,7 +119,7 @@
   <mat-header-cell *matHeaderCellDef class="header-align-center"> Actions </mat-header-cell>
   <mat-cell *matCellDef="let element" class="header-align-center"> {{actions}}
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15' class="mouseover-pointer" (click)="opensrCitizenAssign(element)"></button>
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;' (click)="transferVolunteer(element)"><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15' ><a href="../volunteers-list"></a></button>
+    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;' (click)="transferVolunteer(element)"><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15' ></button>
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
       
   </mat-cell>

@@ -24,7 +24,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import {MatGridListModule} from '@angular/material/grid-list';
 const matVariables=[
   MatListModule,
   MatMenuModule,
@@ -58,9 +58,9 @@ const matVariables=[
     MatToolbarModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
 
-    
+    MatGridListModule
 ];
 
 @NgModule({
