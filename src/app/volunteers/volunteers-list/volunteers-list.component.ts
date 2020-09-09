@@ -13,7 +13,7 @@ import {ActivatedRoute,Router, ParamMap} from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormGroup, FormControl } from '@angular/forms';
 import{LocationService} from '../../services/location.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material/dialog';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { VolunteersComponent } from '../volunteers.component';
@@ -108,6 +108,7 @@ itemsPerPage:Number=7;
    this.data=Array<any>();
  }
 //  private dialogRef:MatDialogRef<VolunteersComponent>
+//  private dialogRef:MatDialogRef<VolunteersComponent>
  @ViewChild(MatSort,{static:true}) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   
@@ -136,7 +137,7 @@ itemsPerPage:Number=7;
     this.selectedDistrict="District";
     this.selectedBlock="Block";
     this.selectedSort="SortBy";
-    
+
     this.getPageData(postData);
     this.getStates();
     this.deboarededVolunteerList();
@@ -225,14 +226,17 @@ onChangeState(selectedState) {
         // this.filterState=null;
         this.districtsList=null;
     });
-  }
-    if (selectedState) {
+    }
+  if (selectedState) {
       this.getDistricts();
         let postData={status:"Active",filterState:this.selectedState}
         this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
           this.dataSource=data.volunteers;
                   }
-        )};
+        )}
+  // else{
+  //   console.log("abc");
+  //   }
       }
 
 
@@ -293,6 +297,17 @@ onChangeState(selectedState) {
   
 
   onChangeSort(selectedSortBy) {
+    if (selectedSortBy=="SortBy") {
+      let postData={status:"Active",sortType:"ASC"}
+      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+        this.dataSource=data.volunteers;
+        // this.dataSource.sort=this.sort;
+        // this.filterState=data.volunteers.state;
+        // this.filterDistrict=data.volunteers.district;
+        // this.filterBlock=data.volunteers.block;
+        
+                }
+      )};
     if (selectedSortBy) {
       let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock,sortBy:selectedSortBy,sortType:"ASC"}
       this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
@@ -315,7 +330,40 @@ onChangeState(selectedState) {
 }
 
 transferVolunteer(element){
+  // const dialogConfig=new MatDialogConfig();
+  // dialogConfig.disableClose=true;
+  // dialogConfig.autoFocus=true;
+  // dialogConfig.maxWidth="950px";
+  // this.dialog.open(VolunteersComponent,dialogConfig);
+
+
   // this.apiInfoService.populateForm(element);
+  console.log(element);
+  // const dialogConfig= new MatDialogConfig();
+  // dialogConfig.disableClose= true;
+  // dialogConfig.autoFocus= true;
+  // dialogConfig.width="50%";
+  // dialogConfig.height="50%";
+  
+  // this.dialog.open(VolunteersComponent,dialogConfig);
+
+
+
+  let congigObject ={
+    data:{
+      heading:"Transfer Location of Volunteer",
+      feature: "transferVolunteer",
+      
+    },
+    disableClose:true,
+    width: "50%",
+    height:"50%",
+    autoFocus: false,
+    //position:{top:"50px"},
+    //height:"500px"
+  };
+  this.openGlobalPopup(congigObject);
+
   // let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
   // this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
   //   this.dataSource=data.volunteers;
