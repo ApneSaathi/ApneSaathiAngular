@@ -104,12 +104,13 @@ itemsPerPage:Number=7;
  public selectedId;
   exampleDatabase: any;
   active_total;
- p;
+ p2;
  p1;
  public subs = new SubscriptionsContainer();
  public noData={message:''};
+ public noDeboardData={message:''};
  public loadingSpinner:boolean=true;
-
+ public deboarded_total;
  public sortObj:sortObjectInterface={'key':'',type:''};
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
@@ -138,54 +139,15 @@ itemsPerPage:Number=7;
       this.selectedId = id;
     });
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
-    // postData.status="Active";
-    // this.selectedState="State";
-    // this.selectedDistrict="District";
-    // this.selectedBlock="Block";
     this.selectedSort="SortBy";
     
     this.getPageData(postData);
     this.getStates();
-    this.deboarededVolunteerList();
-
-  // If the user changes the sort order, reset back to the first page.
-  // this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-  // merge(this.sort.sortChange)
-  //   .pipe(
-  //     startWith({}),
-  //     switchMap(() => {
-  //       this.isLoadingResults = true;
-  //       return this.exampleDatabase!.getRepoIssues(
-  //         this.sort.active, this.sort.direction, this.paginator.pageIndex);
-  //     }),
-  //     map(data => {
-  //       // Flip flag to show that loading has finished.
-  //       this.isLoadingResults = false;
-  //       this.isRateLimitReached = false;
-  //       // this.resultsLength = data;
-
-  //       return data;
-  //     }),
-  //     catchError(() => {
-  //       this.isLoadingResults = false;
-  //       // Catch if the GitHub API has reached its rate limit. Return empty data.
-  //       this.isRateLimitReached = true;
-  //       return observableOf([]);
-  //     })
-  //   ).subscribe(data => this.dataSource = data);
-}
-
-
-
-// paginate(event: any) {
-//   this.dataSource = this.source_data.slice(event * 5 - 5, event * 5);
-// }
+    let deboardedPostData={status:"Deboarded",limit:this.itemsPerPage,pagenumber:0};
+    this.getdeboardedPageData(deboardedPostData);
+  }
   getPaginationData(e){
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:e-1};
-    console.log("this.selectedState:",this.selectedState)
-    console.log("this.selectedDistrict:",this.selectedDistrict)
-    console.log("this.selectedBlock:",this.selectedBlock)
     if(this.selectedState){
       postData['filterState']=this.selectedState;
     }
@@ -206,11 +168,9 @@ itemsPerPage:Number=7;
       this.active_total=data.volunteers[0].totalVolunteer?data.volunteers[0].totalVolunteer:0;
       this.noData.message='';
       this.loadingSpinner=false;
-      // this.dataSource=new MatTableDataSource(data.volunteers);
-      // this.dataSource.sort=this.sort;
-      // this.dataSource.paginator=this.paginator;
-      // this.totalRecords=data.volunteers.length;
-      // this.resultsLength=data.volunteers.length;
+      if(postData.pagenumber===0 || postData.pagenumber==='0'){
+        this.p1=1;
+      }
      },
      errorResponse=>{
        console.log("error:",errorResponse);
@@ -221,6 +181,30 @@ itemsPerPage:Number=7;
         this.loadingSpinner=false;
        }
      });
+  }
+  getdeboardedPageData(postData){
+    this.loadingSpinner=true;
+    this.subs.add=this.apiInfoService.getDeboardedVolunteersList(postData).subscribe(data=>{
+      this.deboardedDataSource=data.volunteers;
+      this.deboarded_total=data.volunteers[0].totalVolunteer?data.volunteers[0].totalVolunteer:0;
+      this.noDeboardData.message='';
+      this.loadingSpinner=false;
+      if(postData.pagenumber===0 || postData.pagenumber==='0'){
+        this.p2=1;
+      }
+    },errorResponse=>{
+      console.log("error:",errorResponse);
+      if(errorResponse.error.statusCode ==1){
+       this.deboardedDataSource=[];
+       this.deboarded_total=0;
+       this.noDeboardData.message="No Records Found";
+       this.loadingSpinner=false;
+      }
+    })
+  }
+  getDeboardedPaginationData(e){
+    let postData={status:"Deboarded",limit:this.itemsPerPage,pagenumber:e-1};
+    this.getdeboardedPageData(postData);
   }
   getStates(){
     this.statesList=this.locationService.getStates();
@@ -339,14 +323,6 @@ onChangeState(selectedState) {
       }
       this.getPageData(postData);
   }
-
-    deboarededVolunteerList(){
-        // let postData={status:"Deboarded"};
-    
-    this.subs.add=this.apiInfoService.getDeboardedVolunteersList().subscribe(data=>{
-      this.deboardedDataSource=data.volunteers;
-    })
-}
 
 transferVolunteer(element){
   // this.apiInfoService.populateForm(element);
