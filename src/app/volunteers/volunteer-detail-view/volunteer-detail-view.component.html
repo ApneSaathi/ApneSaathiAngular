@@ -1,9 +1,14 @@
 <div class="volunteerInfo">
     <a class="back-link" (click)="gotoVolunteerList()"><img [src]="base_url+'assets/arrow-left.png'">Back To List</a>
     <div class="volunteerProfile">
-        <div class="profilePic">
-            <img class="person-img" [src]="base_url+'assets/senior-citizen.png'">
-            <span class="person-name">{{volunteerDetailsDataSource.firstName}}</span>
+        <div class="left-block">
+            <div class="profilePic">
+                <img class="person-img" [src]="base_url+'assets/senior-citizen.png'">
+            </div>
+            <div class="person-nameRating">
+                <div class="person-name">{{volunteerDetailsDataSource?.firstName}}</div>
+                <div class="person-rating">{{volunteerDetailsDataSource?.rating}}</div>
+            </div>
         </div>
         <div class="personalInfo">
             <span class="personalInfo-span">Personal Info:</span>
@@ -18,23 +23,23 @@
             <div class="personalDetails">
                 <div class="contactNumber-block">
                     <span class="personalDetails-span">Contact Number: </span>
-                    <span class="personalDetails-value">{{volunteerDetailsDataSource.phoneNo}}</span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource?.phoneNo}}</span>
                 </div>
                 <div class="emailId-block">
                     <span class="personalDetails-span">Email ID: </span>
-                    <span class="personalDetails-value">{{volunteerDetailsDataSource.email}}</span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource?.email}}</span>
                 </div>
                 <div class="state-block">
                     <span class="personalDetails-span">State: </span>
-                    <span class="personalDetails-value">{{volunteerDetailsDataSource.state}}</span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource?.state}}</span>
                 </div>
                 <div class="district-block">
                     <span class="personalDetails-span">District: </span>
-                    <span class="personalDetails-value">{{volunteerDetailsDataSource.district}}</span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource?.district}}</span>
                 </div>
                 <div class="block-block">
                     <span class="personalDetails-span">Block: </span>
-                    <span class="personalDetails-value">{{volunteerDetailsDataSource.block}}</span>
+                    <span class="personalDetails-value">{{volunteerDetailsDataSource?.block}}</span>
                 </div>
             </div>
         </div>
@@ -69,6 +74,17 @@
     </div>
     <div class="srCitizenList-section">
         <span class="srCitizenList-span">Sr.Citizen's List</span>&nbsp;
-        <button mat-button class="srCitizenList-button">+ Add</button>
+        <button mat-button class="srCitizenList-button" (click)="opensrCitizenAssign(volunteerDetailsDataSource)">+ Add</button>
+    </div>
+    <div class="srCitizenList-block">
+        <div class="srCitizenList-item" *ngFor="let srCitizen of assignedCitizensDataSource">
+            <label> 
+                <img [src]="base_url+'assets/user.jpg'" class="image-block">
+                <div class="srCitizenList-info">
+                    <div>{{srCitizen.namesrcitizen}}</div>
+                    <div>{{srCitizen.phonenosrcitizen}}</div>
+                </div>
+            </label>
+        </div>
     </div>
 </div>
