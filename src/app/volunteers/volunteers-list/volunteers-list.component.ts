@@ -166,7 +166,7 @@ itemsPerPage:Number=7;
     this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       console.log(data);
       this.dataSource=data.volunteers;
-      this.active_total=data.volunteers[0].totalVolunteer?data.volunteers[0].totalVolunteer:0;
+      this.active_total=data.totalVolunteers?data.totalVolunteers:0;
       this.noData.message='';
       this.loadingSpinner=false;
       if(postData.pagenumber===0 || postData.pagenumber==='0'){
@@ -187,7 +187,7 @@ itemsPerPage:Number=7;
     this.loadingSpinner=true;
     this.subs.add=this.apiInfoService.getDeboardedVolunteersList(postData).subscribe(data=>{
       this.deboardedDataSource=data.volunteers;
-      this.deboarded_total=data.volunteers[0].totalVolunteer?data.volunteers[0].totalVolunteer:0;
+      this.deboarded_total=data.totalVolunteers?data.totalVolunteers:0;
       this.noDeboardData.message='';
       this.loadingSpinner=false;
       if(postData.pagenumber===0 || postData.pagenumber==='0'){
