@@ -112,6 +112,7 @@ itemsPerPage:Number=7;
  public loadingSpinner:boolean=true;
  public deboarded_total;
  public sortObj:sortObjectInterface={'key':'',type:''};
+ public dialogReference;
  constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
    this.data=Array<any>();
  }
@@ -176,11 +177,14 @@ itemsPerPage:Number=7;
      errorResponse=>{
        console.log("error:",errorResponse);
        if(errorResponse.error.statusCode ==1){
-        this.dataSource=[];
-        this.active_total=0;
-        this.noData.message="No Records Found";
-        this.loadingSpinner=false;
+        this.noData.message="No Records Found"; 
        }
+      else{
+        this.noData.message="Something went wrong";
+      }
+      this.dataSource=[];
+      this.active_total=0;
+      this.loadingSpinner=false;
      });
   }
   getdeboardedPageData(postData){
@@ -196,11 +200,14 @@ itemsPerPage:Number=7;
     },errorResponse=>{
       console.log("error:",errorResponse);
       if(errorResponse.error.statusCode ==1){
-       this.deboardedDataSource=[];
-       this.deboarded_total=0;
        this.noDeboardData.message="No Records Found";
-       this.loadingSpinner=false;
       }
+      else{
+        this.noDeboardData.message="Something went wrong";
+      }
+      this.deboardedDataSource=[];
+      this.deboarded_total=0;
+      this.loadingSpinner=false;
     })
   }
   getDeboardedPaginationData(e){
@@ -435,10 +442,52 @@ transferVolunteer(element){
     };
     this.openGlobalPopup(congigObject);
   }
-  openGlobalPopup(configurationObject){
-    this.dialog.open(GlobalDialogComponent,configurationObject);
+  opeDdeboardVolunteer(volunteer){
+    let congigObject ={
+      data:{
+        heading:"Deboarding Volunteer",
+        feature: "deboardingVolunteer",
+        volunteerObj: volunteer
+      },
+      disableClose:true,
+      width: "50%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      if(dialogResponse.deboardType=='transferCitizens'){
+        this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
+      }
+      else{
+        this.deboardVolunteer(volunteer,dialogResponse.deboardType);
+      }
+    })
   }
- 
+  openGlobalPopup(configurationObject){
+    this.dialogReference=this.dialog.open(GlobalDialogComponent,configurationObject);
+  }
+  openTransferSrCitizens(volunteer,deboardType){
+    let congigObject ={
+      data:{
+        heading:"Volunters list",
+        headingSubscript: "below are the volunteers from the same district",
+        headingRightContent:"The Volunteer getting De-boarded has "+volunteer.count_SrCitizen +" Sr.citizens assigned",
+        feature: "assignSrCitizensEqually",
+        volunteerObj: volunteer
+      },
+      disableClose:true,
+      width: "90%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
+  }
+  deboardVolunteer(volunteer,deboardType){
+
+  }
 
 
   ngOnDestroy(){

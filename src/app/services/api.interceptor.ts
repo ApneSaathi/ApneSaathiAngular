@@ -39,7 +39,7 @@ export class ApiInterceptor implements HttpInterceptor {
         else if(error.message !=''){
           error_message=error.message;
         }
-        if(request.url !="http://15.207.42.209:8080/Volunteer/getVolunteersList")
+        if(request.url !="http://15.207.42.209:8080/Volunteer/getVolunteersList" && error.status!=409)
           this.showNotification({message:error_message}); // ivoking error notification function
         return throwError(error);
       })

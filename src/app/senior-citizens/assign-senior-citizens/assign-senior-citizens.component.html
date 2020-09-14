@@ -1,10 +1,10 @@
 <div [formGroup]="assignCitizenForm">
-<div class="select-all">
+<div class="select-all" *ngIf="noData.message==''">
     <label>
         <mat-checkbox [disabled]="loadingSpinner" color="primary" formControlName="selectAll" (change)="onChangeSelectAll()">Select All</mat-checkbox> 
     </label>
 </div>
-<div class="assign-block" >
+<div class="assign-block" *ngIf="noData.message==''">
     <div class="assign-item"  formArrayName="selectedCitizens" *ngFor="let citizen of srCitizensList; let i=index">
         <label> 
             <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" [ngClass]="{'assign-image-selected-block':assignCitizenForm.controls['selectedCitizens'].controls[i].controls['checked'].value===true}" />
@@ -18,6 +18,10 @@
         </label>
     </div>
 </div>
+<div  *ngIf="noData.message!=''" class="no-data-container">
+    <span class="no-data">{{noData.message}}</span>
+</div>
+
 <div class="loading-spinner" *ngIf="loadingSpinner">
     <mat-spinner [diameter]=50></mat-spinner>
 </div>
