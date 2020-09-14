@@ -8,6 +8,8 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { LocationService } from 'src/app/services/location.service';
 import { environment } from 'src/environments/environment';
+import { VolunteerDetailViewComponent } from '../volunteer-detail-view/volunteer-detail-view.component';
+import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 
 @Component({
   selector: 'app-transfer-volunteer',
@@ -21,88 +23,43 @@ export class TransferVolunteerComponent implements OnInit {
     
   });
 
-// public srCitizensList:object[];
 public dataSource;
 public base_url;
-public enable_assign_button:boolean=true;
-public loadingSpinner:boolean = true;
 public subs= new SubscriptionsContainer();
-public selectedState;
-public selectedDistrict;
-public selectedBlock;
-public displayedColumns=["firstName"];
-
+public selectedState:any;
+public selectedDistrict:any;
+public selectedBlock:any;
 public transferVolunteerDetails:boolean=false;
 selectedId: number;
-
+firstName:any;
+pic:any;
+currentState:any;
+currentDistrict:any;
+currentBlock:any;
 states: {};
 districts: {};
 blocks:{};
 statesList: any;
 districtsList: string[];
 blocksList: any;
-
-firstName:any;
-
-
-
-
+currentVolunteer:VolunteerDetailViewComponent
+volunteerDetailsDataSource:any;
+filterState:any;
+filterDistrict:any;
+filterBlock:any;
+message:string='';
+putData:any;
   constructor(private fb: FormBuilder,private route:ActivatedRoute,
-    private api_info: ApiInfoService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<GlobalDialogComponent>,private locationService:LocationService,private apiInfoService:ApiInfoService,public dialog:MatDialog) { }
 
-   
 
-    transferVolunteer(){
-      console.log("mpq");
-      this.apiInfoService.getVolunteerDetails(this.selectedId).subscribe((data)=>
-      this.dataSource=data.volunteers,
-     
-      // this.firstName=this.dataSource.firstName
-      )
-console.log(this.dataSource);
-
-
-      // let congigObject ={
-      //     data:{
-      //       heading:"Transfer Location of Volunteer",
-      //       feature: "transferVolunteer",
-            
-      //     },
-      //     disableClose:true,
-      //     width: "50%",
-      //     height:"50%",
-      //     autoFocus: false,
-      //     //position:{top:"50px"},
-      //     //height:"500px"
-      //   };
-      //   this.openGlobalPopup(congigObject);
-      }
     
-  
-    // openGlobalPopup(configurationObject){
-    //   this.dialog.open(GlobalDialogComponent,configurationObject);
-    // }
-
-
   ngOnInit(): void {
 
     // parameter defining for API Call 
-    // let postData={status:"Active", idVolunteer:this.volunteerObj }
-    //   this.api_info.getVolunteerDetails(postData).subscribe((data)=>
-    //     this.dataSource=data.volunteers,
 
-
-    //   );
-   
-     
-    //     this.enable_assign_button=true;
-    this.base_url=environment.base_url;
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      let id = parseInt(params.get('id'));
-      this.selectedId = id;
-    });
+    this.selectedId=this.volunteerObj.idvolunteer;
     this.transferVolunteer();
     this.selectedState="State";
     this.selectedDistrict="District";
@@ -110,25 +67,25 @@ console.log(this.dataSource);
     this.getStates();
     console.log(this.selectedId);
   }
+  transferVolunteer(){
+    console.log(this.volunteerObj);
+
+    
+    this.firstName=this.volunteerObj.firstName;
+    this.pic=this.volunteerObj.pic;
+    this.currentState=this.volunteerObj.state;
+    this.currentDistrict=this.volunteerObj.district;
+    this.currentBlock=this.volunteerObj.block;
+    console.log(this.volunteerDetailsDataSource); 
+    console.log(this.volunteerObj);
+
+    }
 
   getStates(){
     this.statesList=this.locationService.getStates();
     console.log(this.statesList);
-    // this.locationService.getStates();
-    // this.getDistricts(selectedState);
     
   }
-
-  // showNotification(notificationData){
-  //   this.snackBar.openFromComponent(NotificationMessageComponent,{
-  //     data:notificationData,
-  //     duration:2000,
-  //     panelClass: "notification-snackbar"
-  //   });
-  // }
-  // ngOnDestroy(){
-  //   this.subs.dispose();
-  // }
   getDistricts(){
     this.districtsList=this.locationService.getDistricts(this.selectedState);
     console.log(this.districtsList);
@@ -143,28 +100,16 @@ onChangeState(selectedState) {
   if(selectedState=="State"){
     selectedState=null;
     let postData={status:"Active"}
-    this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       this.dataSource=data.volunteers;
-    //   this.dataSource.sort=this.sort;
-    // this.dataSource.paginator=this.paginator;
     this.states=data.volunteers.states;
-    // this.totalRecords=data.volunteers.length;
-    // this.resultsLength=data.volunteers.length;
     this.blocksList=null;
-      // this.filterState=null;
       this.districtsList=null;
   });
   }
 if (selectedState) {
     this.getDistricts();
-      let postData={status:"Active",filterState:this.selectedState}
-      this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-        this.dataSource=data.volunteers;
-                }
-      )}
-// else{
-//   console.log("abc");
-//   }
+    }
     }
 
 
@@ -173,26 +118,18 @@ onChangeDistrict(selectedDistrict) {
     this.getDistricts();
     selectedDistrict=null;
     let postData={status:"Active",filterState:this.selectedState}
-    this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       this.dataSource=data.volunteers;
-    //   this.dataSource.sort=this.sort;
-    // this.dataSource.paginator=this.paginator;
-    // this.totalRecords=data.volunteers.length;
-    // this.resultsLength=data.volunteers.length;
     this.blocksList=null;
-      // this.filterState=null;
-      // this.districtsList=null;
+      
   });
  
 }
 
   if (selectedDistrict) {
     this.getBlocks();
-    let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
-    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-      this.dataSource=data.volunteers;
-              }
-    )};
+ 
+  }
 }
 
 
@@ -201,28 +138,70 @@ onChangeBlock(selectedBlock) {
     this.getBlocks();
     selectedBlock=null;
     let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict}
-    this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
+    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       this.dataSource=data.volunteers;
-    //   this.dataSource.sort=this.sort;
-    // this.dataSource.paginator=this.paginator;
-    // this.totalRecords=data.volunteers.length;
-    // this.resultsLength=data.volunteers.length;
-      // this.filterState=null;
+    
       this.blocksList=null;
   });
  
 }
   if (selectedBlock) {
-    let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
-    this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
-      this.dataSource=data.volunteers;
-      // this.filterState=data.volunteers.state;
-      // this.filterDistrict=data.volunteers.district;
-      // this.filterBlock=data.volunteers.block;
-              }
-    )};
+   
+  }
 }
 
+volunteerTransferred(){
+  if(this.transferVolunteerDetails==true){
+    
+    if(this.selectedState && this.selectedDistrict && this.selectedBlock){
+      this.putData={idvolunteer:this.selectedId,state:this.selectedState,district:this.selectedDistrict,block:this.selectedBlock}
+     
+    }
+    else if(this.selectedState && this.selectedDistrict && this.selectedBlock=="Block"){
+      this.selectedBlock=null;
+    this.putData={idVolunteer:this.selectedId,state:this.selectedState,district:this.selectedDistrict,block:this.selectedBlock}
+    
+    }
+    else if(this.selectedState && this.selectedDistrict=="District" && this.selectedBlock=="Block"){
+      this.selectedDistrict=null;
+      this.selectedBlock=null;
+      this.putData={idVolunteer:this.selectedId,state:this.selectedState,district:this.selectedDistrict,block:this.selectedBlock}
+    }
+    this.subs.add=this.apiInfoService.transferVolunteer(this.putData).subscribe((data)=>{
+    this.volunteerDetailsDataSource=data;
+    this.firstName=data.firstName;
+    console.log(data.firstName);
+    // this.message=data.message;
+    // this.volunteerObj=data;
+    console.log(data.message);
+    let message= this.volunteerObj.firstName+" Have been transferred to "+this.selectedState+","+this.selectedDistrict+""+this.selectedBlock+"";
+    if(data && data.message=='Success'){
+      //message="Something went wrong";
+      this.dialogRef.close();
+    }
+    else{
+      //this.dialogRef.close();
+      message="Something went wrong";
+    }
+    this.showNotification({message: message,success:true});
+    
+  });
+    
+}
+  }
+ 
+  ngOnDestroy(){
+    this.subs.dispose();
+  }
+
+
+showNotification(notificationData,duration=2000){
+this.snackBar.openFromComponent(NotificationMessageComponent,{
+  data:notificationData,
+  duration:duration,
+  panelClass: "notification-snackbar"
+});
+}
 
 
 }

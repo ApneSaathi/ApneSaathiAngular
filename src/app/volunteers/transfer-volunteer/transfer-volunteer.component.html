@@ -1,9 +1,6 @@
 <!-- <p>transfer-volunteer works!</p> -->
 
-<!-- <p>ng</p> -->
 <!-- <div [formGroup]="transferVolunteerForm">
-   
-    
     <div class="loading-spinner" *ngIf="loadingSpinner">
         <mat-spinner [diameter]=50></mat-spinner>
     </div>
@@ -12,57 +9,46 @@
         <button mat-flat-button color="primary" class="medium-size-text" [disabled]="enable_assign_button" (click)="transferVolunteer()">Transfer</button>
     </mat-dialog-actions>
     </div> -->
-    <!-- <mat-toolbar>
-        <mat-toolbar-row >
-      <div class="transferVolunteerHeader">
-        <span>Transfer location of Volunteer</span>&nbsp;</div>
-      </mat-toolbar-row>
-      </mat-toolbar> -->
+   
 
-      <!-- <ng-template [ngIf]="data.feature=='transferVolunteer'"> -->
         <mat-grid-list cols="2" rowHeight="2:1">
             <mat-grid-tile>
-                {{selectedId}}
-                <!-- {{firstName}} -->
+                {{pic}}
+                <img src="../../../assets/userVolunteer.png" width="25px" height="25px">
+                {{firstName}}<br>
+                {{currentState}},{{currentDistrict}},{{currentBlock}}
             </mat-grid-tile>
             <mat-grid-tile>
                 <form name="transferVolunteerForm">
     
                     <div class="form-group" >
-                        <!-- <label>State</label> -->
-                        <select class="form-control"  name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)">
+                        <label><b>Select State</b></label><br>
+                        <select class="form-control"  name="state"  [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)" (click)="transferVolunteerDetails=true">
                           <option value="State"   selected="selected">State</option>
                           <option *ngFor="let state of statesList" value="{{state}}">{{state}}</option>
                         </select>
                       </div>
                     <div class="form-group">
+                        <label><b>Select District</b></label><br>
                         <select class="form-control" name="district"  [(ngModel)]="selectedDistrict" (change)="onChangeDistrict($event.target.value)">
                           <option value="District">District</option>
                           <option *ngFor="let district of districtsList" value="{{district}}">{{district}}</option>
                         </select>
                     </div>
                     <div class="form-group">
+                        <label><b>Select Block</b></label><br>
                         <select class="form-control" name="block"  [(ngModel)]="selectedBlock" (change)="onChangeBlock($event.target.value)">
                           <option value="Block" >Block</option>
                           <option *ngFor="let block of blocksList" value="{{block}}">{{block}}</option>
                         </select>
                     </div>
                 
-                
-                
-                    <!--  <mat-tab></mat-tab> -->
-                        <!-- <mat-dialog-actions align="center" class="assign-actions">
-                            <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
-                            <button mat-flat-button color="primary"  class="upload-btn medium-size-text" [disabled]="transferVolunteerDetails==false">Transfer</button>
-                        </mat-dialog-actions>  -->
                     </form>
             </mat-grid-tile>
-           
-            <!-- <mat-grid-tile>3</mat-grid-tile>
-            <mat-grid-tile>4</mat-grid-tile> -->
           </mat-grid-list>
         
-
-        
-            
-        <!-- </ng-template> -->
+          <mat-dialog-actions align="center" class="assign-actions">
+            <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
+            <button mat-flat-button color="primary"  class="upload-btn medium-size-text" [disabled]="transferVolunteerDetails==false" (click)="volunteerTransferred()">Transfer</button>
+        </mat-dialog-actions> 
+  
