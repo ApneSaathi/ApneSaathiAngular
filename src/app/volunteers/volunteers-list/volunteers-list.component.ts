@@ -347,7 +347,15 @@ onChangeState(selectedState) {
       this.getPageData(postData);
   }
 
-transferVolunteer(element){
+    deboarededVolunteerList(){
+        let postData={status:"Deboarded"};
+    
+    this.subs.add=this.apiInfoService.getDeboardedVolunteersList(postData).subscribe(data=>{
+      this.deboardedDataSource=data.volunteers;
+    })
+}
+
+transferVolunteer(volunteer){
   // const dialogConfig=new MatDialogConfig();
   // dialogConfig.disableClose=true;
   // dialogConfig.autoFocus=true;
@@ -356,7 +364,7 @@ transferVolunteer(element){
 
 
   // this.apiInfoService.populateForm(element);
-  console.log(element);
+  console.log(volunteer);
   // const dialogConfig= new MatDialogConfig();
   // dialogConfig.disableClose= true;
   // dialogConfig.autoFocus= true;
@@ -371,17 +379,18 @@ transferVolunteer(element){
     data:{
       heading:"Transfer Location of Volunteer",
       feature: "transferVolunteer",
-      
+      volunteerObj: volunteer
     },
     disableClose:true,
-    width: "50%",
-    height:"50%",
+    width: "60%",
+    height:"60%",
     autoFocus: false,
+
     //position:{top:"50px"},
     //height:"500px"
   };
   this.openGlobalPopup(congigObject);
-
+// this.volunteerDetails(element);
   // let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
   // this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
   //   this.dataSource=data.volunteers;

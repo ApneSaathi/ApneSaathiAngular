@@ -28,13 +28,10 @@
     <ng-template [ngIf]="data.feature=='transferVolunteer'">
         <!-- <p>am</p> -->
         <!-- <app-volunteer-detail-view></app-volunteer-detail-view> -->
-        abc
+        <!-- abc -->
         <!-- <app-volunteers [volunteerObj]="data.volunteerObj"></app-volunteers> -->
         <app-transfer-volunteer [volunteerObj]="data.volunteerObj"></app-transfer-volunteer>
-        <mat-dialog-actions align="center" class="assign-actions">
-            <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
-            <button mat-flat-button color="primary"  class="upload-btn medium-size-text" [disabled]="transferVolunteerDetails==false">Transfer</button>
-        </mat-dialog-actions> 
+        
     </ng-template>
 </div>
 
