@@ -89,9 +89,9 @@ export class ApiInfoService {
 
 
   // deboarded volunteerslist 
-  getDeboardedVolunteersList(): Observable<any> {
+  getDeboardedVolunteersList(postObj): Observable<any> {
   const url = "http://15.207.42.209:8080/Volunteer/getVolunteersList";
-  return this.http.post<any>(url,{status:"Deboarded"});
+  return this.http.post<any>(url,postObj);
 }
 
   fileUpload(inputObject){

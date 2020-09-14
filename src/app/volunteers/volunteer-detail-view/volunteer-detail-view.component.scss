@@ -10,11 +10,19 @@
     display: flex;
     box-shadow: 1px 1px 20px 0px rgb(230,230,230);
 }
+.left-block {
+    width: 20%;
+    border-right: 1px solid gainsboro;
+    display: flex;
+}
 .profilePic {
     display: flex;
+    align-items: center;
     padding: 15px;
-    border-right: 1px solid gainsboro;
-    width: 15%;
+}
+.person-nameRating {
+    width: 100%;
+    margin-top: 22px;
 }
 .personalInfo {
     padding: 15px 0 15px 15px;
@@ -26,13 +34,14 @@
 .person-img {
     width: 40px;
     height: 40px;
-    margin-right: 8px;
     display: flex;
     align-self: center;
 }
 .person-name {
-    display: flex;
-    align-items: center;
+    font-weight: 500;
+}
+.person-rating {
+    color: gold;
     font-weight: 500;
 }
 .action-link {
@@ -182,4 +191,40 @@
     color: black;
     display: flex;
     cursor: pointer;
+}
+.srCitizenList-block{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 25px;
+    justify-content: flex-start;
+    height: 350px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 20px 0px rgb(230,230,230);
+}
+.srCitizenList-item{
+    flex:0 1 20%;
+    margin: 10px;
+    border: 5px solid transparent
+}
+.image-block
+{
+    width:50px;
+    height:50px;
+    border-radius: 50px;
+    float:left;
+    position: relative;
+    top:-2px;
+    left:-10px;
+    z-index:10;
+    border: 2px solid #CCD1D1;
+}
+.srCitizenList-info{
+    margin-left:10px;
+    background-color: #CCD1D1;
+    border-radius: 3%;
+    padding: 4px 0px 4px 25px;
+    position:relative;
+
 }

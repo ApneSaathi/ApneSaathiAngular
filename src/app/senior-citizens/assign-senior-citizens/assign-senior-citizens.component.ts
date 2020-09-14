@@ -50,7 +50,9 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
     let paramsObj={
       url:"http://15.207.42.209:8080/Volunteer/getSrCitizenList",
       postData:{
-        status:"UnAssigned"
+        status:"UnAssigned",
+        filterState: this.volunteerObj.state,
+        filterDistrict: this.volunteerObj.district
       }
     };
     // dynamicPostRequest funcion invoke to get the sr CItizen list from API

@@ -90,3 +90,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     text-align: center;
     justify-content:center;
   }
+  .pagination-container{
+    display:flex;
+    justify-content: space-between;
+  }
+  .show-count{
+    padding:20px;
+  }
+  .gray-text{
+    color:gray;
+  }

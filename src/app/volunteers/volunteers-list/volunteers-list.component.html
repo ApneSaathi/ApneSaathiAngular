@@ -57,7 +57,7 @@
     </mat-toolbar>
 <!-- Volunteers List  -->
 
-<mat-table *ngIf="noData.message==''" [dataSource]="dataSource | paginate:{ itemsPerPage: itemsPerPage, currentPage: p1, id: 'first', totalItems: active_total }" matSort class="mat-elevation-z8"
+<mat-table *ngIf="noData.message==''" [dataSource]="dataSource | paginate:{ itemsPerPage: itemsPerPage, currentPage: p1, id: 'activeVolunteers', totalItems: active_total }" matSort class="mat-elevation-z8"
  matSortActive="rating,count_SrCitizen" matSortDisableClear matSortDirection="desc">
   <!-- Name column -->
   <ng-container matColumnDef="firstName">
@@ -116,8 +116,8 @@
   </ng-container>
  <!-- Actions Column -->
  <ng-container matColumnDef="actions" >
-  <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
-  <mat-cell *matCellDef="let element"> {{actions}}
+  <mat-header-cell *matHeaderCellDef class="header-align-center"> Actions </mat-header-cell>
+  <mat-cell *matCellDef="let element" class="header-align-center"> {{actions}}
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15' class="mouseover-pointer" (click)="opensrCitizenAssign(element)"></button>
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;' (click)="transferVolunteer(element)"><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15' ></button>
     <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
@@ -126,125 +126,104 @@
 </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  <!-- <mat-row *matRowDef="let row of dataSource;let i=index|slice :(page-1)*pageSize:(page-1)*pageSize*pageSize ; columns: displayedColumns;"></mat-row> -->
-  
-     
-  <!-- <mat-row *matRowDef="let row of dataSource |paginate: {
-    id:'listing_pagination',
-    itemsPerPage: 7,
-    currentPage: page, 
-    totalItems: totalRecords
-  }; columns: displayedColumns;"></mat-row> -->
- 
-  </mat-table> 
-  <div align="right" *ngIf="noData.message==''">
-    <pagination-controls previousLabel="" nextLabel="" (pageChange)="p1 = $event;getPaginationData($event)" id="first" class="my-pagination"></pagination-controls>
+  </mat-table>
+   <div class="pagination-container"  *ngIf="noData.message=='' && dataSource?.length > 0">
+    <div class="show-count">
+      <span class="gray-text">Showing </span>{{((p1-1) * itemsPerPage)+1}} - {{((p1-1) * itemsPerPage) + dataSource?.length}}<span class="gray-text"> out of </span>{{active_total}}
+    </div>
+    <div>
+      <pagination-controls previousLabel="" nextLabel="" (pageChange)="p1 = $event;getPaginationData($event)" id="activeVolunteers" class="my-pagination"></pagination-controls>
+    </div>
   </div>
   <div align="center" *ngIf="noData.message!=''" class="no-data-container">
     <span class="no-data">{{noData.message}}</span>
   </div>
-  <!-- <ngx-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="data.length"></ngx-pagination> -->
-  <!-- <div>
-    <pagination-controls id="listing_pagination" maxSize="5" directionlinks="true" (pageChange)="page =$event"></pagination-controls>
-  </div> -->
-<!-- <button (click)="getData()">getUsers</button> -->
-<!-- <ul class="pagination">
-  <li class="page-item">
-<button mat-button><a class="previous" href="#" aria-label="Previous">&laquo;</a></button>
-{{totalRecords}} -->
-<!-- </li> -->
-<!-- <li *ngFor="let i of getArrayFromNumber(dataSource.length);let in=index" class="page-item">
-  <a class="page-link" (click)="updateIndex(in)">{{in+1}}</a>
-</li> -->
-<!-- <li class="page-item">
-  <button mat-button><a class="previous" href="#" aria-label="Previous">&laquo;</a></button>
-</li>
-  <button mat-button ><a class="page-link" href="../volunteers-list/volunteers-list.component.ts" >1</a></button>
-  <button mat-button ><a class="page-link" href="#" >2</a></button>
-  <button mat-button ><a class="page-link" href="#" >3</a></button>
-  <button mat-button><a class="next" href="#">&raquo;</a></button> 
-<!-- </ul>  
- 
-<mat-paginator [length]="100"
-              [pageSize]="7" >
-</mat-paginator> -->
-<!-- {{resultsLength}} -->
 </mat-tab>
 
 
 <mat-tab label="Deboarded Volunteers">
     
 <!-- Volunteers List  -->
-<mat-toolbar>
-  <mat-toolbar-row>
-  <div class="deboardedheader"><span>Deboarded Volunteers List</span></div>
-  </mat-toolbar-row>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <div class="deboardedheader"><span>Deboarded Volunteers List</span></div>
+    </mat-toolbar-row>
   </mat-toolbar>
 
-<mat-table [dataSource]="deboardedDataSource" class="mat-elevation-z8">
-  <!-- Name column -->
-  <ng-container matColumnDef="firstName">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.firstName}} </mat-cell>
+  <mat-table *ngIf="noDeboardData.message==''" [dataSource]="deboardedDataSource | paginate:{ itemsPerPage: itemsPerPage, currentPage: p2, id: 'deboardedVolunteers', totalItems: deboarded_total }" class="mat-elevation-z8">
+    <!-- Name column -->
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.firstName}} </mat-cell>
+    </ng-container>
+
+    <!-- Rating Column -->
+    <ng-container matColumnDef="rating">
+      <mat-header-cell *matHeaderCellDef> Rating </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
+    </ng-container>
+
+    <!-- ContactNumber Column -->
+    <ng-container matColumnDef="phoneNo">
+      <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
+    </ng-container>
+
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+    </ng-container>
+
+    <!-- District Column -->
+    <ng-container matColumnDef="district">
+      <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+    </ng-container>
+
+    <!-- Block Column -->
+    <ng-container matColumnDef="block">
+      <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
+    </ng-container>
+
+
+    <!-- AssignedSrCitizen Column -->
+    <ng-container matColumnDef="count_SrCitizen">
+      <mat-header-cell *matHeaderCellDef> Assigned Sr.citizens </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
+    </ng-container>
+    <!-- <ng-container matColumnDef="count_SrCitizen">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sr.citizens </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
+    </ng-container> -->
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions" >
+    <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
+    <!-- <mat-cell *matCellDef="let element"> {{actions}}
+      <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15'></button>
+      <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15'></button>
+      <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
+        
+    </mat-cell> -->
   </ng-container>
+    <mat-header-row *matHeaderRowDef="deboardedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: deboardedColumns;"></mat-row>
 
-  <!-- Rating Column -->
-  <ng-container matColumnDef="rating">
-    <mat-header-cell *matHeaderCellDef> Rating </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
-  </ng-container>
-
-  <!-- ContactNumber Column -->
-  <ng-container matColumnDef="phoneNo">
-    <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
-  </ng-container>
-
-  <!-- State Column -->
-  <ng-container matColumnDef="state">
-    <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
-  </ng-container>
-
-   <!-- District Column -->
-   <ng-container matColumnDef="district">
-    <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
-  </ng-container>
-
-   <!-- Block Column -->
-   <ng-container matColumnDef="block">
-    <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.block}} </mat-cell>
-  </ng-container>
-
-
-   <!-- AssignedSrCitizen Column -->
-   <ng-container matColumnDef="count_SrCitizen">
-    <mat-header-cell *matHeaderCellDef> Assigned Sr.citizens </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
-  </ng-container>
-  <!-- <ng-container matColumnDef="count_SrCitizen">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Assigned Sr.citizens </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.count_SrCitizen}} </mat-cell>
-  </ng-container> -->
- <!-- Actions Column -->
- <ng-container matColumnDef="actions" >
-  <mat-header-cell *matHeaderCellDef > Actions </mat-header-cell>
-  <!-- <mat-cell *matCellDef="let element"> {{actions}}
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/addUser1.png'" alt='Person' width='15' height='15'></button>
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/transferVolunteer1.png'" alt='Person' width='15' height='15'></button>
-    <button mat-button style='min-width: 15px;padding-right: 6px;padding-left: 6px;'><img [src]="base_url+'assets/deboardUser1.png'" alt='Person' width='15' height='15'></button>
-      
-  </mat-cell> -->
-</ng-container>
-  <mat-header-row *matHeaderRowDef="deboardedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: deboardedColumns;"></mat-row>
-
- 
+  
   </mat-table> 
-
+  <div class="pagination-container"  *ngIf="noDeboardData.message=='' && deboardedDataSource?.length > 0">
+    <div class="show-count">
+      <span class="gray-text">Showing </span>{{((p2-1) * itemsPerPage)+1}} - {{((p2-1) * itemsPerPage) +  deboardedDataSource?.length}}<span class="gray-text"> out of </span>{{deboarded_total}}
+    </div>
+    <div>
+      <pagination-controls previousLabel="" nextLabel="" (pageChange)="p2 = $event;getDeboardedPaginationData($event)" id="deboardedVolunteers" class="my-pagination"></pagination-controls>
+    </div>
+  </div>
+  <div align="center" *ngIf="noDeboardData.message!=''" class="no-data-container">
+    <span class="no-data">{{noData.message}}</span>
+  </div>
 </mat-tab>
 </mat-tab-group>
 
