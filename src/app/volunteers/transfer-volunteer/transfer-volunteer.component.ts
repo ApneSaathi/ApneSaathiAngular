@@ -120,8 +120,8 @@ onChangeDistrict(selectedDistrict) {
     let postData={status:"Active",filterState:this.selectedState}
     this.subs.add=this.apiInfoService.postVolunteersList(postData).subscribe((data) => {
       this.dataSource=data.volunteers;
+    // this.blocksList=null;
     this.blocksList=null;
-      
   });
  
 }
