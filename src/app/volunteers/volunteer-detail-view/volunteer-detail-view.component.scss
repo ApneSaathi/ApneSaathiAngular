@@ -193,7 +193,7 @@
     cursor: pointer;
 }
 .srCitizenList-block{
-    display:flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin: 0 25px;
@@ -204,27 +204,30 @@
     box-shadow: 1px 1px 20px 0px rgb(230,230,230);
 }
 .srCitizenList-item{
-    flex:0 1 20%;
+    flex: 0 1 20%;
     margin: 10px;
     border: 5px solid transparent
 }
 .image-block
 {
-    width:50px;
-    height:50px;
+    width: 50px;
+    height: 50px;
     border-radius: 50px;
-    float:left;
+    float: left;
     position: relative;
-    top:-2px;
-    left:-10px;
-    z-index:10;
+    top: -2px;
+    left: -10px;
+    z-index: 10;
     border: 2px solid #CCD1D1;
 }
 .srCitizenList-info{
-    margin-left:10px;
+    margin-left: 10px;
     background-color: #CCD1D1;
     border-radius: 3%;
     padding: 4px 0px 4px 25px;
-    position:relative;
-
+    position: relative;
+}
+.reviews-block {
+    border-right: 1px solid grey;
+    width: 25%;
 }

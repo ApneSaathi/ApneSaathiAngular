@@ -16,6 +16,7 @@ export class VolunteerDetailViewComponent implements OnInit {
   public base_url;
   public volunteerDetailsDataSource;
   public assignedCitizensDataSource: object[];
+  public ratingsDataSource: object[];
 
   constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog) { }
 
@@ -34,6 +35,8 @@ export class VolunteerDetailViewComponent implements OnInit {
     this.apiInfoService.getVolunteerDetails({id: this.volunteerId}).subscribe((data) => {
       this.volunteerDetailsDataSource = data.volunteerVO;
       this.assignedCitizensDataSource = data.volunteerVO.srCitizenList;
+      this.ratingsDataSource = data.volunteerVO.volunteerRatingList;
+      console.log(this.ratingsDataSource);
     })
   }
 
@@ -61,6 +64,32 @@ export class VolunteerDetailViewComponent implements OnInit {
       autoFocus: false,
     };
     this.openGlobalPopup(configObject);
+  }
+
+  customOptions: any = {
+    loop: true,
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    dots: false,
+    navSpeed: 700,
+    navText: ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+    items: 4,
+    // responsive: {
+    //   0: {
+    //     items: 1
+    //   },
+      // 400: {
+      //   items: 2
+      // },
+      // 740: {
+      //   items: 3
+      // },
+      // 940: {
+      //   items: 4
+      // }
+    // },
+    nav: true
   }
   
 }
