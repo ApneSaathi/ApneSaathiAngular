@@ -62,7 +62,7 @@
   <!-- Name column -->
   <ng-container matColumnDef="firstName">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)" [ngClass]="{'selected': selectedId == element.idvolunteer}"> 
+    <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)"> 
       <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.firstName}} </mat-cell>
   </ng-container>
 
@@ -75,7 +75,18 @@
         <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="(sortObj.key=='rating'&&sortObj.type=='DESC') || sortObj.key!='rating'" [ngClass]="{'sort-desc-active':sortObj.key=='rating'&&sortObj.type=='DESC', 'sort-desc':sortObj.key!='rating'}">arrow_drop_down</mat-icon>
     </span>
     </mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)"> {{element.rating}} </mat-cell>
+    <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)"> 
+      <span class="material-icons rating-icon-list" *ngIf="element.rating == 0">
+          star_outline
+      </span>
+      <span class="material-icons rating-icon-list" *ngIf="element.rating && element.rating < 3.8" [ngClass]="volunteerRatingClass(element)">
+          star_half
+      </span>
+      <span class="material-icons rating-icon-list" *ngIf="element.rating && element.rating >=3.8" [ngClass]="volunteerRatingClass(element)">
+          star
+      </span>
+      {{element.rating}} 
+    </mat-cell>
   </ng-container>
 
   <!-- ContactNumber Column -->
@@ -125,7 +136,7 @@
   </mat-cell>
 </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" class="mouseover-pointer" (mouseover)="selectedId=''" [ngClass]="{'row-active': selectedId == row.idvolunteer}"></mat-row>
   </mat-table>
    <div class="pagination-container"  *ngIf="noData.message=='' && dataSource?.length > 0">
     <div class="show-count">

@@ -193,6 +193,7 @@ table {
 
  .selected {
   border-left: 3px solid red;
+
  }
  .no-data{
    font-size: 20px;
@@ -202,3 +203,15 @@ table {
 //  .mouseover-pointer::hover{
 //    text-justify: auto;
 //  }
+.mat-row, .mat-header-row, .mat-footer-row{
+  margin: 10px;
+  border-radius: 1px;
+  box-shadow: 1px 1px 1px 1px #80808026;
+}
+.mat-header-cell{
+  white-space: nowrap;
+}
+.mat-row:hover,.row-active{
+  border-left: 3px solid red;
+  box-shadow: 5px 1px 5px 5px #8080804f;
+}

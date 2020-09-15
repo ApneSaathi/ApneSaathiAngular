@@ -38,7 +38,12 @@ export class AssignVolunteersComponent implements OnInit {
   get selectedVolunteers(){
     return this.assignVolunteerForm.get('selectedVolunteers') as FormArray;
   }
-
+  volunteerRatingClass(volunteer){
+    return {
+      'rating-icon-red': volunteer.rating > 0 && volunteer.rating <= 3,
+      'rating-icon-yellow': volunteer.rating > 0  && volunteer.rating > 3
+    }
+  }
   ngOnInit(): void {
     this.base_url= environment.base_url;
     this.getVolunteersForAssignment();
@@ -58,7 +63,7 @@ export class AssignVolunteersComponent implements OnInit {
       //console.log(element);
       this.selectedVolunteers.push(
         this.fb.group({
-          id: [element['idVolunteer']],
+          id: [element['idvolunteer']],
           checked:[false]
         })
         );
@@ -70,7 +75,8 @@ export class AssignVolunteersComponent implements OnInit {
       postData:{
         status:"Active",
         filterState: this.volunteerObj.state,
-        filterDistrict: this.volunteerObj.district
+        filterDistrict: this.volunteerObj.district,
+        excludeIds:[this.volunteerObj.idvolunteer]
       }
     };
     this.loadingSpinner=true;
@@ -130,7 +136,7 @@ export class AssignVolunteersComponent implements OnInit {
     });
   }
   shareCitizens(){
-
+    console.log(this.assignVolunteerForm.value)
   }
   showNotification(notificationData){
     this.snackBar.openFromComponent(NotificationMessageComponent,{

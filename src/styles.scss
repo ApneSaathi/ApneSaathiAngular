@@ -198,3 +198,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .assign-actions{
       border-top:1px solid #CCD1D1
   }
+  // Rating Icon
+  .material-icons.rating-icon{
+    position: relative;
+    font-size:16px;
+    top: 3px;
+  }
+  .material-icons.rating-icon-list{
+    position: relative;
+    font-size:16px;
+  }
+  .rating-icon-red{
+    color:orangered
+  }
+  .rating-icon-yellow{
+    color:yellow
+  }

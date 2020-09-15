@@ -10,7 +10,18 @@
                 <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" [ngClass]="{'assign-image-selected-block':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true}" />
                 <div class="assign-info" [formGroupName]="i" [ngClass]="{'assign-info-checked':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true}">
                     <mat-checkbox  [disabled]="loadingSpinner" color="primary" class="list-card-checkbox" formControlName="checked" (change)="onchecked($event)" [value]="volunteer.id" [ngClass]="{'display-checkbox':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true,'display-none':!assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value}" ></mat-checkbox>
-                    <div>{{volunteer.firstName}} </div>
+                    <div>{{volunteer.firstName}} 
+                        <span class="material-icons rating-icon" *ngIf="volunteer.rating == 0">
+                            star_outline
+                        </span>
+                        <span class="material-icons rating-icon" *ngIf="volunteer.rating && volunteer.rating < 3.8" [ngClass]="volunteerRatingClass(volunteer)">
+                            star_half
+                        </span>
+                        <span class="material-icons rating-icon" *ngIf="volunteer.rating && volunteer.rating >= 3.8" [ngClass]="volunteerRatingClass(volunteer)">
+                            star
+                        </span>
+                        {{volunteer.rating}} 
+                    </div>
                     <div><span class="gray-text">Sr.Citizens Assigned </span>{{volunteer.count_SrCitizen}}</div>
                     
                 </div>

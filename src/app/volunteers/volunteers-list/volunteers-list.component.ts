@@ -148,6 +148,12 @@ itemsPerPage:Number=7;
     let deboardedPostData={status:"Deboarded",limit:this.itemsPerPage,pagenumber:0};
     this.getdeboardedPageData(deboardedPostData);
   }
+  volunteerRatingClass(volunteer){
+    return {
+      'rating-icon-red': volunteer.rating > 0 && volunteer.rating <= 3,
+      'rating-icon-yellow': volunteer.rating > 0  && volunteer.rating > 3
+    }
+  }
   getPaginationData(e){
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:e-1};
     if(this.selectedState){
