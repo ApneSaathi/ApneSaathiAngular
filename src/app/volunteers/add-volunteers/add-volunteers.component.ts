@@ -49,9 +49,9 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
     this.uploadError.fileNameError=false;
     this.uploadError.fileSizeError=false;
     this.upload_display_file_name=this.selectedFile.name.length > 20? "..."+this.selectedFile.name.substr(this.selectedFile.name.length - 20):this.selectedFile.name;
-    // if(fileExtension.toLowerCase()!='csv'){
-    //   this.uploadError.fileTypeError=true;
-    // }
+    if(fileExtension.toLowerCase()!='csv'){
+      this.uploadError.fileTypeError=true;
+    }
     //else 
     if(/\s/g.test(this.selectedFile.name)){
       this.uploadError.fileNameError=true;

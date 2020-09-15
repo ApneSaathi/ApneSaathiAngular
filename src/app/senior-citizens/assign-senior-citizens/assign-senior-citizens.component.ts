@@ -25,6 +25,7 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
   public enable_assign_button:boolean=true;
   public loadingSpinner:boolean = true;
   public subs= new SubscriptionsContainer();
+  public noData={message:''}
   constructor(
     private fb: FormBuilder,
     private api_info: ApiInfoService,
@@ -61,6 +62,16 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
       this.srCitizensList=data.srCitizenList;
       this.addSelectedCitizens();
       this.loadingSpinner=false;
+      this.noData.message='';
+    },errorData=>{
+        if(errorData.error.totalSrCitizen===0 ||errorData.error.totalSrCitizen==='0'){
+          this.noData.message="No Records Found";
+        }
+        else{
+          this.noData.message="Something went wrong";
+        }
+        this.loadingSpinner=false;
+        this.srCitizensList=[];
     });
     this.subs.add=this.assignCitizenForm.get('selectedCitizens').valueChanges
     .subscribe(value=> {

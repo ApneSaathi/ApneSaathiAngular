@@ -132,4 +132,11 @@ export class ApiInfoService {
     return event.body;
   }
 
+
+  // transferVolunteer
+  transferVolunteer(putData): Observable<any> {
+    const url = "http://15.207.42.209:8080/Volunteer/transferVolunteer";
+    return this.http.put<any>(url,putData);
+  }
+
 }

@@ -1,0 +1,44 @@
+<div [formGroup]="assignVolunteerForm">
+    <div class="select-all" *ngIf="noData.message==''">
+        <label>
+            <mat-checkbox [disabled]="loadingSpinner" color="primary" formControlName="selectAll" (change)="onChangeSelectAll()">Select All</mat-checkbox> 
+        </label>
+    </div>
+    <div class="assign-block" *ngIf="noData.message==''">
+        <div class="assign-item"  formArrayName="selectedVolunteers" *ngFor="let volunteer of volunteersList; let i=index">
+            <label> 
+                <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" [ngClass]="{'assign-image-selected-block':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true}" />
+                <div class="assign-info" [formGroupName]="i" [ngClass]="{'assign-info-checked':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true}">
+                    <mat-checkbox  [disabled]="loadingSpinner" color="primary" class="list-card-checkbox" formControlName="checked" (change)="onchecked($event)" [value]="volunteer.id" [ngClass]="{'display-checkbox':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true,'display-none':!assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value}" ></mat-checkbox>
+                    <div>{{volunteer.firstName}} 
+                        <span class="material-icons rating-icon" *ngIf="volunteer.rating == 0">
+                            star_outline
+                        </span>
+                        <span class="material-icons rating-icon" *ngIf="volunteer.rating && volunteer.rating < 3.8" [ngClass]="volunteerRatingClass(volunteer)">
+                            star_half
+                        </span>
+                        <span class="material-icons rating-icon" *ngIf="volunteer.rating && volunteer.rating >= 3.8" [ngClass]="volunteerRatingClass(volunteer)">
+                            star
+                        </span>
+                        {{volunteer.rating}} 
+                    </div>
+                    <div><span class="gray-text">Sr.Citizens Assigned </span>{{volunteer.count_SrCitizen}}</div>
+                    
+                </div>
+                
+            </label>
+        </div>
+    </div>
+    <div  *ngIf="noData.message!=''" class="no-data-container">
+        <span class="no-data">{{noData.message}}</span>
+    </div>
+    
+    <div class="loading-spinner" *ngIf="loadingSpinner">
+        <mat-spinner [diameter]=50></mat-spinner>
+    </div>
+    <mat-dialog-actions align="center" class="assign-actions">
+        <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
+        <button mat-flat-button color="primary" class="medium-size-text" [disabled]="enable_assign_button" (click)="shareCitizens()">Assign Equally</button>
+    </mat-dialog-actions>
+    </div>
+    

@@ -10,10 +10,12 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { VolunteerDetailViewComponent } from './volunteer-detail-view/volunteer-detail-view.component';
 import { AddVolunteersComponent } from './add-volunteers/add-volunteers.component';
 import { TransferVolunteerComponent } from './transfer-volunteer/transfer-volunteer.component';
+import { DeBoardVolunteerComponent } from './de-board-volunteer/de-board-volunteer.component';
+import { AssignVolunteersComponent } from './assign-volunteers/assign-volunteers.component';
 
 
 @NgModule({
-  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent, TransferVolunteerComponent],
+  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent, TransferVolunteerComponent, DeBoardVolunteerComponent, AssignVolunteersComponent],
 
   imports: [
     CommonModule,
@@ -24,6 +26,6 @@ import { TransferVolunteerComponent } from './transfer-volunteer/transfer-volunt
     NgxPaginationModule,
     FormsModule
   ],
-  exports:[AddVolunteersComponent,TransferVolunteerComponent]
+  exports:[AddVolunteersComponent,TransferVolunteerComponent,DeBoardVolunteerComponent,AssignVolunteersComponent]
 })
 export class VolunteersModule { }

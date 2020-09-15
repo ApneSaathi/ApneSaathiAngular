@@ -4,3 +4,17 @@
     color: #FFFFFF;
     margin: -24px -24px 24px -24px;
 }
+.subscript-text{
+    margin-top: -19px;
+}
+.heading-subs-right-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 0px !important;
+}
+.heading-right-content{
+    font-size:13px;
+    font-weight:100;
+    padding-top: 5px;
+}
