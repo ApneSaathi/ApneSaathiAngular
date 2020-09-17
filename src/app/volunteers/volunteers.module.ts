@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {CarouselModule} from 'ngx-owl-carousel-o';
 import { VolunteersRoutingModule } from './volunteers-routing.module';
 import { VolunteersComponent } from './volunteers.component';
 import { VolunteersListComponent } from './volunteers-list/volunteers-list.component';
@@ -19,6 +19,7 @@ import { AssignVolunteersComponent } from './assign-volunteers/assign-volunteers
 
   imports: [
     CommonModule,
+    CarouselModule,
     VolunteersRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
