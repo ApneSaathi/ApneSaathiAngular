@@ -28,7 +28,6 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.volunteerId = id;
     });
     this.fetchDetails();
-
   }
 
   fetchDetails() {
@@ -36,8 +35,14 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.volunteerDetailsDataSource = data.volunteerVO;
       this.assignedCitizensDataSource = data.volunteerVO.srCitizenList;
       this.ratingsDataSource = data.volunteerVO.volunteerRatingList;
-      console.log(this.ratingsDataSource);
     })
+  }
+
+  volunteerRating(){
+    return {
+      'rating-icon-red': this.volunteerDetailsDataSource.rating > 0 && this.volunteerDetailsDataSource.rating <= 3,
+      'rating-icon-yellow': this.volunteerDetailsDataSource.rating > 0  && this.volunteerDetailsDataSource.rating > 3
+    }
   }
 
   gotoVolunteerList() {
@@ -66,6 +71,7 @@ export class VolunteerDetailViewComponent implements OnInit {
     this.openGlobalPopup(configObject);
   }
 
+  // owl carousel code here
   customOptions: any = {
     loop: true,
     mouseDrag: false,

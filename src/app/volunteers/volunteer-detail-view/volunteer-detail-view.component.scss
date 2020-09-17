@@ -41,7 +41,7 @@
     font-weight: 500;
 }
 .person-rating {
-    color: gold;
+    color: yellow;
     font-weight: 500;
 }
 .action-link {
@@ -69,12 +69,12 @@
 .district-block {
     display: inline-block;
     margin-right: 14px;
-    width: 15%;
+    width: 14%;
 }
 .block-block {
     display: inline-block;
     margin-right: 14px;
-    width: 12%;
+    width: 14%;
 }
 .personalDetails-span {
     color: darkgray;
@@ -230,4 +230,7 @@
 .reviews-block {
     border-right: 1px solid grey;
     width: 25%;
+}
+.material-icons.rating-icon-list {
+    top: 3px;
 }
