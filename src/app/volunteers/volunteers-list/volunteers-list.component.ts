@@ -486,7 +486,7 @@ transferVolunteer(volunteer){
   openTransferSrCitizens(volunteer,deboardType){
     let congigObject ={
       data:{
-        heading:"Volunters list",
+        heading:"Volunteers list",
         headingSubscript: "below are the volunteers from the same district",
         headingRightContent:"The Volunteer getting De-boarded has "+volunteer.count_SrCitizen +" Sr.citizens assigned",
         feature: "assignSrCitizensEqually",

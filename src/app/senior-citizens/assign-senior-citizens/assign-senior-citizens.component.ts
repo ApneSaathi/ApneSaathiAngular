@@ -7,6 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 import { SubscriptionsContainer } from 'src/app/subscriptions-container';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-assign-senior-citizens',
@@ -30,7 +31,9 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private api_info: ApiInfoService,
     private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<GlobalDialogComponent>) { }
+    private dialogRef: MatDialogRef<GlobalDialogComponent>,
+    private shared_service: SharedService
+    ) { }
   get selectedCitizens(){
     return this.assignCitizenForm.get('selectedCitizens') as FormArray;
   }
@@ -171,8 +174,8 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
       postData:{
         idvolunteer:this.volunteerObj.idvolunteer,
         //idvolunteer:this.volunteerObj.contactNumber,
-        role:"1",
-        adminId:"2",
+        role:this.shared_service.loginUser.adminId,
+        adminId:this.shared_service.loginUser.role,
         srCitizenList:finalListIds
       }
     };
