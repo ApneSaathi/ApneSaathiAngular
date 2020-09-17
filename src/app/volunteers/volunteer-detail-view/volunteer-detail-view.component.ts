@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {ApiInfoService} from 'src/app/services/api-info.service';
@@ -12,22 +12,31 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class VolunteerDetailViewComponent implements OnInit {
 
+  // @Input() progress: number;
+  // @Input() total: number;
+  // color: string;
+
   public volunteerId;
   public base_url;
   public volunteerDetailsDataSource;
   public assignedCitizensDataSource: object[];
   public ratingsDataSource: object[];
+  public volunteerCallListDataSource: object[];
+  public volunteerCallListLength;
+  //public volunteersListDataSource;
+  public width;
 
   constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-
+    this.width = 80;
     this.base_url=environment.base_url;
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = parseInt(params.get('id'));
       this.volunteerId = id;
     });
     this.fetchDetails();
+    //this.fetchVolunteersList();
   }
 
   fetchDetails() {
@@ -35,7 +44,19 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.volunteerDetailsDataSource = data.volunteerVO;
       this.assignedCitizensDataSource = data.volunteerVO.srCitizenList;
       this.ratingsDataSource = data.volunteerVO.volunteerRatingList;
+      this.volunteerCallListDataSource = data.volunteerVO.volunteercallList;
     })
+  }
+
+  // fetchVolunteersList() {
+  //   this.apiInfoService.postVolunteersList({"status": "Active"}).subscribe((data) => {
+  //     this.volunteersListDataSource = data.volunteers;
+  //     console.log(this.volunteersListDataSource);
+  //   })
+  // }
+
+  totalCalls() {
+    this.volunteerCallListLength = this.volunteerCallListDataSource.length;
   }
 
   volunteerRating(){
@@ -54,6 +75,7 @@ export class VolunteerDetailViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.fetchDetails();
+      //this.fetchVolunteersList();
     });
   }
 
@@ -71,31 +93,19 @@ export class VolunteerDetailViewComponent implements OnInit {
     this.openGlobalPopup(configObject);
   }
 
-  // owl carousel code here
-  customOptions: any = {
-    loop: true,
-    mouseDrag: false,
-    touchDrag: false,
-    pullDrag: false,
-    dots: false,
-    navSpeed: 700,
-    navText: ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
-    items: 4,
-    // responsive: {
-    //   0: {
-    //     items: 1
-    //   },
-      // 400: {
-      //   items: 2
-      // },
-      // 740: {
-      //   items: 3
-      // },
-      // 940: {
-      //   items: 4
-      // }
-    // },
-    nav: true
+  transferVolunteer(volunteer) {
+    let configObject ={
+      data:{
+        heading:"Transfer Location of Volunteer",
+        feature: "transferVolunteer",
+        volunteerObj: volunteer
+      },
+      disableClose:true,
+      width: "60%",
+      height:"60%",
+      autoFocus: false,
+    };
+    this.openGlobalPopup(configObject);
   }
   
 }
