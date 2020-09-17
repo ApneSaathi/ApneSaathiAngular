@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
     <div class="progressReviews">
         <div class="progressSummary">
             <div class="progressSummary-title">
@@ -78,24 +78,25 @@
                 <button class="addReview-button">+</button>
                 <a class="viewAll-link" routerLink="">View All</a>
             </div>
-            <div class="reviewsRatings" *ngFor="let ratings of ratingsDataSource">
-                <div class="reviews-block">
-                    <owl-carousel-o [options]="customOptions" *ngFor="let ratings of ratingsDataSource">
-                        <ng-template carouselSlide>
-                            <div class="rating-block">
-                                <div class="rating">{{ratings.rating}}</div>
+            <div class="reviews-block">
+                <owl-carousel-o [options]="customOptions">
+                    <ng-template carouselSlide *ngFor="let rating_item of ratingsDataSource">
+                        <div class="review-item">
+                            <div>
+                                <span class="material-icons rating-icon" [ngClass]="review_star.startColor" *ngFor="let review_star of getFullStarsArray(rating_item)">
+                                    {{review_star.starType}}
+                                </span>
+                                {{rating_item.rating}} 
                             </div>
-                            <div class="adminName-block">
-                                <span class="rating-span">By: </span>
-                                <span class="rating-value">{{ratings.adminName}}</span>
+                            <div>
+                                <span class="gray-text">By: </span>{{rating_item.adminName}}
                             </div>
-                            <div class="ratedOn-block">
-                                <span class="rating-span">On: </span>
-                                <span class="rating-value">{{ratings.ratedOn}}</span>
+                            <div>
+                                <span class="gray-text">On: </span>{{rating_item.ratedOn | date:'dd-MMM-yyyy'}}
                             </div>
-                        </ng-template>
-                    </owl-carousel-o>
-                </div>
+                        </div>
+                      </ng-template>
+                </owl-carousel-o>
             </div>
         </div>
     </div>
