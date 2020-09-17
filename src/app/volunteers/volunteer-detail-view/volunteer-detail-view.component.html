@@ -8,16 +8,10 @@
             <div class="person-nameRating">
                 <div class="person-name">{{volunteerDetailsDataSource?.firstName}}</div>
                 <div class="person-rating">
-                    <span class="material-icons rating-icon-list" *ngIf="volunteerDetailsDataSource.rating == 0">
-                        star_outline
+                    <span class="material-icons rating-icon-list" [ngClass]="review_star.startColor" *ngFor="let review_star of getFullStarsArray(volunteerDetailsDataSource)">
+                        {{review_star.starType}}
                     </span>
-                    <span class="material-icons rating-icon-list" *ngIf="volunteerDetailsDataSource.rating && volunteerDetailsDataSource.rating < 3.8" [ngClass]="volunteerRating()">
-                        star_half
-                    </span>
-                    <span class="material-icons rating-icon-list" *ngIf="volunteerDetailsDataSource.rating && volunteerDetailsDataSource.rating >= 3.8" [ngClass]="volunteerRating()">
-                        star
-                    </span>
-                    {{volunteerDetailsDataSource?.rating}}
+                    {{volunteerDetailsDataSource.rating}}
                 </div>
             </div>
         </div>

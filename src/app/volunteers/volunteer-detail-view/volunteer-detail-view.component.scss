@@ -14,11 +14,12 @@
     width: 20%;
     border-right: 1px solid gainsboro;
     display: flex;
+    padding: 10px;
 }
 .profilePic {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding-right: 10px;
 }
 .person-nameRating {
     //width: 100%;
@@ -42,6 +43,9 @@
 }
 .person-name {
     font-weight: 500;
+    position: relative;
+    top: 4px;
+    left: 2px;
 }
 .person-rating {
     color: yellow;
@@ -310,8 +314,10 @@
     background-color: white;
     //display:flex;
     position: absolute;
-    top: 40%;
-    height:100%;
+    top: 25%;
+    height:83px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 20px 0px #e6e6e6;
 }
 .review-item{
     display:flex;
@@ -352,4 +358,7 @@
 ::ng-deep .owl-dots .owl-dot.active span,.owl-dots .owl-dot:hover span{
     background: #FF3D00 !important;
     opacity: 0.4 !important;
+}
+::ng-deep .owl-theme .owl-nav.disabled + .owl-dots{
+    margin-top: 22px;
 }
