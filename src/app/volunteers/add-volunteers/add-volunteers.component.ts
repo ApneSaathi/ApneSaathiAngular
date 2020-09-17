@@ -97,7 +97,7 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
       }
     );
   }
-  showNotification(notificationData,duration=2000){
+  showNotification(notificationData,duration=5000){
     this.snackBar.openFromComponent(NotificationMessageComponent,{
       data:notificationData,
       duration:duration,

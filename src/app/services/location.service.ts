@@ -31,7 +31,7 @@ getBlocks(selectedState,selectedDistrict){
           "Balrampur","Gaindaz Buzurg","Gaisadi","Pachperwa","Rehra Bazar","Shivpura",
           "Sriduttganj","Tulsipur","Utraula"
             ],
-        "Bahraich":[
+        "Behraich":[
           "Balha","Chittaura","Fakhar Pur ","Hujur Pur","Jarwal","Kaiser Ganj","Mahsi","Mihin Purva","Nagar Area","Nawab Ganj","Payagpur","Risia","Shiv Pur","Tajwa Pur","Visheshwar Ganj"
             ],
         "Chitrakoot":[

@@ -116,7 +116,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding:10px 30px 30px 30px;
     //margin-left: 100px
     justify-content: flex-start;
-    height: 350px;
+    min-height: 80px;
+    max-height: 350px;
     overflow-y: scroll;
 }
 .assign-item{
