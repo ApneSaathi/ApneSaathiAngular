@@ -107,23 +107,23 @@ export class AssignVolunteersComponent implements OnInit {
    */
   getSrCitizensList(){
     let paramsObj={
-      url:"http://15.207.42.209:8080/Volunteer/getVolunteerDetails",
+      url:"http://15.207.42.209:8080/Volunteer/srCitizenByVolunteer",
       postData:{id: this.volunteerObj.idvolunteer}
     };
     this.subs.add = this.api_info.dynamicPostRequest(paramsObj).subscribe(response=>{
       console.log(response);
-      if(response.message=='Success' && response.statusCode ==0 && typeof response.volunteerVO.srCitizenList!='undefined' &&  response.volunteerVO.srCitizenList.length > 0 ){
-        this.srCitizensList= response.volunteerVO.srCitizenList;
+      if(response.message=='Success' && response.statusCode ==0 && typeof response.srCitizenList!='undefined' &&  response.srCitizenList.length > 0 ){
+        this.srCitizensList= response.srCitizenList;
         console.log("Assigned Citizens:",this.srCitizensList);
         this.noData.message="";
       }
       else{
-        this.noData.message="No Senior Citizens Assigned to the Volunteer..!";
+        this.noData.message="No Senior Citizens found..!";
       }
     },
     errorResponse=>{
       if(errorResponse.status == 409){
-        this.noData.message="No Senior Citizens Assigned to the Volunteer..!";
+        this.noData.message="No Senior Citizens found..!";
       }
       else{
         this.noData.message="Something went wrong.!";
@@ -193,27 +193,29 @@ export class AssignVolunteersComponent implements OnInit {
     };
     // dynamicPostRequest funcion invoke to get the sr CItizen list from API
     console.log("Post Data:",assignParamsObj);
-    let message= this.volunteerObj.count_SrCitizen;
-    message+=this.volunteerObj.count_SrCitizen > 1?' volunteers':' volunteer';
-    message+=" of "+this.volunteerObj.firstName+" has been transferred to others and deboarded ";
-    message+=this.volunteerObj.gender=='M'?'him':'her';
-    message+=" successfully.";
-    this.showNotification({message: message,success:true});
-    // this.subs.add=this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
-    //   this.loadingSpinner=false;
-    //   console.log("Assign Response",data);
-    //   let message= this.volunteerObj.count_SrCitizen+ this.volunteerObj.count_SrCitizen > 1?' volunteers':' volunteer'+" of "+this.volunteerObj.firstName+" has been transferred to others and deboarded "+ this.volunteerObj.gender=='M'?'him':'her' +"successfully.";
-    //   if(data && data.message=='Success'){
-    //     //message="Something went wrong";
-    //     this.dialogRef.close();
-    //   }
-    //   else{
-    //     //this.dialogRef.close();
-    //     message="Something went wrong";
-    //   }
-    //   this.showNotification({message: message,success:true});
-    // },
-    // )
+    let message= '';
+    this.subs.add=this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
+      let success=false;
+      console.log("Assign Response",data);
+      //let message= this.volunteerObj.count_SrCitizen+ this.volunteerObj.count_SrCitizen > 1?' volunteers':' volunteer'+" of "+this.volunteerObj.firstName+" has been transferred to others and deboarded "+ this.volunteerObj.gender=='M'?'him':'her' +"successfully.";
+      if(data && data.message=='Success'){
+        //message="Something went wrong";
+        this.dialogRef.close({transfer:true});
+        success=true;
+      }
+      else{
+        //this.dialogRef.close();
+        message="Something went wrong";
+        this.showNotification({message: message,success});
+      }
+    },
+    errorResponse=>{
+      message="Something went wrong";
+      this.showNotification({message: message,success:false});
+    },
+    ()=>{
+      this.loadingSpinner=false;
+    })
   }
   showNotification(notificationData,duration=5000){
     this.snackBar.openFromComponent(NotificationMessageComponent,{

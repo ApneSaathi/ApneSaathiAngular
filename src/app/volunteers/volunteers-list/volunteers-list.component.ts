@@ -19,6 +19,8 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { VolunteersComponent } from '../volunteers.component';
 import { identifierModuleUrl } from '@angular/compiler';
 import { SubscriptionsContainer } from 'src/app/subscriptions-container';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 
 export interface DeboarededVolunteers {
   name: string; 
@@ -113,7 +115,10 @@ itemsPerPage:Number=7;
  public deboarded_total;
  public sortObj:sortObjectInterface={'key':'',type:''};
  public dialogReference;
- constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService) {
+ public srCitizensToUnassign:any[];
+ constructor(public dialog:MatDialog,private apiInfoService:ApiInfoService, private route:ActivatedRoute, private router:Router,private locationService:LocationService,
+  private snackBar: MatSnackBar,
+  ) {
    this.data=Array<any>();
  }
 //  private dialogRef:MatDialogRef<VolunteersComponent>
@@ -476,7 +481,7 @@ transferVolunteer(volunteer){
         this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
       }
       else{
-        this.deboardVolunteer(volunteer,dialogResponse.deboardType);
+        this.unAssignCitizens(volunteer,dialogResponse.deboardType);
       }
     })
   }
@@ -499,12 +504,91 @@ transferVolunteer(volunteer){
       //height:"500px"
     };
     this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      console.log("Dialog Response:",dialogResponse);
+      if(dialogResponse.transfer){
+        let message="Transfer success";
+        this.deboardVolunteer(volunteer,deboardType);
+      }
+      else{
+        let message="Transfer of Volunteers failed or cancelled";
+        this.showNotification({message,success:false})
+      }
+    })
+  }
+  unAssignCitizens(volunteer,deboardType){
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/srCitizenByVolunteer",
+      postData:{id: volunteer.idvolunteer}
+    };
+    this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      let message='';
+      if(response.message=='Success' && response.statusCode ==0 && typeof response.srCitizenList!='undefined' &&  response.srCitizenList.length > 0 ){
+        this.srCitizensToUnassign= response.srCitizenList;
+        console.log("Assigned Citizens:",this.srCitizensToUnassign);
+      }
+      else{
+        message="No Senior Citizens found..!";
+        this.showNotification({message,success:false});
+      }
+    },
+    errorResponse=>{
+      let message='';
+      if(errorResponse.status == 409){
+        message="No Senior Citizens found..!";
+      }
+      else{
+        message="Something went wrong.!";
+      }
+      this.showNotification({message,success:false});
+      this.srCitizensToUnassign=[];
+    });
   }
   deboardVolunteer(volunteer,deboardType){
-
+    let message='';
+    message= volunteer.count_SrCitizen;
+    message+=volunteer.count_SrCitizen > 1?' sr.citizens':' sr.citizen';
+    if(deboardType=='transferCitizens'){
+      
+      message+=" of "+volunteer.firstName+" has been transferred to others and deboarded ";
+    }
+    else{
+      message+=" of "+volunteer.firstName+" has been Unassigned and deboarded ";
+    }
+    message+=volunteer.gender=='M'?'him':'her';
+    message+=" successfully.";
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/deboardVolunteer",
+      postData:{id: volunteer.idvolunteer}
+    };
+    this.loadingSpinner=true;
+    this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      if(response.message=='Success' && response.statusCode ==0){
+        this.showNotification({message,success:true});
+      }
+      else{
+        message="Deboard has been failed but Transfer/Unassigning of sr.citizens has been done";
+        this.showNotification({message,success:false});
+      }
+    },
+    errorResponse=>{
+      message="Deboard has been failed but Transfer/Unassigning of sr.citizens has been done";
+      this.showNotification({message,success:false});
+    },
+    ()=>{
+      this.loadingSpinner=false;
+    });
   }
 
-
+  showNotification(notificationData,duration=5000){
+    this.snackBar.openFromComponent(NotificationMessageComponent,{
+      data:notificationData,
+      duration:duration,
+      panelClass: "notification-snackbar"
+    });
+  }
   ngOnDestroy(){
     this.subs.dispose();
   }

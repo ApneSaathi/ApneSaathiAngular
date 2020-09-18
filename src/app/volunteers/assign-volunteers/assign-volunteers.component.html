@@ -38,7 +38,7 @@
     </div>
     <mat-dialog-actions align="center" class="assign-actions">
         <button mat-flat-button mat-dialog-close class="medium-size-text">Cancel</button>
-        <button mat-flat-button color="primary" class="medium-size-text" [disabled]="enable_assign_button" (click)="shareCitizens()">Assign Equally</button>
+        <button mat-flat-button color="primary" class="medium-size-text" [disabled]="enable_assign_button && !srCitizensList?.length" (click)="shareCitizens()">Assign Equally</button>
     </mat-dialog-actions>
     </div>
     
