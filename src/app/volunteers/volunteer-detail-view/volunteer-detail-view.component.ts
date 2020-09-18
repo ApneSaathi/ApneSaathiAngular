@@ -127,10 +127,11 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.countCompleted = this.statusCompleted.length;
       this.countPending = this.statusPending.length;
       this.countNeedFollowup = this.statusNeedFollowup.length;
-    
-      this.percentCompleted = Math.round((this.countCompleted / this.totalCalls) * 100);
-      this.percentPending = Math.round((this.countPending / this.totalCalls) * 100);
-      this.percentNeedFollowup = Math.round((this.countNeedFollowup / this.totalCalls) * 100);
+      
+      this.percentCompleted = this.countCompleted>0?Math.round((this.countCompleted / this.totalCalls) * 100):0;
+      //this.percentPending = this.countPending > 0 ?Math.round((this.countPending / this.totalCalls) * 100):0;
+      let tempPercentNeedFollowup = this.countNeedFollowup > 0 ?Math.round((this.countNeedFollowup / this.totalCalls) * 100):0;
+      this.percentNeedFollowup = tempPercentNeedFollowup+this.percentCompleted;
 
     },
     errorResponse=>{

@@ -87,7 +87,7 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
         if(res.statusCode=='0' || res.statusCode==0){
           message= "Volunteers data has been uploaded.!"
           duration=5000;
-          this.dialogRef.close();
+          this.dialogRef.close({import:true});
         }
         else {
           message= res.message;

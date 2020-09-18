@@ -72,13 +72,12 @@
             <div class="progressSummaryDetails">
                 <div class="totalCallsSection">
                     <span class="progressSummaryDetails-span">Total calls:</span>
-                    <span class="progressSummaryDetails-value">{{totalCalls}}</span>
+                    <span class="progressSummaryDetails-value" >{{volunteerCallListDataSource?.length}}</span>
                 </div>
                 <div class="progressBar-container">
-                    <div class="redBar" [ngStyle]="{'width.%':percentCompleted}">
-                        <div class="blackBar" [ngStyle]="{'width.%':percentNeedFollowup}">
-                            <div class="greyBar"></div>
-                        </div>
+                    <div class="greyBar">
+                        <div class="blackBar" [ngStyle]="{'width.%':percentNeedFollowup}"> </div>
+                        <div class="redBar" [ngStyle]="{'width.%':percentCompleted}"></div>
                     </div>
                 </div>
                 <div class="progressDetails">

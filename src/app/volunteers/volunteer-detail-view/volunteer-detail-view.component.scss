@@ -279,16 +279,19 @@
     background-color: #ddd !important;
     border-radius: 5px !important;
     width: 100%;
+    position:relative;
 }
 .blackBar {
     height: 8px !important;
     background-color: black !important;
     border-radius: 5px !important;
+    position:absolute;
 }
 .redBar {
     height: 8px !important;
     background-color: orangered !important;
     border-radius: 5px !important;
+    position:absolute;
 }
 .completed-img {
     height: 3px;

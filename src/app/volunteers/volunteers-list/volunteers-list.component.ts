@@ -456,6 +456,11 @@ transferVolunteer(volunteer){
       //height:"500px"
     };
     this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      if(dialogResponse.assign==true){
+        this.getPaginationData(1)
+      }
+    })
   }
   addVolunteers(){
     let congigObject ={
@@ -470,6 +475,11 @@ transferVolunteer(volunteer){
       //height:"500px"
     };
     this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      if(dialogResponse.import==true){
+        this.getPaginationData(1)
+      }
+    })
   }
   opeDdeboardVolunteer(volunteer){
     if(volunteer.count_SrCitizen>0){
@@ -560,6 +570,7 @@ transferVolunteer(volunteer){
       }
       this.showNotification({message,success:false});
       this.srCitizensToUnassign=[];
+      this.loadingSpinner=false;
     },
     ()=>{
       this.loadingSpinner=false;
@@ -588,6 +599,7 @@ transferVolunteer(volunteer){
     errorResponse=>{
       let message="Something went wrong.!";
       this.showNotification({message,success:false});
+      this.loadingSpinner=false;
     },()=>{
       this.loadingSpinner=false;
     });
