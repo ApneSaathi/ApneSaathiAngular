@@ -118,12 +118,12 @@ export class AssignVolunteersComponent implements OnInit {
         this.noData.message="";
       }
       else{
-        this.noData.message="No Senior Citizens found..!";
+        this.noData.message="";
       }
     },
     errorResponse=>{
       if(errorResponse.status == 409){
-        this.noData.message="No Senior Citizens found..!";
+        this.noData.message="";
       }
       else{
         this.noData.message="Something went wrong.!";

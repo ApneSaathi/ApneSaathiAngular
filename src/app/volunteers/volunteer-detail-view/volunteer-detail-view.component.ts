@@ -52,6 +52,7 @@ export class VolunteerDetailViewComponent implements OnInit {
     },
     nav: true
   }
+  public loadingSpinner:boolean=true;
   constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -101,11 +102,20 @@ export class VolunteerDetailViewComponent implements OnInit {
     return reviewsArray;
   }
   fetchDetails() {
+    this.loadingSpinner=true;
     this.apiInfoService.getVolunteerDetails({id: this.volunteerId}).subscribe((data) => {
       this.volunteerDetailsDataSource = data.volunteerVO;
       this.assignedCitizensDataSource = data.volunteerVO.srCitizenList;
       this.ratingsDataSource = data.volunteerVO.volunteerRatingList;
       this.volunteerCallListDataSource = data.volunteerVO.volunteercallList;
+    },
+    errorResponse=>{
+      if(errorResponse.status==409){
+        let message="Something went wrong"; 
+      }
+    },
+    ()=>{
+      this.loadingSpinner=false;
     })
   }
 

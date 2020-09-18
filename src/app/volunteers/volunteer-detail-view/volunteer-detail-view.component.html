@@ -1,4 +1,7 @@
-<div class="volunteerInfo">
+<div class="loading-spinner" *ngIf="loadingSpinner">
+    <mat-spinner [diameter]=50></mat-spinner>
+</div>
+<div class="volunteerInfo" *ngIf="!loadingSpinner">
     <a class="back-link" (click)="gotoVolunteerList()"><img [src]="base_url+'assets/arrow-left.png'">Back To List</a>
     <div class="volunteerProfile">
         <div class="left-block">
@@ -121,7 +124,12 @@
             <label> 
                 <img [src]="base_url+'assets/user.jpg'" class="image-block">
                 <div class="srCitizenList-info">
-                    <div>{{srCitizen.namesrcitizen}}</div>
+                    <div *ngIf="srCitizen.namesrcitizen.length > 16">
+                        {{srCitizen.namesrcitizen.substr(0 , 16)+'..'}}
+                    </div>
+                    <div *ngIf="srCitizen.namesrcitizen.length <= 16">
+                        {{srCitizen.namesrcitizen}}
+                    </div>
                     <div>{{srCitizen.phonenosrcitizen}}</div>
                 </div>
             </label>

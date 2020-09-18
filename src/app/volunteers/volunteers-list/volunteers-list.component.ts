@@ -180,7 +180,7 @@ itemsPerPage:Number=7;
       this.dataSource=data.volunteers;
       this.active_total=data.totalVolunteers?data.totalVolunteers:0;
       this.noData.message='';
-      this.loadingSpinner=false;
+      //this.loadingSpinner=false;
       if(postData.pagenumber===0 || postData.pagenumber==='0'){
         this.p1=1;
       }
@@ -196,6 +196,9 @@ itemsPerPage:Number=7;
       this.dataSource=[];
       this.active_total=0;
       this.loadingSpinner=false;
+     },
+     ()=>{
+       this.loadingSpinner=false;
      });
   }
   getdeboardedPageData(postData){
@@ -463,27 +466,33 @@ transferVolunteer(volunteer){
     this.openGlobalPopup(congigObject);
   }
   opeDdeboardVolunteer(volunteer){
-    let congigObject ={
-      data:{
-        heading:"Deboarding Volunteer",
-        feature: "deboardingVolunteer",
-        volunteerObj: volunteer
-      },
-      disableClose:true,
-      width: "50%",
-      autoFocus: false,
-      //position:{top:"50px"},
-      //height:"500px"
-    };
-    this.openGlobalPopup(congigObject);
-    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
-      if(dialogResponse.deboardType=='transferCitizens'){
-        this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
-      }
-      else{
-        this.unAssignCitizens(volunteer,dialogResponse.deboardType);
-      }
-    })
+    if(volunteer.count_SrCitizen>0){
+      let congigObject ={
+        data:{
+          heading:"Deboarding Volunteer",
+          feature: "deboardingVolunteer",
+          volunteerObj: volunteer
+        },
+        disableClose:true,
+        width: "50%",
+        autoFocus: false,
+        //position:{top:"50px"},
+        //height:"500px"
+      };
+      this.openGlobalPopup(congigObject);
+      this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+        if(dialogResponse.deboardType=='transferCitizens'){
+          this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
+        }
+        else{
+          this.unAssignCitizens(volunteer,dialogResponse.deboardType);
+        }
+      })
+    }
+    else{
+      if(confirm('Do you really want to deboard volunteer?'))
+        this.deboardVolunteer(volunteer);
+    }
   }
   openGlobalPopup(configurationObject){
     this.dialogReference=this.dialog.open(GlobalDialogComponent,configurationObject);
@@ -521,12 +530,14 @@ transferVolunteer(volunteer){
       url:"http://15.207.42.209:8080/Volunteer/srCitizenByVolunteer",
       postData:{id: volunteer.idvolunteer}
     };
+    this.loadingSpinner=true;
     this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
       console.log(response);
       let message='';
       if(response.message=='Success' && response.statusCode ==0 && typeof response.srCitizenList!='undefined' &&  response.srCitizenList.length > 0 ){
         this.srCitizensToUnassign= response.srCitizenList;
         console.log("Assigned Citizens:",this.srCitizensToUnassign);
+        this.invokeUnassignCitizens(volunteer,deboardType,this.srCitizensToUnassign)
       }
       else{
         message="No Senior Citizens found..!";
@@ -543,9 +554,39 @@ transferVolunteer(volunteer){
       }
       this.showNotification({message,success:false});
       this.srCitizensToUnassign=[];
+    },
+    ()=>{
+      this.loadingSpinner=false;
     });
   }
-  deboardVolunteer(volunteer,deboardType){
+  invokeUnassignCitizens(volunteer,deboardType,srCitizensToUnassign){
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/UnassignSrCitizen",
+      postData:{
+        idvolunteer: volunteer.idvolunteer,
+        srCitizenList: srCitizensToUnassign
+      }
+    };
+    this.loadingSpinner=true;
+    this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      let message='';
+      if(response.message=='Success' && response.statusCode ==0){
+        this.deboardVolunteer(volunteer,deboardType)
+      }
+      else{
+        message="Something went wrong.!";
+        this.showNotification({message,success:false});
+      }
+    },
+    errorResponse=>{
+      let message="Something went wrong.!";
+      this.showNotification({message,success:false});
+    },()=>{
+      this.loadingSpinner=false;
+    });
+  }
+  deboardVolunteer(volunteer,deboardType='noaction'){
     let message='';
     message= volunteer.count_SrCitizen;
     message+=volunteer.count_SrCitizen > 1?' sr.citizens':' sr.citizen';
@@ -558,15 +599,22 @@ transferVolunteer(volunteer){
     }
     message+=volunteer.gender=='M'?'him':'her';
     message+=" successfully.";
+    if(deboardType=='noaction'){
+      message =volunteer.firstName+" has been deboarded successfully";
+    }
     let paramsObj={
       url:"http://15.207.42.209:8080/Volunteer/deboardVolunteer",
-      postData:{id: volunteer.idvolunteer}
+      postData:{idvolunteer: volunteer.idvolunteer}
     };
     this.loadingSpinner=true;
-    this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
+    this.subs.add = this.apiInfoService.dynamicPutRequest(paramsObj).subscribe(response=>{
       console.log(response);
       if(response.message=='Success' && response.statusCode ==0){
         this.showNotification({message,success:true});
+        //let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+        this.getPaginationData(1);
+        this.getDeboardedPaginationData(1);
+
       }
       else{
         message="Deboard has been failed but Transfer/Unassigning of sr.citizens has been done";
@@ -576,6 +624,7 @@ transferVolunteer(volunteer){
     errorResponse=>{
       message="Deboard has been failed but Transfer/Unassigning of sr.citizens has been done";
       this.showNotification({message,success:false});
+      this.loadingSpinner=false;
     },
     ()=>{
       this.loadingSpinner=false;
