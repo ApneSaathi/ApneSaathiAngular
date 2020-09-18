@@ -1,11 +1,11 @@
 <form [formGroup]="deboardForm" (ngSubmit)="proceedDeboard()">
-  For Deboarding a Volunteers we have the following selections for the sr.cItizens assigned to him/her:
+  For Deboarding a Volunteer we have the following selections for the sr.citizens assigned to him/her:
   <mat-radio-group class="deboard-radio-group" formControlName="deboardType">
     <mat-radio-button value="transferCitizens"  class="deboard-radio-item" color="primary">
-      <span class="gray-text">Transfer the existing sr.citizens of </span>{{volunteerObj.firstName}} <span class="gray-text">to others in same District/Block</span>
+      <span class="gray-text">Transfer the existing sr.citizens of </span>{{volunteerObj.firstName}} <span class="gray-text">to others in same District/Block.</span>
     </mat-radio-button>
     <mat-radio-button value="unAssignCitizens"  class="deboard-radio-item" color="primary">
-      <span class="gray-text">Move them to unAssigned List</span>
+      <span class="gray-text">Move them to unassigned list.</span>
     </mat-radio-button>
   </mat-radio-group>
   <mat-dialog-actions align="center" class="assign-actions">
