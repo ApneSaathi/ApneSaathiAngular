@@ -14,15 +14,19 @@
     width: 20%;
     border-right: 1px solid gainsboro;
     display: flex;
+    padding: 10px;
 }
 .profilePic {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding-right: 10px;
 }
 .person-nameRating {
-    width: 100%;
-    margin-top: 22px;
+    //width: 100%;
+    //margin-top: 22px;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
 }
 .personalInfo {
     padding: 15px 0 15px 15px;
@@ -39,6 +43,9 @@
 }
 .person-name {
     font-weight: 500;
+    position: relative;
+    top: 4px;
+    left: 2px;
 }
 .person-rating {
     color: yellow;
@@ -53,28 +60,28 @@
 }
 .contactNumber-block {
     display: inline-block;
-    margin-right: 14px;
-    width: 22%;
+    margin-right: 20px;
+    white-space: nowrap;
 }
 .emailId-block {
     display: inline-block;
-    margin-right: 14px;
-    width: 25%;
+    margin-right: 20px;
+    white-space: nowrap;
 }
 .state-block {
     display: inline-block;
-    margin-right: 14px;
-    width: 15%;
+    margin-right: 20px;
+    white-space: nowrap;
 }
 .district-block {
     display: inline-block;
-    margin-right: 14px;
-    width: 14%;
+    margin-right: 20px;
+    white-space: nowrap;
 }
 .block-block {
     display: inline-block;
-    margin-right: 14px;
-    width: 14%;
+    margin-right: 20px;
+    white-space: nowrap;
 }
 .personalDetails-span {
     color: darkgray;
@@ -88,14 +95,21 @@
 .progressSummary-title span {
     font-weight: 500;
 }
-.progressSummary-details {
+.progressSummaryDetails {
     background-color: white;
     border-radius: 5px;
-    display: flex;
+    //display: flex;
     box-shadow: 1px 1px 20px 0px rgb(230,230,230);
-}
-.progressSummary-details span {
     padding: 10px;
+}
+.progressSummaryDetails-span {
+    color: blue;
+    font-size: 12px;
+}
+.progressSummaryDetails-value {
+    margin-left: 5px;
+    color: blue;
+    font-size: 12px;
 }
 .options {
     border: none;
@@ -201,7 +215,7 @@
     flex-wrap: wrap;
     margin: 0 25px;
     justify-content: flex-start;
-    height: 350px;
+    height: auto;
     background-color: white;
     border-radius: 5px;
     box-shadow: 1px 1px 20px 0px rgb(230,230,230);
@@ -237,13 +251,73 @@
 .material-icons.rating-icon-list {
     top: 3px;
 }
+.progressBar-container {
+    margin: 5px 10px 10px 0;
+}
+.greyBar {
+    height: 8px;
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+.blackBar {
+    height: 8px;
+    background-color: black;
+    border-radius: 5px;
+}
+.redBar {
+    height: 8px;
+    background-color: orangered;
+    border-radius: 5px;
+}
+.completed-img {
+    height: 3px;
+    width: 8px;
+    display: inline-block;
+    background-color: orangered;
+    margin: 0 4px 0 20px;
+    position: relative;
+    top: -3px;
+}
+.needFollowUp-img {
+    height: 3px;
+    width: 8px;
+    display: inline-block;
+    background-color: black;
+    margin: 0 4px 0 90px;
+    position: relative;
+    top: -3px;
+}
+.pending-img {
+    height: 3px;
+    width: 8px;
+    display: inline-block;
+    background-color: #ddd;
+    margin: 0 4px 0 90px;
+    position: relative;
+    top: -3px;
+}
+.completed {
+    font-size: 12px;
+    color: orangered;
+}
+.needFollowUp {
+    font-size: 12px;
+    color: black;
+}
+.pending {
+    font-size: 12px;
+    color: #ddd;
+}
 .reviews-block{
     width: 515px;
     background-color: white;
     //display:flex;
     position: absolute;
-    top: 40%;
-    height:100%;
+    top: 25%;
+    height:83px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 20px 0px #e6e6e6;
 }
 .review-item{
     display:flex;
@@ -284,4 +358,7 @@
 ::ng-deep .owl-dots .owl-dot.active span,.owl-dots .owl-dot:hover span{
     background: #FF3D00 !important;
     opacity: 0.4 !important;
+}
+::ng-deep .owl-theme .owl-nav.disabled + .owl-dots{
+    margin-top: 22px;
 }

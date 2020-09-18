@@ -8,16 +8,10 @@
             <div class="person-nameRating">
                 <div class="person-name">{{volunteerDetailsDataSource?.firstName}}</div>
                 <div class="person-rating">
-                    <span class="material-icons rating-icon-list" *ngIf="volunteerDetailsDataSource.rating == 0">
-                        star_outline
+                    <span class="material-icons rating-icon-list" [ngClass]="review_star.startColor" *ngFor="let review_star of getFullStarsArray(volunteerDetailsDataSource)">
+                        {{review_star.starType}}
                     </span>
-                    <span class="material-icons rating-icon-list" *ngIf="volunteerDetailsDataSource.rating && volunteerDetailsDataSource.rating < 3.8" [ngClass]="volunteerRating()">
-                        star_half
-                    </span>
-                    <span class="material-icons rating-icon-list" *ngIf="volunteerDetailsDataSource.rating && volunteerDetailsDataSource.rating >= 3.8" [ngClass]="volunteerRating()">
-                        star
-                    </span>
-                    {{volunteerDetailsDataSource?.rating}}
+                    {{volunteerDetailsDataSource.rating}}
                 </div>
             </div>
         </div>
@@ -25,7 +19,7 @@
             <span class="personalInfo-span">Personal Info:</span>
             <div class="actions">
                 <a class="action-link" routerLink="">
-                    <img class="transferVolunteer" [src]="base_url+'assets/Vector.png'">
+                    <img class="transferVolunteer" [src]="base_url+'assets/Vector.png'" (click)="transferVolunteer(volunteerDetailsDataSource)">
                 </a>
                 <a class="action-link" routerLink="">
                     <img class="deboardedVolunteer" [src]="base_url+'assets/Group 2.png'">
@@ -67,8 +61,26 @@
                     </select>
                 </div>
             </div>
-            <div class="progressSummary-details">
-                <span>Total calls:</span>
+            <div class="progressSummaryDetails">
+                <div class="totalCallsSection">
+                    <span class="progressSummaryDetails-span">Total calls:</span>
+                    <span class="progressSummaryDetails-value" [ngClass]="totalCalls()">{{volunteerCallListLength}}</span>
+                </div>
+                <div class="progressBar-container">
+                    <div class="greyBar">
+                        <div class="blackBar" [ngStyle]="{'width.%':width}">
+                            <div class="redBar" [ngStyle]="{'width.%':width}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progressDetails">
+                    <div class="completed-img"></div>
+                    <span class="completed">Completed</span>
+                    <div class="needFollowUp-img"></div>
+                    <span class="needFollowUp">Need Followup</span>
+                    <div class="pending-img"></div>
+                    <span class="pending">Pending</span>
+                </div>
             </div>
         </div>
         
