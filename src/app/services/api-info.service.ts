@@ -47,6 +47,19 @@ export class ApiInfoService {
     return this.http.post<any>(api_Url,postData);
 
   }
+  dynamicPutRequest(inputObject): Observable<any>{
+    let queryParams='';
+    let postData={};
+    if(inputObject.queryParams){
+      queryParams="?"+inputObject.queryParams.join("&");
+    }
+    if(inputObject.postData){
+      postData=inputObject.postData;
+    }
+    let api_Url=inputObject.url+queryParams;
+    return this.http.put<any>(api_Url,postData);
+
+  }
 
 
 

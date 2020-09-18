@@ -6,6 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-volunteers',
@@ -20,6 +21,7 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
     fileSizeError:false
   };
   public fileNameError:boolean= false;
+  public base_url;
   constructor(
     private apiInfo: ApiInfoService, 
     private sharedService: SharedService,
@@ -31,6 +33,7 @@ export class AddVolunteersComponent implements OnInit, OnDestroy {
   public fileUpload = {status: '', message: '', filePath: ''};
   public subs = new SubscriptionsContainer();
   ngOnInit(): void {
+    this.base_url=environment.base_url;
   }
   /**
    * selectedFile function is to get the data of uploaded file

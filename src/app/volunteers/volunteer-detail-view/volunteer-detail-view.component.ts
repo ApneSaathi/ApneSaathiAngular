@@ -55,6 +55,7 @@ export class VolunteerDetailViewComponent implements OnInit {
     },
     nav: true
   }
+  public loadingSpinner:boolean=true;
   constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -106,6 +107,7 @@ export class VolunteerDetailViewComponent implements OnInit {
     return reviewsArray;
   }
   fetchDetails() {
+    this.loadingSpinner=true;
     this.apiInfoService.getVolunteerDetails({id: this.volunteerId}).subscribe((data) => {
 
       this.volunteerDetailsDataSource = data.volunteerVO;
@@ -130,6 +132,14 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.percentPending = Math.round((this.countPending / this.totalCalls) * 100);
       this.percentNeedFollowup = Math.round((this.countNeedFollowup / this.totalCalls) * 100);
 
+    },
+    errorResponse=>{
+      if(errorResponse.status==409){
+        let message="Something went wrong"; 
+      }
+    },
+    ()=>{
+      this.loadingSpinner=false;
     })
   }
 
