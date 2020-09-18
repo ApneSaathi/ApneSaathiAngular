@@ -14,7 +14,12 @@
                 <i>{{upload_display_file_name}}</i>
             </span>
         </div>
-        <div align="right" class="subscript-block">*For adding volunteers in bulk(Max:1MB)</div>
+        <div align="right" class="subscript-block">
+            *For adding volunteers in bulk(Max:1MB)
+            <a matTooltip="Download sample format" class="mouseover-pointer" [href]="base_url+'assets/volunteer_import_format.csv'" class="material-icons download-icon">
+                cloud_download
+            </a>
+        </div>
         <div *ngIf="uploadError.fileTypeError || uploadError.fileNameError || uploadError.fileSizeError">
             <mat-error *ngIf="uploadError.fileTypeError">
                 Only <strong>.csv</strong> files are allowed<br>

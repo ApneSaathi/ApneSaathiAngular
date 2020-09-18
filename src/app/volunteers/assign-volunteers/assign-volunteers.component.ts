@@ -7,6 +7,7 @@ import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.compo
 import { FormBuilder, FormArray } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-assign-volunteers',
@@ -21,6 +22,7 @@ export class AssignVolunteersComponent implements OnInit {
     selectedVolunteers: this.fb.array([])
   });
   public volunteersList:object[];
+  public srCitizensList:object[];
   public base_url;
   public enable_assign_button:boolean=true;
   public loadingSpinner:boolean = true;
@@ -30,7 +32,8 @@ export class AssignVolunteersComponent implements OnInit {
     private api_info: ApiInfoService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<GlobalDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private shared_service: SharedService
     ) 
   { 
 
@@ -47,6 +50,7 @@ export class AssignVolunteersComponent implements OnInit {
   ngOnInit(): void {
     this.base_url= environment.base_url;
     this.getVolunteersForAssignment();
+    this.getSrCitizensList();
     this.subs.add=this.assignVolunteerForm.get('selectedVolunteers').valueChanges
     .subscribe(value=> {
       console.log(value.findIndex(volunteer => volunteer.checked==true))
@@ -98,6 +102,36 @@ export class AssignVolunteersComponent implements OnInit {
     });
   }
   /**
+   * getSrCitizensList function is to fetch the list of assigned srCitizens to the Volunteer
+   * 
+   */
+  getSrCitizensList(){
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/srCitizenByVolunteer",
+      postData:{id: this.volunteerObj.idvolunteer}
+    };
+    this.subs.add = this.api_info.dynamicPostRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      if(response.message=='Success' && response.statusCode ==0 && typeof response.srCitizenList!='undefined' &&  response.srCitizenList.length > 0 ){
+        this.srCitizensList= response.srCitizenList;
+        console.log("Assigned Citizens:",this.srCitizensList);
+        this.noData.message="";
+      }
+      else{
+        this.noData.message="";
+      }
+    },
+    errorResponse=>{
+      if(errorResponse.status == 409){
+        this.noData.message="";
+      }
+      else{
+        this.noData.message="Something went wrong.!";
+      }
+      this.srCitizensList=[];
+    });
+  }
+  /**
    * onchecked function is to handle individual check/uncheck of Volunteer
    * @param event 
    */
@@ -137,11 +171,56 @@ export class AssignVolunteersComponent implements OnInit {
   }
   shareCitizens(){
     console.log(this.assignVolunteerForm.value)
+    this.loadingSpinner=true;
+    let finalListIds= this.assignVolunteerForm.value.selectedVolunteers
+    .filter(volunteer => volunteer.checked===true )
+    .map(element=>{
+      return this.volunteersList.find(volunteer=> {
+        if(volunteer['idvolunteer'] == element.id) 
+        return volunteer; 
+      });
+    });
+    let assignParamsObj={
+      url:"http://15.207.42.209:8080/Volunteer/distributeSrCitizen",
+      postData:{
+        idvolunteer:this.volunteerObj.idvolunteer,
+        //idvolunteer:this.volunteerObj.contactNumber,
+        role:this.shared_service.loginUser.adminId,
+        adminId:this.shared_service.loginUser.role,
+        srCitizenList:this.srCitizensList,
+        volunteerList:finalListIds,
+      }
+    };
+    // dynamicPostRequest funcion invoke to get the sr CItizen list from API
+    console.log("Post Data:",assignParamsObj);
+    let message= '';
+    this.subs.add=this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
+      let success=false;
+      console.log("Assign Response",data);
+      //let message= this.volunteerObj.count_SrCitizen+ this.volunteerObj.count_SrCitizen > 1?' volunteers':' volunteer'+" of "+this.volunteerObj.firstName+" has been transferred to others and deboarded "+ this.volunteerObj.gender=='M'?'him':'her' +"successfully.";
+      if(data && data.message=='Success'){
+        //message="Something went wrong";
+        this.dialogRef.close({transfer:true});
+        success=true;
+      }
+      else{
+        //this.dialogRef.close();
+        message="Something went wrong";
+        this.showNotification({message: message,success});
+      }
+    },
+    errorResponse=>{
+      message="Something went wrong";
+      this.showNotification({message: message,success:false});
+    },
+    ()=>{
+      this.loadingSpinner=false;
+    })
   }
-  showNotification(notificationData){
+  showNotification(notificationData,duration=5000){
     this.snackBar.openFromComponent(NotificationMessageComponent,{
       data:notificationData,
-      duration:5000,
+      duration:duration,
       panelClass: "notification-snackbar"
     });
   }

@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -116,7 +117,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding:10px 30px 30px 30px;
     //margin-left: 100px
     justify-content: flex-start;
-    height: 350px;
+    min-height: 80px;
+    max-height: 350px;
     overflow-y: scroll;
 }
 .assign-item{

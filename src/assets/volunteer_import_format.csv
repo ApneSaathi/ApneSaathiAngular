@@ -1,0 +1,3 @@
+FIRSTNAME,LASTNAME,MOBILENO,EMAIL,GENDER,STATE_NAME,DISTRICT_NAME,BLOCK_NAME,ADDRESS,VILLAGE,ASSIGNED_TO_FELLOW,ASSIGNED_TO_FELLOW_CONTACT,statuscode,status_code,status
+Raju,Kalapala,9876543210,raju@gmail.com,M,Uttar  Pradesh,Gorakhpur,Krishna Palace,Ambedkar Nagar,Gandhi Gaav,Raju,7098273036,,,Active
+Jogender,Singh,1234567890,s.jogender@gmail.com,M,Uttar  Pradesh,Behraich ,Mihinpurva ,Semri Ghatahi ,Semri Ghatahi ,Payal Pondit,7098273123,,,Active
