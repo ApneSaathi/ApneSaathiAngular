@@ -388,14 +388,20 @@ transferVolunteer(volunteer){
       volunteerObj: volunteer
     },
     disableClose:true,
-    width: "60%",
-    height:"60%",
+    width: "800px",
+    height:"540px",
     autoFocus: false,
 
     //position:{top:"50px"},
     //height:"500px"
   };
   this.openGlobalPopup(congigObject);
+  this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+    if(dialogResponse.transfer==true){
+      let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+      this.getPageData(postData);
+    }
+  })
 // this.volunteerDetails(element);
   // let postData={status:"Active",filterState:this.selectedState,filterDistrict:this.selectedDistrict,filterBlock:this.selectedBlock}
   // this.apiInfoService.postVolunteersList(postData).subscribe((data) => {

@@ -24,7 +24,7 @@ export class TransferVolunteerComponent implements OnInit {
   });
 
 public dataSource;
-public base_url;
+public base_url="http://localhost:4200/";
 public subs= new SubscriptionsContainer();
 public selectedState:any;
 public selectedDistrict:any;
@@ -49,6 +49,7 @@ filterDistrict:any;
 filterBlock:any;
 message:string='';
 putData:any;
+
   constructor(private fb: FormBuilder,private route:ActivatedRoute,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<GlobalDialogComponent>,private locationService:LocationService,private apiInfoService:ApiInfoService,public dialog:MatDialog) { }
@@ -177,7 +178,7 @@ volunteerTransferred(){
     let message= this.volunteerObj.firstName+" Have been transferred to "+this.selectedState+","+this.selectedDistrict+""+this.selectedBlock+"";
     if(data && data.message=='Success'){
       //message="Something went wrong";
-      this.dialogRef.close();
+      this.dialogRef.close({transfer:true});
     }
     else{
       //this.dialogRef.close();
