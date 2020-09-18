@@ -243,7 +243,7 @@
     <!-- Deboarded On Column -->
     <ng-container matColumnDef="deboardedOn">
       <mat-header-cell *matHeaderCellDef> Deboarded On </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.deboardedOn}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.deboardedOn | date:'MMM dd, yyyy'}} </mat-cell>
     </ng-container>
 
     <!-- Reasons Column -->

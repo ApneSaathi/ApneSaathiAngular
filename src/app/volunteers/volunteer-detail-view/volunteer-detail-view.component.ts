@@ -13,19 +13,22 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 })
 export class VolunteerDetailViewComponent implements OnInit {
 
-  // @Input() progress: number;
-  // @Input() total: number;
-  // color: string;
-
   public volunteerId;
   public base_url;
   public volunteerDetailsDataSource;
   public assignedCitizensDataSource: object[];
   public ratingsDataSource: object[];
   public volunteerCallListDataSource: object[];
-  public volunteerCallListLength;
-  //public volunteersListDataSource;
-  public width;
+  public totalCalls;
+  public percentCompleted;
+  public percentPending;
+  public percentNeedFollowup;
+  public statusCompleted;
+  public statusPending;
+  public statusNeedFollowup;
+  public countCompleted;
+  public countPending;
+  public countNeedFollowup;
 
   // owl carousel code here
   customOptions: OwlOptions = {
@@ -56,7 +59,6 @@ export class VolunteerDetailViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.width = 80;
     this.base_url=environment.base_url;
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = parseInt(params.get('id'));
@@ -64,7 +66,10 @@ export class VolunteerDetailViewComponent implements OnInit {
     });
     this.fetchDetails();
     //this.fetchVolunteersList();
+    //this.callStatus();
+    //this.totalCallsClass();
   }
+  
   getFullStarsArray(volunteer){
     let reviewsArray=[];
     if(Math.floor(volunteer.rating) > 0){
@@ -104,10 +109,29 @@ export class VolunteerDetailViewComponent implements OnInit {
   fetchDetails() {
     this.loadingSpinner=true;
     this.apiInfoService.getVolunteerDetails({id: this.volunteerId}).subscribe((data) => {
+
       this.volunteerDetailsDataSource = data.volunteerVO;
       this.assignedCitizensDataSource = data.volunteerVO.srCitizenList;
       this.ratingsDataSource = data.volunteerVO.volunteerRatingList;
       this.volunteerCallListDataSource = data.volunteerVO.volunteercallList;
+
+      this.totalCalls = this.volunteerCallListDataSource.length;
+      console.log(this.totalCalls);
+      this.statusCompleted = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 10);
+      console.log(this.statusCompleted);
+      this.statusPending = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 1);
+      console.log(this.statusPending);
+      this.statusNeedFollowup = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] != 10 && status['callstatusCode'] != 1);
+      console.log(this.statusNeedFollowup);
+
+      this.countCompleted = this.statusCompleted.length;
+      this.countPending = this.statusPending.length;
+      this.countNeedFollowup = this.statusNeedFollowup.length;
+    
+      this.percentCompleted = Math.round((this.countCompleted / this.totalCalls) * 100);
+      this.percentPending = Math.round((this.countPending / this.totalCalls) * 100);
+      this.percentNeedFollowup = Math.round((this.countNeedFollowup / this.totalCalls) * 100);
+
     },
     errorResponse=>{
       if(errorResponse.status==409){
@@ -119,6 +143,21 @@ export class VolunteerDetailViewComponent implements OnInit {
     })
   }
 
+  // callStatus() {
+  //   this.statusCompleted = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 10);
+  //   console.log(this.statusCompleted);
+  //   let statusPending = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 1);
+  //   let statusNeedFollowup = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] != 10 && status['callstatusCode'] != 1);
+    
+  //   let countCompleted = this.statusCompleted.length;
+  //   let countPending = statusPending.length;
+  //   let countNeedFollowup = statusNeedFollowup.length;
+    
+  //   this.percentCompleted = Math.round((countCompleted / this.totalCalls) * 100);
+  //   this.percentPending = Math.round((countPending / this.totalCalls) * 100);
+  //   this.percentNeedFollowup = Math.round((countNeedFollowup / this.totalCalls) * 100);
+  // }
+
   // fetchVolunteersList() {
   //   this.apiInfoService.postVolunteersList({"status": "Active"}).subscribe((data) => {
   //     this.volunteersListDataSource = data.volunteers;
@@ -126,9 +165,10 @@ export class VolunteerDetailViewComponent implements OnInit {
   //   })
   // }
 
-  totalCalls() {
-    this.volunteerCallListLength = this.volunteerCallListDataSource.length;
-  }
+  //  totalCallsClass() {
+  //    this.totalCalls = this.volunteerCallListDataSource.length;
+  //    console.log(this.totalCalls);
+  //  }
 
   volunteerRating(){
     return {
@@ -139,6 +179,10 @@ export class VolunteerDetailViewComponent implements OnInit {
 
   gotoVolunteerList() {
     this.router.navigate(['volunteers/voluntersList',{id: this.volunteerId}]);
+  }
+
+  gotoVolunteers() {
+    this.router.navigate(['/volunteers',{id: this.volunteerId}]);
   }
 
   openGlobalPopup(configurationObject){

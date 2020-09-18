@@ -2,6 +2,11 @@
     <mat-spinner [diameter]=50></mat-spinner>
 </div>
 <div class="volunteerInfo" *ngIf="!loadingSpinner">
+    <div class="links">
+        <a class="volunteersLink" (click)="gotoVolunteers()">Volunteers</a> /
+        <a class="listOfVolunteersLink" (click)="gotoVolunteerList()">List of volunteers</a> /
+        <a class="volunteerInfoLink">Volunteer Info</a>
+    </div>
     <a class="back-link" (click)="gotoVolunteerList()"><img [src]="base_url+'assets/arrow-left.png'">Back To List</a>
     <div class="volunteerProfile">
         <div class="left-block">
@@ -67,12 +72,12 @@
             <div class="progressSummaryDetails">
                 <div class="totalCallsSection">
                     <span class="progressSummaryDetails-span">Total calls:</span>
-                    <span class="progressSummaryDetails-value" [ngClass]="totalCalls()">{{volunteerCallListLength}}</span>
+                    <span class="progressSummaryDetails-value">{{totalCalls}}</span>
                 </div>
                 <div class="progressBar-container">
-                    <div class="greyBar">
-                        <div class="blackBar" [ngStyle]="{'width.%':width}">
-                            <div class="redBar" [ngStyle]="{'width.%':width}"></div>
+                    <div class="redBar" [ngStyle]="{'width.%':percentCompleted}">
+                        <div class="blackBar" [ngStyle]="{'width.%':percentNeedFollowup}">
+                            <div class="greyBar"></div>
                         </div>
                     </div>
                 </div>
