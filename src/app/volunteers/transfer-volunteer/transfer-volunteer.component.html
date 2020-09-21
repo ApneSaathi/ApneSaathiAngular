@@ -30,17 +30,17 @@
 
 
 
-          <div class="assign-item">
+          <div class="transfer-item">
 
               <label> 
 
-                  <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" />
+                  <img [src]="base_url+'assets/user.jpg'" class="transfer-image-unselected-block" />
 
-                  <div class="assign-info" >
+                  <div class="transfer-info" >
 
-                      <div>{{firstName}}</div>
+                      <div class="transfer-name">{{firstName}}</div>
 
-                      <div><span class="gray-text">{{currentState}},{{currentDistrict}},{{currentBlock}}</span></div>
+                      <div><span class="gray-text transfer-address">{{currentState}},{{currentDistrict}},{{currentBlock}}</span></div>
 
                       
 
@@ -78,7 +78,7 @@
 
                 <div style="font-weight:900px;">
 
-                  <label><b>Select State</b></label><br>
+                  <label class="transfer-form-label">Select State</label><br>
 
                 </div>
 
@@ -94,7 +94,7 @@
 
               <div class="form-group">
 
-                  <label><b>Select District</b></label><br>
+                  <label class="transfer-form-label">Select District</label><br>
 
                   <select class="form-control" name="district"  [(ngModel)]="selectedDistrict" (change)="onChangeDistrict($event.target.value)">
 
@@ -108,7 +108,7 @@
 
               <div class="form-group">
 
-                  <label><b>Select Block</b></label><br>
+                  <label class="transfer-form-label">Select Block</label><br>
 
                   <select class="form-control" name="block"  [(ngModel)]="selectedBlock" (change)="onChangeBlock($event.target.value)">
 
