@@ -84,23 +84,23 @@ export class VolunteerDetailViewComponent implements OnInit {
         planeStars-=1;
       }
       for (let index = 1; index <= arraySize; index++) {
-        let temp_obj={starType:'star',startColor:arraySize>=3?'rating-icon-yellow':'rating-icon-red'};
+        let temp_obj={starType:'star',starColor:arraySize>=3?'rating-icon-yellow':'rating-icon-red'};
         reviewsArray.push(temp_obj);
       }
       if(isHalfStar){
-        let temp_obj={starType:'star_half',startColor:arraySize>=3?'rating-icon-yellow':'rating-icon-red'};
+        let temp_obj={starType:'star_half',starColor:arraySize>=3?'rating-icon-yellow':'rating-icon-red'};
           reviewsArray.push(temp_obj);
       }
       if(planeStars > 0){
         for (let index = 1; index <= planeStars; index++) {
-          let temp_obj={starType:'star_outline',startColor:''};
+          let temp_obj={starType:'star_outline',starColor:''};
           reviewsArray.push(temp_obj);
         }
       }
     }
     else{
       for (let index = 1; index <= 5; index++) {
-        let temp_obj={starType:'star_outline',startColor:''};
+        let temp_obj={starType:'star_outline',starColor:''};
         reviewsArray.push(temp_obj);
       }
     }
