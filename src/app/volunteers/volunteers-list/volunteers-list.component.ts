@@ -456,6 +456,11 @@ transferVolunteer(volunteer){
       //height:"500px"
     };
     this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      if(dialogResponse.assign==true){
+        this.getPaginationData(1)
+      }
+    })
   }
   addVolunteers(){
     let congigObject ={
@@ -470,6 +475,11 @@ transferVolunteer(volunteer){
       //height:"500px"
     };
     this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      if(dialogResponse.import==true){
+        this.getPaginationData(1)
+      }
+    })
   }
   opeDdeboardVolunteer(volunteer){
     if(volunteer.count_SrCitizen>0){
@@ -490,14 +500,23 @@ transferVolunteer(volunteer){
         if(dialogResponse.deboardType=='transferCitizens'){
           this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
         }
-        else{
+        else if(dialogResponse.deboardType=='unAssignCitizens'){
           this.unAssignCitizens(volunteer,dialogResponse.deboardType);
+        }
+        else{
+          let message="Deboarding of Volunteer has been cancelled or failed";
+          this.showNotification({message,success:false})
         }
       })
     }
     else{
-      if(confirm('Do you really want to deboard volunteer?'))
+      if(confirm('Do you really want to deboard volunteer?')){
         this.deboardVolunteer(volunteer);
+      }
+      else{
+        let message="Deboarding of Volunteer has been cancelled or failed";
+        this.showNotification({message,success:false})
+      }
     }
   }
   openGlobalPopup(configurationObject){
@@ -526,7 +545,7 @@ transferVolunteer(volunteer){
         this.deboardVolunteer(volunteer,deboardType);
       }
       else{
-        let message="Transfer of Volunteers failed or cancelled";
+        let message="Transfer of sr.citizens has been cancelled or failed";
         this.showNotification({message,success:false})
       }
     })
@@ -560,6 +579,7 @@ transferVolunteer(volunteer){
       }
       this.showNotification({message,success:false});
       this.srCitizensToUnassign=[];
+      this.loadingSpinner=false;
     },
     ()=>{
       this.loadingSpinner=false;
@@ -588,6 +608,7 @@ transferVolunteer(volunteer){
     errorResponse=>{
       let message="Something went wrong.!";
       this.showNotification({message,success:false});
+      this.loadingSpinner=false;
     },()=>{
       this.loadingSpinner=false;
     });

@@ -186,7 +186,8 @@ export class AssignSeniorCitizensComponent implements OnInit, OnDestroy {
       let message= this.volunteerObj.firstName+" was Succesfully assigned with "+finalListIds.length+" Sr.Citizens";
       if(data && data.message=='Success'){
         //message="Something went wrong";
-        this.dialogRef.close();
+        this.dialogRef.close({assign:true});
+        
       }
       else{
         //this.dialogRef.close();

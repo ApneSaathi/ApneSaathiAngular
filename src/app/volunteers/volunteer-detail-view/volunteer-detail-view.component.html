@@ -15,8 +15,8 @@
             </div>
             <div class="person-nameRating">
                 <div class="person-name">{{volunteerDetailsDataSource?.firstName}}</div>
-                <div class="person-rating">
-                    <span class="material-icons rating-icon-list" [ngClass]="review_star.startColor" *ngFor="let review_star of getFullStarsArray(volunteerDetailsDataSource)">
+                <div>
+                    <span class="material-icons rating-icon-list" [ngClass]="review_star.starColor" *ngFor="let review_star of getFullStarsArray(volunteerDetailsDataSource)">
                         {{review_star.starType}}
                     </span>
                     {{volunteerDetailsDataSource.rating}}
@@ -72,12 +72,15 @@
             <div class="progressSummaryDetails">
                 <div class="totalCallsSection">
                     <span class="progressSummaryDetails-span">Total calls:</span>
-                    <span class="progressSummaryDetails-value">{{totalCalls}}</span>
+                    <span class="progressSummaryDetails-value" >{{volunteerCallListDataSource?.length}}</span>
                 </div>
                 <div class="progressBar-container">
-                    <div class="redBar" [ngStyle]="{'width.%':percentCompleted}">
-                        <div class="blackBar" [ngStyle]="{'width.%':percentNeedFollowup}">
-                            <div class="greyBar"></div>
+                    <div class="greyBar">
+                        <div class="blackBar" *ngIf="countNeedFollowup > 0" [ngStyle]="{'width.%':percentNeedFollowup}">
+                            <span class="count-blackBar" [ngStyle]="{'margin-left.%':(percentCompleted+(percentNeedFollowup-percentCompleted)/2)-2}">{{countNeedFollowup}}</span>
+                        </div>
+                        <div class="redBar" *ngIf="countCompleted > 0" [ngStyle]="{'width.%':percentCompleted}">
+                            <span class="count-redBar" [ngStyle]="{'margin-left.%':(percentCompleted/2)-2}" >{{countCompleted}}</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +106,7 @@
                     <ng-template carouselSlide *ngFor="let rating_item of ratingsDataSource">
                         <div class="review-item">
                             <div>
-                                <span class="material-icons rating-icon" [ngClass]="review_star.startColor" *ngFor="let review_star of getFullStarsArray(rating_item)">
+                                <span class="material-icons rating-icon" [ngClass]="review_star.starColor" *ngFor="let review_star of getFullStarsArray(rating_item)">
                                     {{review_star.starType}}
                                 </span>
                                 {{rating_item.rating}} 

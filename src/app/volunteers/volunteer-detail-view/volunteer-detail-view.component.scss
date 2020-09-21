@@ -279,16 +279,19 @@
     background-color: #ddd !important;
     border-radius: 5px !important;
     width: 100%;
+    position:relative;
 }
 .blackBar {
     height: 8px !important;
     background-color: black !important;
     border-radius: 5px !important;
+    position:absolute;
 }
 .redBar {
     height: 8px !important;
     background-color: orangered !important;
     border-radius: 5px !important;
+    position:absolute;
 }
 .completed-img {
     height: 3px;
@@ -381,4 +384,46 @@
 }
 ::ng-deep .owl-theme .owl-nav.disabled + .owl-dots{
     margin-top: 22px;
+}
+.count-blackBar{
+    position: absolute;
+    color:white;
+    border-radius: 4px 4px 4px 4px !important;
+    width: 21px !important;
+    height: 17px !important;
+    font-size: 11px !important;
+    margin-top: -22px !important;
+    background:black !important;
+    text-align:center;
+}
+.count-blackBar::after{
+    content: '';
+    position:absolute;
+    width:3px;
+    height:14px;
+    top:90%;
+    left:10%;
+    background-color: black;
+    transform:rotate(32deg)
+}
+.count-redBar{
+    position: absolute;
+    background: orangered;
+    border-radius: 4px 4px 4px 4px !important;
+    width: 21px !important;
+    height: 17px !important;
+    font-size: 11px !important;
+    margin-top: -23px !important;
+    color: white;
+    text-align: center;
+}
+.count-redBar::after{
+    content: '';
+    position:absolute;
+    width:3px;
+    height:14px;
+    top:90%;
+    left:10%;
+    background-color: orangered;
+    transform:rotate(32deg)
 }
