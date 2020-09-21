@@ -5,6 +5,9 @@ import {ApiInfoService} from 'src/app/services/api-info.service';
 import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { SubscriptionsContainer } from 'src/app/subscriptions-container';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 
 @Component({
   selector: 'app-volunteer-detail-view',
@@ -29,6 +32,9 @@ export class VolunteerDetailViewComponent implements OnInit {
   public countCompleted;
   public countPending;
   public countNeedFollowup;
+  public subs = new SubscriptionsContainer();
+  public dialogReference;
+  public srCitizensToUnassign:any[];
 
   // owl carousel code here
   customOptions: OwlOptions = {
@@ -56,7 +62,7 @@ export class VolunteerDetailViewComponent implements OnInit {
     nav: true
   }
   public loadingSpinner:boolean=true;
-  constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private router: Router, private apiInfoService: ApiInfoService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.base_url=environment.base_url;
@@ -217,11 +223,188 @@ export class VolunteerDetailViewComponent implements OnInit {
         volunteerObj: volunteer
       },
       disableClose:true,
-      width: "60%",
-      height:"60%",
+      width: "800px",
+      height:"540px",
       autoFocus: false,
     };
     this.openGlobalPopup(configObject);
+  }
+
+  opeDdeboardVolunteer(volunteer){
+    if(volunteer.count_SrCitizen>0){
+      let congigObject ={
+        data:{
+          heading:"Deboarding Volunteer",
+          feature: "deboardingVolunteer",
+          volunteerObj: volunteer
+        },
+        disableClose:true,
+        width: "50%",
+        autoFocus: false,
+        //position:{top:"50px"},
+        //height:"500px"
+      };
+      this.openGlobalPopup(congigObject);
+      this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+        if(dialogResponse.deboardType=='transferCitizens'){
+          this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
+        }
+        else{
+          this.unAssignCitizens(volunteer,dialogResponse.deboardType);
+        }
+      })
+    }
+    else{
+      if(confirm('Do you really want to deboard volunteer?'))
+        this.deboardVolunteer(volunteer);
+    }
+  }
+
+  openTransferSrCitizens(volunteer,deboardType){
+    let congigObject ={
+      data:{
+        heading:"Volunteers list",
+        headingSubscript: "below are the volunteers from the same district",
+        headingRightContent:"The Volunteer getting De-boarded has "+volunteer.count_SrCitizen +" Sr.citizens assigned",
+        feature: "assignSrCitizensEqually",
+        volunteerObj: volunteer
+      },
+      disableClose:true,
+      width: "90%",
+      autoFocus: false,
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    this.openGlobalPopup(congigObject);
+    this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      console.log("Dialog Response:",dialogResponse);
+      if(dialogResponse.transfer){
+        let message="Transfer success";
+        this.deboardVolunteer(volunteer,deboardType);
+      }
+      else{
+        let message="Transfer of Volunteers failed or cancelled";
+        this.showNotification({message,success:false})
+      }
+    })
+  }
+
+  unAssignCitizens(volunteer,deboardType){
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/srCitizenByVolunteer",
+      postData:{id: volunteer.idvolunteer}
+    };
+    this.loadingSpinner=true;
+    this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      let message='';
+      if(response.message=='Success' && response.statusCode ==0 && typeof response.srCitizenList!='undefined' &&  response.srCitizenList.length > 0 ){
+        this.srCitizensToUnassign= response.srCitizenList;
+        console.log("Assigned Citizens:",this.srCitizensToUnassign);
+        this.invokeUnassignCitizens(volunteer,deboardType,this.srCitizensToUnassign)
+      }
+      else{
+        message="No Senior Citizens found..!";
+        this.showNotification({message,success:false});
+      }
+    },
+    errorResponse=>{
+      let message='';
+      if(errorResponse.status == 409){
+        message="No Senior Citizens found..!";
+      }
+      else{
+        message="Something went wrong.!";
+      }
+      this.showNotification({message,success:false});
+      this.srCitizensToUnassign=[];
+      this.loadingSpinner=false;
+    },
+    ()=>{
+      this.loadingSpinner=false;
+    });
+  }
+
+  deboardVolunteer(volunteer,deboardType='noaction'){
+    let message='';
+    message= volunteer.count_SrCitizen;
+    message+=volunteer.count_SrCitizen > 1?' sr.citizens':' sr.citizen';
+    if(deboardType=='transferCitizens'){
+      
+      message+=" of "+volunteer.firstName+" has been transferred to others and deboarded ";
+    }
+    else{
+      message+=" of "+volunteer.firstName+" has been Unassigned and deboarded ";
+    }
+    message+=volunteer.gender=='M'?'him':'her';
+    message+=" successfully.";
+    if(deboardType=='noaction'){
+      message =volunteer.firstName+" has been deboarded successfully";
+    }
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/deboardVolunteer",
+      postData:{idvolunteer: volunteer.idvolunteer}
+    };
+    this.loadingSpinner=true;
+    this.subs.add = this.apiInfoService.dynamicPutRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      if(response.message=='Success' && response.statusCode ==0){
+        this.showNotification({message,success:true});
+        //let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
+        //this.getPaginationData(1);
+        //this.getDeboardedPaginationData(1);
+
+      }
+      else{
+        message="Deboard has been failed but Transfer/Unassigning of sr.citizens has been done";
+        this.showNotification({message,success:false});
+      }
+    },
+    errorResponse=>{
+      message="Deboard has been failed but Transfer/Unassigning of sr.citizens has been done";
+      this.showNotification({message,success:false});
+      this.loadingSpinner=false;
+    },
+    ()=>{
+      this.loadingSpinner=false;
+    });
+  }
+
+  showNotification(notificationData,duration=5000){
+    this.snackBar.openFromComponent(NotificationMessageComponent,{
+      data:notificationData,
+      duration:duration,
+      panelClass: "notification-snackbar"
+    });
+  }
+
+  invokeUnassignCitizens(volunteer,deboardType,srCitizensToUnassign){
+    let paramsObj={
+      url:"http://15.207.42.209:8080/Volunteer/UnassignSrCitizen",
+      postData:{
+        idvolunteer: volunteer.idvolunteer,
+        srCitizenList: srCitizensToUnassign
+      }
+    };
+    this.loadingSpinner=true;
+    this.subs.add = this.apiInfoService.dynamicPostRequest(paramsObj).subscribe(response=>{
+      console.log(response);
+      let message='';
+      if(response.message=='Success' && response.statusCode ==0){
+        this.deboardVolunteer(volunteer,deboardType)
+      }
+      else{
+        message="Something went wrong.!";
+        this.showNotification({message,success:false});
+      }
+    },
+    errorResponse=>{
+      let message="Something went wrong.!";
+      this.showNotification({message,success:false});
+      this.loadingSpinner=false;
+    },()=>{
+      this.loadingSpinner=false;
+    });
   }
   
 }

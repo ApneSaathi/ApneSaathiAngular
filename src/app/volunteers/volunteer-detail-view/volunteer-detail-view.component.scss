@@ -132,9 +132,10 @@
     font-size: 12px;
 }
 .options {
-    border: none;
+    //border: none;
     background-color: inherit;
     margin-right: 5px;
+    border-radius: 3px;
 }
 .options:focus {
     outline: none;
@@ -155,24 +156,24 @@
 .reviewsRatings span {
     padding: 10px;
 }
-.viewAll-link {
-    text-decoration: none;
-    color: orangered;
-    float: right;
-    margin-right: 10px;
-}
-.addReview-button {
-    width: 15px;
-    height: 15px;
-    padding: 0;
-    background-color: orangered;
-    border: 0;
-    border-radius: 3px;
-    color: white;
-}
-.addReview-button:focus {
-    outline: none;
-}
+// .viewAll-link {
+//     text-decoration: none;
+//     color: orangered;
+//     float: right;
+//     margin-right: 10px;
+// }
+// .addReview-button {
+//     width: 15px;
+//     height: 15px;
+//     padding: 0;
+//     background-color: orangered;
+//     border: 0;
+//     border-radius: 3px;
+//     color: white;
+// }
+// .addReview-button:focus {
+//     outline: none;
+// }
 .reviews-title span {
     margin-right: 8px;
     font-weight: 500;

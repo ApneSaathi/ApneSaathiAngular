@@ -24,7 +24,7 @@ export class TransferVolunteerComponent implements OnInit {
   });
 
 public dataSource;
-public base_url="http://localhost:4200/";
+public base_url;
 public subs= new SubscriptionsContainer();
 public selectedState:any;
 public selectedDistrict:any;
@@ -57,7 +57,7 @@ putData:any;
 
     
   ngOnInit(): void {
-
+    this.base_url=environment.base_url;
     // parameter defining for API Call 
 
     this.selectedId=this.volunteerObj.idvolunteer;
