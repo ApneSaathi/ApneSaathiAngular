@@ -500,14 +500,23 @@ transferVolunteer(volunteer){
         if(dialogResponse.deboardType=='transferCitizens'){
           this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
         }
-        else{
+        else if(dialogResponse.deboardType=='unAssignCitizens'){
           this.unAssignCitizens(volunteer,dialogResponse.deboardType);
+        }
+        else{
+          let message="Deboarding of Volunteer has been cancelled or failed";
+          this.showNotification({message,success:false})
         }
       })
     }
     else{
-      if(confirm('Do you really want to deboard volunteer?'))
+      if(confirm('Do you really want to deboard volunteer?')){
         this.deboardVolunteer(volunteer);
+      }
+      else{
+        let message="Deboarding of Volunteer has been cancelled or failed";
+        this.showNotification({message,success:false})
+      }
     }
   }
   openGlobalPopup(configurationObject){
@@ -536,7 +545,7 @@ transferVolunteer(volunteer){
         this.deboardVolunteer(volunteer,deboardType);
       }
       else{
-        let message="Transfer of Volunteers failed or cancelled";
+        let message="Transfer of sr.citizens has been cancelled or failed";
         this.showNotification({message,success:false})
       }
     })
