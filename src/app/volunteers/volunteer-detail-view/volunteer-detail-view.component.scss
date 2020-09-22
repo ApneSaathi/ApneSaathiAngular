@@ -155,24 +155,24 @@
 .reviewsRatings span {
     padding: 10px;
 }
-.viewAll-link {
-    text-decoration: none;
-    color: orangered;
-    float: right;
-    margin-right: 10px;
-}
-.addReview-button {
-    width: 15px;
-    height: 15px;
-    padding: 0;
-    background-color: orangered;
-    border: 0;
-    border-radius: 3px;
-    color: white;
-}
-.addReview-button:focus {
-    outline: none;
-}
+// .viewAll-link {
+//     text-decoration: none;
+//     color: orangered;
+//     float: right;
+//     margin-right: 10px;
+// }
+// .addReview-button {
+//     width: 15px;
+//     height: 15px;
+//     padding: 0;
+//     background-color: orangered;
+//     border: 0;
+//     border-radius: 3px;
+//     color: white;
+// }
+// .addReview-button:focus {
+//     outline: none;
+// }
 .reviews-title span {
     margin-right: 8px;
     font-weight: 500;
@@ -426,4 +426,8 @@
     left:10%;
     background-color: orangered;
     transform:rotate(32deg)
+}
+.no-AssignedData {
+    font-size: 20px;
+    color:#FF3D00
 }

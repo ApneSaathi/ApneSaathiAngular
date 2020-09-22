@@ -63,7 +63,7 @@
   <ng-container matColumnDef="firstName">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
     <mat-cell *matCellDef="let element" (click)="volunteerDetails(element)"> 
-      <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.firstName}} </mat-cell>
+      <img class="person-image" [src]="base_url+'assets/senior-citizen.png'" alt='Person' width='28' height='28'> {{element.firstName}} </mat-cell>
   </ng-container>
 
   <!-- Rating Column -->
@@ -166,13 +166,24 @@
     <ng-container matColumnDef="firstName">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <img [src]="base_url+'assets/userVolunteer.png'" alt='Person' width='15' height='15'> {{element.firstName}} </mat-cell>
+        <img class="person-image" [src]="base_url+'assets/senior-citizen.png'" alt='Person' width='28' height='28'> {{element.firstName}} </mat-cell>
     </ng-container>
 
     <!-- Rating Column -->
     <ng-container matColumnDef="rating">
-      <mat-header-cell *matHeaderCellDef> Rating </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Rating</mat-header-cell>
+      <mat-cell *matCellDef="let element"> 
+        <span class="material-icons rating-icon-list" *ngIf="element.rating == 0">
+            star_outline
+        </span>
+        <span class="material-icons rating-icon-list" *ngIf="element.rating && element.rating < 3.8" [ngClass]="volunteerRatingClass(element)">
+            star_half
+        </span>
+        <span class="material-icons rating-icon-list" *ngIf="element.rating && element.rating >=3.8" [ngClass]="volunteerRatingClass(element)">
+            star
+        </span>
+        {{element.rating}} 
+      </mat-cell>
     </ng-container>
 
     <!-- ContactNumber Column -->
