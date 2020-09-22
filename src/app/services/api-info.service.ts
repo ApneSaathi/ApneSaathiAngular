@@ -10,17 +10,17 @@ export class ApiInfoService {
 
   constructor(private http: HttpClient) { }
 
-  getAssignedSeniorCitizensList(): Observable<any> {
+  getAssignedSeniorCitizensList(opost): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getSrCitizenList";
-    return this.http.post<any>(url,{"status":"Assigned"});
+    return this.http.post<any>(url,opost);
   }
-  getUnassignedSeniorCitizensList(): Observable<any> {
+  getUnassignedSeniorCitizensList(opost): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getSrCitizenList";
-    return this.http.post<any>(url,{"status":"Unassigned"});
+    return this.http.post<any>(url,opost);
   }
-  getDeboardedSeniorCitizensList(): Observable<any> {
+  getDeboardedSeniorCitizensList(opost): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getSrCitizenList";
-    return this.http.post<any>(url,{"status":"Deboarded"});
+    return this.http.post<any>(url,opost);
   }
   getVolunteerDetails(inputData): Observable<any> {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteerDetails";

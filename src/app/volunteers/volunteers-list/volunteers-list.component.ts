@@ -442,6 +442,18 @@ transferVolunteer(volunteer){
 //   }
 // }
 
+
+
+reset(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  this.selectedSort='';
+  let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0}
+  this.getPageData(postData);
+}
+
+
   opensrCitizenAssign(volunteer){
     let congigObject ={
       data:{
@@ -550,6 +562,9 @@ transferVolunteer(volunteer){
       }
     })
   }
+
+
+
   unAssignCitizens(volunteer,deboardType){
     let paramsObj={
       url:"http://15.207.42.209:8080/Volunteer/srCitizenByVolunteer",
@@ -671,5 +686,6 @@ transferVolunteer(volunteer){
   volunteerDetails(element){
     this.router.navigate(['volunteers/VolunteerDetailView',{id: element.idvolunteer}]);
   }
+
 
 }
