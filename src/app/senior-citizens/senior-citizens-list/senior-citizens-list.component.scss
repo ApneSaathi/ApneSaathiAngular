@@ -82,3 +82,39 @@ td, th {
     color: #FF3D00;
     padding:0px !important;
 }
+.form-control{
+    border-radius: 3px;
+    width: 125px;
+    height: 24px;
+    margin-right: 8px;
+    color:grey;
+    // border:2px;
+    border-color:#d3d3d3;
+    margin-bottom: 16px;
+  }
+  .selected {
+    border-left: 3px solid red;
+   }
+   .mat-row, .mat-footer-row{
+    margin: 10px;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px 1px #80808026;
+  }
+  .mat-header-cell{
+    white-space: nowrap;
+  }
+  .mat-row:hover,.row-active{
+    border-left: 3px solid red;
+    box-shadow: 5px 1px 5px 5px #8080804f;
+  }
+  
+  mat-table {
+    box-shadow: none;
+  }
+  mat-header-row {
+    border-bottom-width: 0;
+  }
+  
+  .material-icons{
+    margin-bottom: 10px;
+  }
