@@ -59,7 +59,7 @@ putData:any;
   ngOnInit(): void {
     this.base_url=environment.base_url;
     // parameter defining for API Call 
-
+    this.base_url=environment.base_url;
     this.selectedId=this.volunteerObj.idvolunteer;
     this.transferVolunteer();
     this.selectedState="State";

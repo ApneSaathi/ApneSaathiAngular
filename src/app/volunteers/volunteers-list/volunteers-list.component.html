@@ -48,11 +48,11 @@
     </div>
     <div class="form-group">
       <select class="form-control" name="sortBy"  [(ngModel)]="selectedSort" (change)="onChangeSort($event.target.value)">
-        <!-- <option value="">SortBy</option> -->
+        <option value="">SortBy</option>
         <option *ngFor="let sortBy of sortBys" value="{{sortBy}}">{{sortBy}}</option>
       </select>
     </div>
-  <button mat-button (click)="reset()"><div class="reset"><span class="material-icons">refresh</span></div></button>
+    <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer" (click)="reset()">refresh</span>
     </mat-toolbar-row>
     </mat-toolbar>
 <!-- Volunteers List  -->

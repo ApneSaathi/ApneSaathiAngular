@@ -102,7 +102,7 @@
                 <a class="viewAll-link" routerLink="">View All</a> -->
             </div>
             <div class="reviews-block">
-                <owl-carousel-o [options]="customOptions">
+                <owl-carousel-o [options]="customOptions" *ngIf="ratingsDataSource.length > 0">
                     <ng-template carouselSlide *ngFor="let rating_item of ratingsDataSource">
                         <div class="review-item">
                             <div>
@@ -120,6 +120,9 @@
                         </div>
                       </ng-template>
                 </owl-carousel-o>
+                <div align="center" *ngIf="ratingsDataSource.length < 1" class="no-reviews-container">
+                    <span class="no-data">No Revies found</span>
+                </div>
             </div>
         </div>
     </div>

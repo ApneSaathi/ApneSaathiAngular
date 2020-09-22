@@ -108,7 +108,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 20px;
     color:#FF3D00
   }
-
+  .no-reviews-container{
+    position:relative;
+    top:40%
+  }
   // Assign Items CSS
   .assign-block{
     display:flex;
@@ -199,6 +202,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
   .assign-actions{
       border-top:1px solid #CCD1D1
+  }
+  //Reset button
+  .material-icons.reset{
+    margin-top: -11px;
+    color: #FF3D00;
   }
   // Rating Icon
   .material-icons.rating-icon{
