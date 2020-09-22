@@ -64,9 +64,7 @@ export class VolunteersListComponent implements OnInit,  OnDestroy {
   selectedBlock:string='';
   selectedSort:any;
   sortBy;
-  sortBys: string[] = [
-    'SortBy','rating','assignedSrCitizen'
-  ];
+  sortBys: string[] = ['rating','assignedSrCitizen'];
 
  
 
@@ -146,7 +144,7 @@ itemsPerPage:Number=7;
       this.selectedId = id;
     });
     let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0};
-    this.selectedSort="SortBy";
+    this.selectedSort="";
 
     this.getPageData(postData);
     this.getStates();
@@ -169,6 +167,14 @@ itemsPerPage:Number=7;
     }
     if(this.selectedBlock){
       postData['filterBlock']=this.selectedBlock;
+    }
+    if (this.selectedSort) {
+      postData['sortBy']=this.selectedSort;
+      postData['sortType']="ASC";
+    };
+    if(this.sortObj.key!='' && this.sortObj.type!=''){
+      postData['sortBy']=this.sortObj.key;
+      postData['sortType']=this.sortObj.type;
     }
     // postData.status="Active";
     this.getPageData(postData);
@@ -328,7 +334,13 @@ onChangeState(selectedState) {
     if (selectedSortBy) {
         postData['sortBy']=selectedSortBy;
         postData['sortType']="ASC";
-    };
+        this.sortObj.key=selectedSortBy;
+        this.sortObj.type='ASC'
+    }
+    else{
+      this.sortObj.key='';
+      this.sortObj.type='';
+    }
     if(this.selectedState!=''){
       postData['filterState']=this.selectedState;
     }
@@ -449,6 +461,10 @@ reset(){
   this.selectedDistrict='';
   this.selectedBlock='';
   this.selectedSort='';
+  this.districtsList=[];
+  this.blocksList=[];
+  this.sortObj.key='';
+  this.sortObj.type='';
   let postData={status:"Active",limit:this.itemsPerPage,pagenumber:0}
   this.getPageData(postData);
 }
