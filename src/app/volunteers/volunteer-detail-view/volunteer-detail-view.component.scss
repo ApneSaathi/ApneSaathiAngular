@@ -132,10 +132,9 @@
     font-size: 12px;
 }
 .options {
-    //border: none;
+    border: none;
     background-color: inherit;
     margin-right: 5px;
-    border-radius: 3px;
 }
 .options:focus {
     outline: none;
@@ -427,4 +426,8 @@
     left:10%;
     background-color: orangered;
     transform:rotate(32deg)
+}
+.no-AssignedData {
+    font-size: 20px;
+    color:#FF3D00
 }

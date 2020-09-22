@@ -26,10 +26,10 @@
         <div class="personalInfo">
             <span class="personalInfo-span">Personal Info:</span>
             <div class="actions">
-                <a class="action-link" routerLink="">
+                <a class="action-link">
                     <img matTooltip="Transfer Volunteer" class="transferVolunteer" [src]="base_url+'assets/Vector.png'" alt='Person' width='15' height='15' (click)="transferVolunteer(volunteerDetailsDataSource)">
                 </a>
-                <a class="action-link" routerLink="">
+                <a class="action-link">
                     <img matTooltip="Deboard Volunteer" class="deboardedVolunteer" [src]="base_url+'assets/Group 2.png'" alt='Person' width='15' height='15' (click)="opeDdeboardVolunteer(volunteerDetailsDataSource)">
                 </a>
             </div>
@@ -63,9 +63,9 @@
                 <span>Progress Summary</span>
                 <div class="dropdown-menu">
                     <select class="options">
-                        <option value="Today" class="option1">Total calls till today</option>
-                        <option value="Total Calls" class="option2">Today</option>
-                        <option value="Last 7 days" class="option3">Last 7 days</option>
+                        <option value="Till date" class="option1">Till date</option>
+                        <option value="Today" class="option2">Today</option>
+                        <option value="Last week" class="option3">Last week</option>
                     </select>
                 </div>
             </div>
@@ -127,7 +127,7 @@
         <span class="srCitizenList-span">Sr.Citizen's List</span>&nbsp;
         <button mat-button class="srCitizenList-button" (click)="opensrCitizenAssign(volunteerDetailsDataSource)">+ Add</button>
     </div>
-    <div class="srCitizenList-block">
+    <div class="srCitizenList-block" *ngIf="noAssignedData.message==''">
         <div class="srCitizenList-item" *ngFor="let srCitizen of assignedCitizensDataSource">
             <label> 
                 <img [src]="base_url+'assets/user.jpg'" class="image-block">
@@ -142,5 +142,8 @@
                 </div>
             </label>
         </div>
+    </div>
+    <div align="center" *ngIf="noAssignedData.message!=''" class="no-data-container">
+        <span class="no-AssignedData">{{noAssignedData.message}}</span>
     </div>
 </div>

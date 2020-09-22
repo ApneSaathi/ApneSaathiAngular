@@ -35,6 +35,7 @@ export class VolunteerDetailViewComponent implements OnInit {
   public subs = new SubscriptionsContainer();
   public dialogReference;
   public srCitizensToUnassign:any[];
+  public noAssignedData={message:''};
 
   // owl carousel code here
   customOptions: OwlOptions = {
@@ -71,9 +72,6 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.volunteerId = id;
     });
     this.fetchDetails();
-    //this.fetchVolunteersList();
-    //this.callStatus();
-    //this.totalCallsClass();
   }
   
   getFullStarsArray(volunteer){
@@ -121,14 +119,12 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.ratingsDataSource = data.volunteerVO.volunteerRatingList;
       this.volunteerCallListDataSource = data.volunteerVO.volunteercallList;
 
+      this.noAssignedData.message = '';
+
       this.totalCalls = this.volunteerCallListDataSource.length;
-      console.log(this.totalCalls);
       this.statusCompleted = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 10);
-      console.log(this.statusCompleted);
       this.statusPending = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 1);
-      console.log(this.statusPending);
       this.statusNeedFollowup = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] != 10 && status['callstatusCode'] != 1);
-      console.log(this.statusNeedFollowup);
 
       this.countCompleted = this.statusCompleted.length;
       this.countPending = this.statusPending.length;
@@ -139,6 +135,9 @@ export class VolunteerDetailViewComponent implements OnInit {
       let tempPercentNeedFollowup = this.countNeedFollowup > 0 ?Math.round((this.countNeedFollowup / this.totalCalls) * 100):0;
       this.percentNeedFollowup = tempPercentNeedFollowup+this.percentCompleted;
 
+      if(this.assignedCitizensDataSource.length == 0) {
+        this.noAssignedData.message="No Senior Citizens are assigned. Kindly assign senior citizens to this volunteer";
+      }
     },
     errorResponse=>{
       if(errorResponse.status==409){
@@ -149,33 +148,6 @@ export class VolunteerDetailViewComponent implements OnInit {
       this.loadingSpinner=false;
     })
   }
-
-  // callStatus() {
-  //   this.statusCompleted = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 10);
-  //   console.log(this.statusCompleted);
-  //   let statusPending = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] == 1);
-  //   let statusNeedFollowup = this.volunteerCallListDataSource.filter(status => status['callstatusCode'] != 10 && status['callstatusCode'] != 1);
-    
-  //   let countCompleted = this.statusCompleted.length;
-  //   let countPending = statusPending.length;
-  //   let countNeedFollowup = statusNeedFollowup.length;
-    
-  //   this.percentCompleted = Math.round((countCompleted / this.totalCalls) * 100);
-  //   this.percentPending = Math.round((countPending / this.totalCalls) * 100);
-  //   this.percentNeedFollowup = Math.round((countNeedFollowup / this.totalCalls) * 100);
-  // }
-
-  // fetchVolunteersList() {
-  //   this.apiInfoService.postVolunteersList({"status": "Active"}).subscribe((data) => {
-  //     this.volunteersListDataSource = data.volunteers;
-  //     console.log(this.volunteersListDataSource);
-  //   })
-  // }
-
-  //  totalCallsClass() {
-  //    this.totalCalls = this.volunteerCallListDataSource.length;
-  //    console.log(this.totalCalls);
-  //  }
 
   volunteerRating(){
     return {
@@ -197,7 +169,6 @@ export class VolunteerDetailViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.fetchDetails();
-      //this.fetchVolunteersList();
     });
   }
 
@@ -232,7 +203,7 @@ export class VolunteerDetailViewComponent implements OnInit {
 
   opeDdeboardVolunteer(volunteer){
     if(volunteer.count_SrCitizen>0){
-      let congigObject ={
+      let configObject ={
         data:{
           heading:"Deboarding Volunteer",
           feature: "deboardingVolunteer",
@@ -244,24 +215,33 @@ export class VolunteerDetailViewComponent implements OnInit {
         //position:{top:"50px"},
         //height:"500px"
       };
-      this.openGlobalPopup(congigObject);
+      this.openGlobalPopup(configObject);
       this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
         if(dialogResponse.deboardType=='transferCitizens'){
           this.openTransferSrCitizens(volunteer,dialogResponse.deboardType);
         }
-        else{
+        else if(dialogResponse.deboardType=='unAssignCitizens'){
           this.unAssignCitizens(volunteer,dialogResponse.deboardType);
+        }
+        else{
+          let message="Deboarding of Volunteer has been cancelled or failed";
+          this.showNotification({message,success:false})
         }
       })
     }
     else{
-      if(confirm('Do you really want to deboard volunteer?'))
+      if(confirm('Do you really want to deboard volunteer?')){
         this.deboardVolunteer(volunteer);
+      }
+      else{
+        let message="Deboarding of Volunteer has been cancelled or failed";
+        this.showNotification({message,success:false})
+      }
     }
   }
 
   openTransferSrCitizens(volunteer,deboardType){
-    let congigObject ={
+    let configObject ={
       data:{
         heading:"Volunteers list",
         headingSubscript: "below are the volunteers from the same district",
@@ -275,7 +255,7 @@ export class VolunteerDetailViewComponent implements OnInit {
       //position:{top:"50px"},
       //height:"500px"
     };
-    this.openGlobalPopup(congigObject);
+    this.openGlobalPopup(configObject);
     this.subs.add=this.dialogReference.afterClosed().subscribe(dialogResponse=>{
       console.log("Dialog Response:",dialogResponse);
       if(dialogResponse.transfer){
