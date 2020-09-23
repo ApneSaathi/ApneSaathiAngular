@@ -37,6 +37,7 @@ export class SeniorCitizensListComponent implements OnInit, OnDestroy {
   AssignedDataSource;
   UnassignedDataSource;
   DeboardedDataSource;
+  UnassignedCitizenDataSource;
   
   links = ["Assigned Sr. Citizen's", "Unassigned Sr. Citizen's", "Deboarded Sr. Citizen's"];
   activeLink = this.links[0];
@@ -79,6 +80,10 @@ export class SeniorCitizensListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.base_url=environment.base_url;
+
+    this.apiInfoService.getUnassignedSeniorCitizensList({status: "Unassigned"}).subscribe((data) => {
+      this.UnassignedCitizenDataSource = data.srCitizenList;
+    })
     
     let postData={status:"Assigned",limit:this.itemsPerPage,pagenumber:0};
     let unassignedPostData={status:"Unassigned",limit:this.itemsPerPage,pagenumber:0};

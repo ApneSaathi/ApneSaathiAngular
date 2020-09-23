@@ -92,7 +92,10 @@
 </mat-tab>
 
 <mat-tab label="Unassigned Sr. Citizen">
-  <span class="unassignedList-span">Senior Citizen List</span>
+  <div class="unassignedList-title">
+    <span class="unassignedList-span">Senior Citizen List</span>
+    <span class="unassignedList-totalCount">({{UnassignedCitizenDataSource.length}})</span>
+  </div>
   <div class="unassignedList-topSection">
     <div class="assignVolunteer-button-section">
       <button mat-flat-button color="primary" class="medium-size-text assignVolunteer-button" [disabled]="disable_assign_button" (click)="assignToVolunteers()">Assign Volunteer</button>
