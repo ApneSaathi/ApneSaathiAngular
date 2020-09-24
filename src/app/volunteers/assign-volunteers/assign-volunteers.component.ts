@@ -17,6 +17,7 @@ import { SharedService } from 'src/app/services/shared.service';
 export class AssignVolunteersComponent implements OnInit {
 
   @Input() volunteerObj;
+  @Input() citizensObj;
   assignVolunteerForm=this.fb.group({
     selectAll:[false],
     selectedVolunteers: this.fb.array([])
@@ -50,7 +51,12 @@ export class AssignVolunteersComponent implements OnInit {
   ngOnInit(): void {
     this.base_url= environment.base_url;
     this.getVolunteersForAssignment();
-    this.getSrCitizensList();
+    if(Object.keys(this.citizensObj).length === 0){ 
+      this.getSrCitizensList();
+    }
+    else{
+      this.srCitizensList=this.citizensObj;
+    }
     this.subs.add=this.assignVolunteerForm.get('selectedVolunteers').valueChanges
     .subscribe(value=> {
       console.log(value.findIndex(volunteer => volunteer.checked==true))
@@ -78,11 +84,13 @@ export class AssignVolunteersComponent implements OnInit {
       url:"http://15.207.42.209:8080/Volunteer/getVolunteersList",
       postData:{
         status:"Active",
-        filterState: this.volunteerObj.state,
-        filterDistrict: this.volunteerObj.district,
-        excludeIds:[this.volunteerObj.idvolunteer]
+        filterState: (Object.keys(this.volunteerObj).length != 0) ? this.volunteerObj.state: this.citizensObj.state,
+        filterDistrict: (Object.keys(this.volunteerObj).length != 0) ? this.volunteerObj.district: this.citizensObj.district,
       }
     };
+    if(Object.keys(this.volunteerObj).length != 0){
+      paramsObj.postData['excludeIds']=[this.volunteerObj.idvolunteer]
+    }
     this.loadingSpinner=true;
     this.subs.add = this.api_info.dynamicPostRequest(paramsObj).subscribe(response=>{
       if(response.message=='Success' && response.statusCode ==0 ){
@@ -115,18 +123,20 @@ export class AssignVolunteersComponent implements OnInit {
       if(response.message=='Success' && response.statusCode ==0 && typeof response.srCitizenList!='undefined' &&  response.srCitizenList.length > 0 ){
         this.srCitizensList= response.srCitizenList;
         console.log("Assigned Citizens:",this.srCitizensList);
-        this.noData.message="";
       }
       else{
-        this.noData.message="";
+        let message="Unable to fetch Senior citizens";
+        this.showNotification({message:message,success:false});
       }
     },
     errorResponse=>{
       if(errorResponse.status == 409){
-        this.noData.message="";
+        let message="Unable to fetch Senior citizens";
+        this.showNotification({message:message,success:false});
       }
       else{
-        this.noData.message="Something went wrong.!";
+        let message="Something went wrong.!";
+        this.showNotification({message:message,success:false});
       }
       this.srCitizensList=[];
     });
@@ -180,42 +190,48 @@ export class AssignVolunteersComponent implements OnInit {
         return volunteer; 
       });
     });
-    let assignParamsObj={
-      url:"http://15.207.42.209:8080/Volunteer/distributeSrCitizen",
-      postData:{
-        idvolunteer:this.volunteerObj.idvolunteer,
-        //idvolunteer:this.volunteerObj.contactNumber,
-        role:this.shared_service.loginUser.adminId,
-        adminId:this.shared_service.loginUser.role,
-        srCitizenList:this.srCitizensList,
-        volunteerList:finalListIds,
-      }
-    };
-    // dynamicPostRequest funcion invoke to get the sr CItizen list from API
-    console.log("Post Data:",assignParamsObj);
-    let message= '';
-    this.subs.add=this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
-      let success=false;
-      console.log("Assign Response",data);
-      //let message= this.volunteerObj.count_SrCitizen+ this.volunteerObj.count_SrCitizen > 1?' volunteers':' volunteer'+" of "+this.volunteerObj.firstName+" has been transferred to others and deboarded "+ this.volunteerObj.gender=='M'?'him':'her' +"successfully.";
-      if(data && data.message=='Success'){
-        //message="Something went wrong";
-        this.dialogRef.close({transfer:true});
-        success=true;
-      }
-      else{
-        //this.dialogRef.close();
+    if(this.srCitizensList.length >= finalListIds.length){
+      let assignParamsObj={
+        url:"http://15.207.42.209:8080/Volunteer/distributeSrCitizen",
+        postData:{
+          idvolunteer: (Object.keys(this.volunteerObj).length === 0)?this.volunteerObj.idvolunteer:'',
+          //idvolunteer:this.volunteerObj.contactNumber,
+          role:this.shared_service.loginUser.adminId,
+          adminId:this.shared_service.loginUser.role,
+          srCitizenList:this.srCitizensList,
+          volunteerList:finalListIds,
+        }
+      };
+      // dynamicPostRequest funcion invoke to get the sr CItizen list from API
+      console.log("Post Data:",assignParamsObj);
+      let message= '';
+      this.subs.add=this.api_info.dynamicPostRequest(assignParamsObj).subscribe(data=>{
+        let success=false;
+        console.log("Assign Response",data);
+        //let message= this.volunteerObj.count_SrCitizen+ this.volunteerObj.count_SrCitizen > 1?' volunteers':' volunteer'+" of "+this.volunteerObj.firstName+" has been transferred to others and deboarded "+ this.volunteerObj.gender=='M'?'him':'her' +"successfully.";
+        if(data && data.message=='Success'){
+          //message="Something went wrong";
+          this.dialogRef.close({transfer:true});
+          success=true;
+        }
+        else{
+          //this.dialogRef.close();
+          message="Something went wrong";
+          this.showNotification({message: message,success});
+        }
+      },
+      errorResponse=>{
         message="Something went wrong";
-        this.showNotification({message: message,success});
-      }
-    },
-    errorResponse=>{
-      message="Something went wrong";
-      this.showNotification({message: message,success:false});
-    },
-    ()=>{
+        this.showNotification({message: message,success:false});
+      },
+      ()=>{
+        this.loadingSpinner=false;
+      })
+    }
+    else{
       this.loadingSpinner=false;
-    })
+      this.showNotification({message: "Selected volunteers count should not exceed senior citizens count",success:false});
+    }
   }
   showNotification(notificationData,duration=5000){
     this.snackBar.openFromComponent(NotificationMessageComponent,{

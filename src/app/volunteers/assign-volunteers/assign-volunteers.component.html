@@ -33,7 +33,7 @@
         <span class="no-data">{{noData.message}}</span>
     </div>
     <div  *ngIf="!srCitizensList || srCitizensList.length <= 0" class="no-data-container">
-        <span class="no-data">No Senior Citizens Found</span>
+        <span class="no-data"></span><!--No Senior Citizens Found-->
     </div>
     <div class="loading-spinner" *ngIf="loadingSpinner">
         <mat-spinner [diameter]=50></mat-spinner>
