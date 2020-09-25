@@ -21,6 +21,9 @@
                 <button class="menu-items" (click) = "isButtonClicked('volunteerQuires')">
                     <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerQuires'}" routerLink="">Volunteer Quires</a>
                 </button>
+                <button class="menu-items" (click) = "isButtonClicked('volunteerImportLog')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerImportLog'}" routerLink="/volunteers/ImportLog">Bulk Import Logs</a>
+                </button>
             </div>
         </mat-panel-description>
     </mat-expansion-panel>

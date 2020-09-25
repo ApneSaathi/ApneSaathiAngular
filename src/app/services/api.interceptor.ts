@@ -45,6 +45,9 @@ export class ApiInterceptor implements HttpInterceptor {
         if(error.status==503){
           error_message="Service Unavailable"
         }
+        if(error.status===0){
+          error_message="Unknown Error"
+        }
         if((request.url !="http://15.207.42.209:8080/Volunteer/getVolunteersList" && error.status!=409) || error.status==503 || error.status==404)
           this.showNotification({message:error_message}); // ivoking error notification function
         return throwError(error);
