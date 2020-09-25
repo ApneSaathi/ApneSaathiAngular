@@ -383,6 +383,17 @@ getBlocks(){
       }
     };
   }
+
+
+
+reset(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Assigned",limit:this.itemsPerPage,pagenumber:0}
+  this.getPageData(postData);
+}
+
   /**
    * assignToVolunteers function is to open distribute citizens to volunteer popup
    */
