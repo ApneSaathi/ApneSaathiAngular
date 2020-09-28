@@ -396,11 +396,11 @@ resetAssigned(){
 }
 
 resetUnassigned(){
-  // this.selectedState='';
-  // this.selectedDistrict='';
-  // this.selectedBlock='';
-  // let postData={status:"Unassigned",limit:this.itemsPerPage,pagenumber:0}
-  // this.getUnassignedPageData(postData);
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Unassigned",limit:this.itemsPerPage,pagenumber:0}
+  this.getUnassignedPageData(postData);
 }
 
 reset(){
