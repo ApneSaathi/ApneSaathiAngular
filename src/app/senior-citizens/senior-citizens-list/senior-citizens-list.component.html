@@ -34,7 +34,7 @@
       </div>
       </div>
       <div class="resetFilter">
-      <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer" (click)="reset()">refresh</span>&nbsp;&nbsp;
+      <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer" (click)="resetAssigned()">refresh</span>&nbsp;&nbsp;
     </div>
     </div>
 
@@ -97,7 +97,7 @@
 <mat-tab label="Unassigned Sr. Citizen">
   <div class="unassignedList-title">
     <span class="unassignedList-span">Senior Citizen List</span>
-    <span class="unassignedList-totalCount">({{UnassignedCitizenDataSource.length}})</span>
+    <!-- <span class="unassignedList-totalCount">({{UnassignedCitizenDataSource.length}})</span> -->
   </div>
   <div class="unassignedList-topSection">
     <div class="assignVolunteer-button-section">
@@ -128,7 +128,7 @@
           </div>
           </div>
           <div class="resetFilter">
-          <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer"(click)="reset()">refresh</span>&nbsp;&nbsp;
+          <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer"(click)="resetUnassigned()">refresh</span>&nbsp;&nbsp;
         </div>
         </div>
 
@@ -215,7 +215,7 @@
           </div>
         </div>
         <div class="resetFilter">
-        <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer" (click)="reset()">refresh</span>&nbsp;&nbsp;
+        <span matTooltip="Reset Filters" class="material-icons reset mouseover-pointer" (click)="resetUnassigned()">refresh</span>&nbsp;&nbsp;
       </div>
       </div>
 
