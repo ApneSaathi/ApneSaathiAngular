@@ -212,8 +212,7 @@ getBlocks(){
     } 
     // postData.status="UnAssigned";
     
-    this.assignCitizenForm.reset();
-    this.selectedCitizens.clear();
+    
     this.getUnassignedPageData(postData);
   }
   getUnassignedPageData(postData){
@@ -225,7 +224,11 @@ getBlocks(){
       this.loadingSpinner=false;
       if(postData.pagenumber===0 || postData.pagenumber==='0'){
         this.p1=1;
+        this.selectedCitizensQueue=[];
+        this.disable_assign_button=true;
       }
+      this.assignCitizenForm.reset();
+      this.selectedCitizens.clear();
       this.addSelectCitizens();
       console.log(this.assignCitizenForm);
      },
@@ -413,14 +416,23 @@ reset(){
         heading:"Assign Volunteers",
         headingRightContent:"Selected sr.citizens Count: "+this.selectedCitizensQueue.length,
         feature: "distributeSrCitizensEqually",
-        citizensObj: this.selectedCitizensQueue
+        citizensObj: this.selectedCitizensQueue,
       },
       disableClose:true,
       width: "90%",
       autoFocus: false,
+      panelClass: "assign-popup"
       //position:{top:"50px"},
       //height:"500px"
     };
+    congigObject.data['inputObj']={};
+    congigObject.data['inputObj']['feature']='distributeSrCitizensEqually';
+    if(this.selectedState!=''){
+      congigObject.data['inputObj']['filterState']=this.selectedState;
+    }
+    if(this.selectedDistrict!=''){
+      congigObject.data['inputObj']['filterDistrict']=this.selectedDistrict;
+    }
     this.openGlobalPopup(congigObject);
     this.dialogReference.afterClosed().subscribe(dialogResponse=>{
       if(dialogResponse.transfer){
@@ -428,8 +440,7 @@ reset(){
         this.showNotification({message,success:true});
         this.getUnassignedPaginationData(1);
         this.getPaginationData(1);
-        this.selectedCitizensQueue=[];
-        this.disable_assign_button=true;
+        
       }
       else{
         let message="Assigning of sr.citizens has been cancelled or failed";

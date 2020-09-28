@@ -12,10 +12,11 @@ import { AddVolunteersComponent } from './add-volunteers/add-volunteers.componen
 import { TransferVolunteerComponent } from './transfer-volunteer/transfer-volunteer.component';
 import { DeBoardVolunteerComponent } from './de-board-volunteer/de-board-volunteer.component';
 import { AssignVolunteersComponent } from './assign-volunteers/assign-volunteers.component';
+import { ImportLogComponent } from './import-log/import-log.component';
 
 
 @NgModule({
-  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent, TransferVolunteerComponent, DeBoardVolunteerComponent, AssignVolunteersComponent],
+  declarations: [VolunteersComponent, VolunteersListComponent, VolunteerDetailViewComponent, AddVolunteersComponent, TransferVolunteerComponent, DeBoardVolunteerComponent, AssignVolunteersComponent, ImportLogComponent],
 
   imports: [
     CommonModule,

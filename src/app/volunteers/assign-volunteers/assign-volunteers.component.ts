@@ -18,8 +18,10 @@ export class AssignVolunteersComponent implements OnInit {
 
   @Input() volunteerObj;
   @Input() citizensObj;
+  @Input() inputObj;
   assignVolunteerForm=this.fb.group({
     selectAll:[false],
+    sortValue:[''],
     selectedVolunteers: this.fb.array([])
   });
   public volunteersList:object[];
@@ -29,6 +31,14 @@ export class AssignVolunteersComponent implements OnInit {
   public loadingSpinner:boolean = true;
   public noData={message:''};
   public subs = new SubscriptionsContainer();
+  public sortValue='';
+  public sortObj={
+    'ratingAsc':{'key':'rating',type:'ASC'},
+    'ratingDesc':{'key':'rating',type:'DESC'},
+    'assignedSrCitizenAsc':{'key':'assignedSrCitizen',type:'ASC'},
+    'assignedSrCitizenDesc':{'key':'assignedSrCitizen',type:'DESC'}
+  }
+  public total_volunteers:number=0;
   constructor(
     private api_info: ApiInfoService,
     private snackBar: MatSnackBar,
@@ -45,7 +55,8 @@ export class AssignVolunteersComponent implements OnInit {
   volunteerRatingClass(volunteer){
     return {
       'rating-icon-red': volunteer.rating > 0 && volunteer.rating <= 3,
-      'rating-icon-yellow': volunteer.rating > 0  && volunteer.rating > 3
+      'rating-icon-yellow': volunteer.rating > 0  && volunteer.rating > 3,
+      '': volunteer.rating ==0
     }
   }
   ngOnInit(): void {
@@ -84,17 +95,22 @@ export class AssignVolunteersComponent implements OnInit {
       url:"http://15.207.42.209:8080/Volunteer/getVolunteersList",
       postData:{
         status:"Active",
-        filterState: (Object.keys(this.volunteerObj).length != 0) ? this.volunteerObj.state: this.citizensObj.state,
-        filterDistrict: (Object.keys(this.volunteerObj).length != 0) ? this.volunteerObj.district: this.citizensObj.district,
+        filterState: (Object.keys(this.volunteerObj).length != 0) ? this.volunteerObj.state: this.inputObj.filterState,
+        filterDistrict: (Object.keys(this.volunteerObj).length != 0) ? this.volunteerObj.district: this.inputObj.district,
       }
     };
     if(Object.keys(this.volunteerObj).length != 0){
       paramsObj.postData['excludeIds']=[this.volunteerObj.idvolunteer]
     }
+    if(this.assignVolunteerForm.value.sortValue !=''){
+      paramsObj.postData['sortBy']=this.sortObj[this.assignVolunteerForm.value.sortValue]['key'];
+      paramsObj.postData['sortType']=this.sortObj[this.assignVolunteerForm.value.sortValue]['type'];
+    }
     this.loadingSpinner=true;
     this.subs.add = this.api_info.dynamicPostRequest(paramsObj).subscribe(response=>{
       if(response.message=='Success' && response.statusCode ==0 ){
         this.volunteersList= response.volunteers;
+        this.total_volunteers=response.totalVolunteers;
         this.addSelectedVolunteers();
         this.noData.message="";
       }
@@ -103,6 +119,7 @@ export class AssignVolunteersComponent implements OnInit {
       if(errorResponse.status == 409){
         this.noData.message="No Records Found";
       }
+      this.total_volunteers=0;
       this.volunteersList=[];
     },
     ()=>{

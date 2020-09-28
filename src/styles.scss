@@ -154,20 +154,33 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .assign-info{
     margin-left:10px;
-    background-color: #CCD1D1;
-    border-radius: 3%;
+    background-color: #e6e2de;
+    border-radius: 5px;
     padding: 4px 0px 4px 25px;
     position:relative;
     font-size: 12px;
     left:-6px
 
 }
+.assign-volunteer-name{
+  font-weight:500
+}
 .assign-info-checked{
     background-color: #FFFFFF !important;
     box-shadow: 5px 5px 5px gray !important;
 }
+.assign-popup{
+  mat-dialog-container {
+    background-color: #f7f4f4
+  }
+}
 .select-all{
     padding-left:40px;
+    display:flex;
+    justify-content: space-between;
+}
+.assign-volunteer-count{
+  padding-left:40px;
 }
 .list-card-group{
     position:relative;
@@ -230,5 +243,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color:orangered
   }
   .rating-icon-yellow{
-    color:yellow
+    color: #d4d409
   }
+  // Import Logs
+  .import-log-title{
+    font-weight: 500;
+    margin-left: 20px;
+    font-size: 16px;
+    display:flex;
+    margin-top: 25px;
+    color: #FF3D00
+  }
+  // .import-log-container{
+  //   padding: 20px;
+  // }
