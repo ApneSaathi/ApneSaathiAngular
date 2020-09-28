@@ -403,8 +403,12 @@ resetUnassigned(){
   this.getUnassignedPageData(postData);
 }
 
-reset(){
-
+resetDeboarded(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Deboarded", limit:this.itemsPerPage,pagenumber:0}
+  this.getDeboardedPageData(postData);
 }
 
   /**
