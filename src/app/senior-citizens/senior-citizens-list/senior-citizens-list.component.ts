@@ -386,12 +386,29 @@ getBlocks(){
 
 
 
-reset(){
+resetAssigned(){
   this.selectedState='';
   this.selectedDistrict='';
   this.selectedBlock='';
   let postData={status:"Assigned",limit:this.itemsPerPage,pagenumber:0}
   this.getPageData(postData);
+
+}
+
+resetUnassigned(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Unassigned",limit:this.itemsPerPage,pagenumber:0}
+  this.getUnassignedPageData(postData);
+}
+
+resetDeboarded(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Deboarded", limit:this.itemsPerPage,pagenumber:0}
+  this.getDeboardedPageData(postData);
 }
 
   /**
