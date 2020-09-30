@@ -1,0 +1,20 @@
+  .mat-row, .mat-footer-row{
+    margin: 10px;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px 1px #80808026;
+  }
+  .mat-header-cell{
+    white-space: nowrap;
+  }
+  .mat-row:hover,.row-active{
+    border-left: 3px solid red;
+    box-shadow: 5px 1px 5px 5px #8080804f;
+  }
+  
+  mat-table {
+    box-shadow: none;
+    width:100%
+  }
+  mat-header-row {
+    border-bottom-width: 0;
+  }
