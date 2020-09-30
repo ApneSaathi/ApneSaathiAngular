@@ -26,6 +26,10 @@ export class ApiInfoService {
     const url = "http://15.207.42.209:8080/Volunteer/getVolunteerDetails";
     return this.http.post<any>(url,inputData);
   }
+  srCitizenPersonalinfo(input): Observable<any> {
+    const url = "http://15.207.42.209:8080/Volunteer/srCitizenPersonalinfo";
+    return this.http.post<any>(url,input);
+  }
   dynamicGetRequest(inputObject): Observable<any>{
     let queryParams='';
     if(inputObject.queryParams){

@@ -42,38 +42,38 @@
     <!-- Name column -->
     <ng-container matColumnDef="firstName">
       <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element">
+      <mat-cell *matCellDef="let element" (click)="srCitizenDetails(element)">
         <img class="person-image" [src]="base_url+'assets/senior-citizen.png'" alt='Person'> {{element.firstName}} </mat-cell>
     </ng-container>
   
     <!-- ContactNumber Column -->
     <ng-container matColumnDef="phoneNo">
       <mat-header-cell *matHeaderCellDef>Contact number </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.phoneNo}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="srCitizenDetails(element)"> {{element.phoneNo}} </mat-cell>
     </ng-container>
   
     <!-- State Column -->
     <ng-container matColumnDef="state">
       <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="srCitizenDetails(element)"> {{element.state}} </mat-cell>
     </ng-container>
 
      <!-- District Column -->
      <ng-container matColumnDef="district">
       <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.district}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="srCitizenDetails(element)"> {{element.district}} </mat-cell>
     </ng-container>
 
      <!-- Block Column -->
      <ng-container matColumnDef="blockName">
       <mat-header-cell *matHeaderCellDef> Block </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.blockName}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="srCitizenDetails(element)"> {{element.blockName}} </mat-cell>
     </ng-container>
 
      <!-- Assigned Volunteer Column -->
      <ng-container matColumnDef="volunteerId">
       <mat-header-cell *matHeaderCellDef> Assigned Volunteer </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.volunteerId}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="srCitizenDetails(element)"> {{element.volunteerId}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="AssignedSeniorCitizensColumns"></mat-header-row>
@@ -94,7 +94,7 @@
 <mat-tab label="Unassigned Sr. Citizen">
   <div class="unassignedList-title">
     <span class="unassignedList-span">Senior Citizen List</span>
-    <span class="unassignedList-totalCount">({{UnassignedCitizenDataSource.length}})</span>
+    <span class="unassignedList-totalCount">({{UnassignedCitizenDataSource?.length}})</span>
   </div>
   <div class="unassignedList-topSection">
     <div class="assignVolunteer-button-section">

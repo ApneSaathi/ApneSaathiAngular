@@ -8,10 +8,12 @@ import { AssignSeniorCitizensComponent } from './assign-senior-citizens/assign-s
 import {MaterialModule} from '../material/material.module';
 import {HttpClientModule} from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {CarouselModule} from 'ngx-owl-carousel-o';
+import { SeniorCitizensDetailViewComponent } from './senior-citizens-detail-view/senior-citizens-detail-view.component';
 
 
 @NgModule({
-  declarations: [SeniorCitizensComponent, SeniorCitizensListComponent, AssignSeniorCitizensComponent],
+  declarations: [SeniorCitizensComponent, SeniorCitizensListComponent, AssignSeniorCitizensComponent, SeniorCitizensDetailViewComponent],
   imports: [
     CommonModule,
     SeniorCitizensRoutingModule,
@@ -19,7 +21,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    CarouselModule
   ],
   exports:[
     AssignSeniorCitizensComponent

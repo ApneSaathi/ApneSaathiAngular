@@ -1,0 +1,155 @@
+.srCitizenInfo {
+    height: 100%;
+    background-color: rgb(248,248,248);
+    padding-top: 15px;
+}
+.links {
+    margin: 0 0 12px 10px;
+}
+.srCitizenLink {
+    color: black;
+    text-decoration: underline;
+    font-size: 13px;
+    cursor: pointer;
+}
+.listOfSrCitizenLink {
+    color: black;
+    text-decoration: underline;
+    font-size: 13px;
+    cursor: pointer;
+}
+.srCitizenInfoLink {
+    text-decoration: none;
+    color: orangered;
+    font-size: 13px;
+}
+.back-link img {
+    width: 15px;
+    height: 15px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+.back-link {
+    margin-left: 25px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    cursor: pointer;
+}
+.srCitizenProfile {
+    background-color: white;
+    margin: 10px 25px 0 25px;
+    border-radius: 5px;
+    display: flex;
+    box-shadow: 1px 1px 20px 0px rgb(230,230,230);
+}
+.left-block {
+    width: 20%;
+	border-right: 1px solid gainsboro;
+	padding-top: 25px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.person-img {
+    width: 100px;
+    height: 100px;
+}
+.person-nameAge {
+    display: flex;
+    //align-self: center;
+    flex-direction: column;
+}
+.person-name {
+    font-weight: 500;
+    position: relative;
+    display: flex;
+    align-self: center;
+    //top: 4px;
+    //left: 2px;
+}
+.person-age {
+    color: gray;
+    //font-weight: 500;
+    display: flex;
+    align-self: center;
+}
+.actions {
+    float: right;
+}
+.action-link {
+    text-decoration: none;
+}
+.personalDetails, .callDetails, .medicalDetails, .issueDetails {
+    margin-top: 8px;
+}
+.personalDetails-span, .assignedDetails-span, .assignedDetails-span, .assignedDetails-span, .healthDetails-span, .callDetails-span, .medicalDetails-span, .issueDetails-span {
+    color: gray;
+}
+.personalDetails-value, .assignedDetails-value, .healthDetails-value, .callDetails-value, .medicalDetails-value, .issueDetails-value {
+    font-weight: 500;
+}
+.contactNumber-block, .state-block, .district-block, .block-block, .volunteerName-block, .volunteerContactNumber-block, .volunteerRating-block, .callStatus-block, .volunteerName-block, .info-block, .covidSymptoms-block, .covidDetails-block, .services-block, .category-block, .excalation-block {
+    display: inline-block;
+    margin-right: 60px;
+    white-space: nowrap;
+}
+.right-block {
+    width: 100%;
+    padding: 15px;
+}
+.assignedVolunteer {
+    margin: 18px 0;
+}
+.assignedDetails, .healthDetails {
+    margin-top: 8px;
+}
+.form-title {
+    font-weight: 500;
+    margin: 20px 25px 10px 25px;
+}
+.formLeft-block {
+    width: 20%;
+    border-right: 1px solid gainsboro;
+}
+.formRight-block {
+    width: 100%;
+}
+.callInfo, .issues {
+    padding: 15px;
+}
+.medicalInfo {
+    border-top: 1px solid gainsboro;
+    padding: 15px;
+    border-bottom: 1px solid gainsboro;
+}
+.description-block {
+    margin-top: 12px;
+}
+::ng-deep .owl-nav{
+    display:block !important;
+}
+::ng-deep .owl-prev{
+    position: absolute !important;
+    left: -4px !important;
+    top: 0px !important;
+    background: transparent !important;
+    padding: 28px 0px 25px 5px !important;
+    margin: 0px !important;
+    color:#bbb5b5 !important;
+}
+::ng-deep .owl-next{
+    position: absolute !important;
+    right: -4px !important;
+    top: 0px !important;
+    background: transparent !important;
+    padding: 28px 0px 25px 5px !important;
+    margin: 0px !important;
+    color:#bbb5b5 !important;
+}
+::ng-deep .owl-prev:hover, ::ng-deep .owl-next:hover{
+    background: #e2dede !important;
+    color:white !important;
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+}

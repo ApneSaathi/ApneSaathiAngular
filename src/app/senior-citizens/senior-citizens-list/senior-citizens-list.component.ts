@@ -7,6 +7,7 @@ import {ApiInfoService} from 'src/app/services/api-info.service';
 import { SubscriptionsContainer } from 'src/app/subscriptions-container';
 import { LocationService } from '../../services/location.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import {ActivatedRoute,Router, ParamMap} from '@angular/router';
 
 /* export interface PeriodicElement {
      name: string;
@@ -56,7 +57,7 @@ export class SeniorCitizensListComponent implements OnInit {
   selectedDistrict:string='';
   selectedBlock:string='';
   createFilterGroup: FormGroup;
-  constructor(private apiInfoService:ApiInfoService, private locationService:LocationService) { }
+  constructor(private apiInfoService:ApiInfoService, private locationService:LocationService, private router:Router) { }
 
   ngOnInit(): void {
 
@@ -307,4 +308,7 @@ getBlocks(){
     };
   }
 
+  srCitizenDetails(element) {
+    this.router.navigate(['seniorCitizens/seniorCitizenDetailView',{id: element.srCitizenId}]);
+  }
 }
