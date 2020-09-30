@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
@@ -6,8 +6,12 @@ import { environment } from 'src/environments/environment';
 import {ApiInfoService} from 'src/app/services/api-info.service';
 import { SubscriptionsContainer } from 'src/app/subscriptions-container';
 import { LocationService } from '../../services/location.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import {ActivatedRoute,Router, ParamMap} from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { GlobalDialogComponent } from 'src/app/global-dialog/global-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationMessageComponent } from 'src/app/notification-message/notification-message.component';
 
 /* export interface PeriodicElement {
      name: string;
@@ -26,7 +30,7 @@ import {ActivatedRoute,Router, ParamMap} from '@angular/router';
   templateUrl: './senior-citizens-list.component.html',
   styleUrls: ['./senior-citizens-list.component.scss']
 })
-export class SeniorCitizensListComponent implements OnInit {
+export class SeniorCitizensListComponent implements OnInit, OnDestroy {
   
   AssignedSeniorCitizensColumns: string[] = ['firstName', 'phoneNo', 'state','district','blockName','volunteerId'];
   UnassignedSeniorCitizensColumns: string[] = ['firstName', 'phoneNo', 'state','district','blockName'];
@@ -57,8 +61,25 @@ export class SeniorCitizensListComponent implements OnInit {
   selectedDistrict:string='';
   selectedBlock:string='';
   createFilterGroup: FormGroup;
-  constructor(private apiInfoService:ApiInfoService, private locationService:LocationService, private router:Router) { }
 
+  assignCitizenForm=this.fb.group({
+    selectedCitizens: this.fb.array([])
+  });
+  selectedCitizensQueue=[];
+  disable_assign_button:boolean=true;
+  public dialogReference;
+  constructor(
+    private apiInfoService:ApiInfoService,
+    private locationService:LocationService,
+    private router:Router,
+    private fb:FormBuilder,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) { }
+  // get the selectedCitizens form element
+  get selectedCitizens(){
+    return this.assignCitizenForm.get('selectedCitizens') as FormArray;
+  }
   ngOnInit(): void {
 
     this.base_url=environment.base_url;
@@ -76,8 +97,58 @@ export class SeniorCitizensListComponent implements OnInit {
     this.getDeboardedPageData(deBoardedPostData);
     this.getStates();
     this.status = 'Assigned';
+    // enabling assign citizens button
+    // this.subs.add=this.assignCitizenForm.get('selectedCitizens').valueChanges
+    // .subscribe(value=> {
+    //   if(this.selectedCitizensQueue.length > 0){
+    //     this.disable_assign_button=false;
+    //   }
+    //   else{
+    //     this.disable_assign_button=true;
+    //   }
+    //   console.log("Selected Citizens Queue:",this.selectedCitizensQueue);
+    //   console.log("Form:",this.assignCitizenForm);
+    // })
   }
-
+  // Dynamic implementation of selected citizens form element 
+  addSelectCitizens(){
+    this.UnassignedDataSource.forEach(element => {
+      //console.log(element);
+      let elementValue=false;
+      if(this.selectedCitizensQueue.findIndex(citizen=> { 
+        return element['srCitizenId'] == citizen['srCitizenId'];
+      }) != -1){
+        elementValue=true;
+      }
+      this.selectedCitizens.push(
+        this.fb.group({
+          id: [element['srCitizenId']],
+          checked:[elementValue]
+        })
+        );
+    });  
+  }
+  /**
+   * onchecked function is to handle individual check/uncheck of sr Citizen
+   * @param event 
+   */
+  onchecked(event,citizenObject){
+    if(event.checked){
+      this.selectedCitizensQueue.push(citizenObject);
+    }
+    else{
+      this.selectedCitizensQueue= this.selectedCitizensQueue.filter(citizen=>{
+        return citizen['srCitizenId']!=citizenObject['srCitizenId'];
+      })
+    }
+    if(this.selectedCitizensQueue.length > 0){
+      this.disable_assign_button=false;
+    }
+    else{
+      this.disable_assign_button=true;
+    }
+    console.log("Selected Citizens Queue:",this.selectedCitizensQueue)
+  }
   getStates(){
     this.statesList=this.locationService.getStates();
   }
@@ -143,6 +214,8 @@ getBlocks(){
       postData['filterBlock']=this.selectedBlock;
     } 
     // postData.status="UnAssigned";
+    
+    
     this.getUnassignedPageData(postData);
   }
   getUnassignedPageData(postData){
@@ -154,7 +227,13 @@ getBlocks(){
       this.loadingSpinner=false;
       if(postData.pagenumber===0 || postData.pagenumber==='0'){
         this.p1=1;
+        this.selectedCitizensQueue=[];
+        this.disable_assign_button=true;
       }
+      this.assignCitizenForm.reset();
+      this.selectedCitizens.clear();
+      this.addSelectCitizens();
+      console.log(this.assignCitizenForm);
      },
      errorResponse=>{
        console.log("error:",errorResponse);
@@ -310,5 +389,85 @@ getBlocks(){
 
   srCitizenDetails(element) {
     this.router.navigate(['seniorCitizens/seniorCitizenDetailView',{id: element.srCitizenId}]);
+  }
+
+resetAssigned(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Assigned",limit:this.itemsPerPage,pagenumber:0}
+  this.getPageData(postData);
+
+}
+
+resetUnassigned(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Unassigned",limit:this.itemsPerPage,pagenumber:0}
+  this.getUnassignedPageData(postData);
+}
+
+resetDeboarded(){
+  this.selectedState='';
+  this.selectedDistrict='';
+  this.selectedBlock='';
+  let postData={status:"Deboarded", limit:this.itemsPerPage,pagenumber:0}
+  this.getDeboardedPageData(postData);
+}
+
+  /**
+   * assignToVolunteers function is to open distribute citizens to volunteer popup
+   */
+  assignToVolunteers(){
+    let congigObject ={
+      data:{
+        heading:"Assign Volunteers",
+        headingRightContent:"Selected sr.citizens Count: "+this.selectedCitizensQueue.length,
+        feature: "distributeSrCitizensEqually",
+        citizensObj: this.selectedCitizensQueue,
+      },
+      disableClose:true,
+      width: "90%",
+      autoFocus: false,
+      panelClass: "assign-popup"
+      //position:{top:"50px"},
+      //height:"500px"
+    };
+    congigObject.data['inputObj']={};
+    congigObject.data['inputObj']['feature']='distributeSrCitizensEqually';
+    if(this.selectedState!=''){
+      congigObject.data['inputObj']['filterState']=this.selectedState;
+    }
+    if(this.selectedDistrict!=''){
+      congigObject.data['inputObj']['filterDistrict']=this.selectedDistrict;
+    }
+    this.openGlobalPopup(congigObject);
+    this.dialogReference.afterClosed().subscribe(dialogResponse=>{
+      if(dialogResponse.transfer){
+        let message="Senior Citizen's has been assigned to the selected volunteers";
+        this.showNotification({message,success:true});
+        this.getUnassignedPaginationData(1);
+        this.getPaginationData(1);
+        
+      }
+      else{
+        let message="Assigning of sr.citizens has been cancelled or failed";
+        this.showNotification({message,success:false})
+      }
+    });
+  }
+  openGlobalPopup(configurationObject){
+    this.dialogReference=this.dialog.open(GlobalDialogComponent,configurationObject);
+  }
+  showNotification(notificationData,duration=5000){
+    this.snackBar.openFromComponent(NotificationMessageComponent,{
+      data:notificationData,
+      duration:duration,
+      panelClass: "notification-snackbar"
+    });
+  }
+  ngOnDestroy(){
+    this.subs.dispose();
   }
 }

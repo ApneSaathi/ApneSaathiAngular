@@ -17,9 +17,9 @@
     <ng-template [ngIf]="data.feature=='deboardingVolunteer'">
         <app-de-board-volunteer [volunteerObj]="data.volunteerObj"></app-de-board-volunteer>
     </ng-template>
-    <ng-template [ngIf]="data.feature=='assignSrCitizensEqually'">
-        <app-assign-volunteers [volunteerObj]="data.volunteerObj"></app-assign-volunteers>
-    </ng-template>
+    <ng-template [ngIf]="data.feature=='assignSrCitizensEqually' || data.feature=='distributeSrCitizensEqually'">
+        <app-assign-volunteers [volunteerObj]="data.volunteerObj ? data.volunteerObj:{}" [citizensObj]="data.citizensObj ? data.citizensObj: {}" [inputObj]="data.inputObj ? data.inputObj:{}"></app-assign-volunteers>
+    </ng-template>    
 </div>
 
 

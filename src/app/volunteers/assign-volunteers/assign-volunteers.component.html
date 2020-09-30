@@ -1,8 +1,20 @@
 <div [formGroup]="assignVolunteerForm">
+    <div class='assign-volunteer-count' *ngIf="inputObj && inputObj.feature=='distributeSrCitizensEqually'">
+        List of volunteers from the same State/District:<b>{{total_volunteers}}</b>
+    </div>
     <div class="select-all" *ngIf="noData.message=='' && srCitizensList?.length > 0">
         <label>
             <mat-checkbox [disabled]="loadingSpinner" color="primary" formControlName="selectAll" (change)="onChangeSelectAll()">Select All</mat-checkbox> 
         </label>
+        <div  class="assign-volunteer-sort-field-container" *ngIf="inputObj && inputObj.feature=='distributeSrCitizensEqually'">
+            <select  class="assign-volunteer-sort-field" formControlName="sortValue" (change)="getVolunteersForAssignment()">
+                <option value=''>Sort by</option>
+                <option value="ratingAsc">Rating- Low to High</option>
+                <option value="ratingDesc">Rating- High to Low</option>
+                <option value="assignedSrCitizenAsc">Assigned Count- Low to High</option>
+                <option value="assignedSrCitizenDesc">Assigned Count- High to Low</option>
+            </select>
+        </div>
     </div>
     <div class="assign-block" *ngIf="noData.message=='' && srCitizensList?.length > 0">
         <div class="assign-item"  formArrayName="selectedVolunteers" *ngFor="let volunteer of volunteersList; let i=index">
@@ -10,7 +22,8 @@
                 <img [src]="base_url+'assets/user.jpg'" class="assign-image-unselected-block" [ngClass]="{'assign-image-selected-block':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true}" />
                 <div class="assign-info" [formGroupName]="i" [ngClass]="{'assign-info-checked':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true}">
                     <mat-checkbox  [disabled]="loadingSpinner" color="primary" class="list-card-checkbox" formControlName="checked" (change)="onchecked($event)" [value]="volunteer.id" [ngClass]="{'display-checkbox':assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value===true,'display-none':!assignVolunteerForm.controls['selectedVolunteers'].controls[i].controls['checked'].value}" ></mat-checkbox>
-                    <div>{{volunteer.firstName}} 
+                    <div>
+                        <span class="assign-volunteer-name">{{volunteer.firstName}}</span>
                         <span class="material-icons rating-icon" *ngIf="volunteer.rating == 0">
                             star_outline
                         </span>
@@ -20,7 +33,7 @@
                         <span class="material-icons rating-icon" *ngIf="volunteer.rating && volunteer.rating >= 3.8" [ngClass]="volunteerRatingClass(volunteer)">
                             star
                         </span>
-                        {{volunteer.rating}} 
+                        <span [ngClass]="volunteerRatingClass(volunteer)">{{volunteer.rating}}</span>
                     </div>
                     <div><span class="gray-text">Sr.Citizens Assigned </span>{{volunteer.count_SrCitizen}}</div>
                     
@@ -33,7 +46,7 @@
         <span class="no-data">{{noData.message}}</span>
     </div>
     <div  *ngIf="!srCitizensList || srCitizensList.length <= 0" class="no-data-container">
-        <span class="no-data">No Senior Citizens Found</span>
+        <span class="no-data"></span><!--No Senior Citizens Found-->
     </div>
     <div class="loading-spinner" *ngIf="loadingSpinner">
         <mat-spinner [diameter]=50></mat-spinner>
