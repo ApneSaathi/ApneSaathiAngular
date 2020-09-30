@@ -2,5 +2,20 @@
     <span>Volunteers Bulk Import Log</span>
 </div>
 <div class="import-log-container"> 
-    <mat-card>Simple card</mat-card>
+    <mat-card>
+        <mat-table [dataSource]="data" class="mat-elevation-z8">
+            <!-- <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+              <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+              <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            </ng-container> -->
+            <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                <mat-header-cell *matHeaderCellDef> {{column}} </mat-header-cell>
+                <mat-cell *matCellDef="let element" > 
+                    {{element[column]}}
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay;" class="mouseover-pointer" ></mat-row>
+        </mat-table>
+    </mat-card>
 </div>

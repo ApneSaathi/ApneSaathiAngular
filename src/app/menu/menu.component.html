@@ -7,39 +7,39 @@
         </mat-expansion-panel-header>
     </mat-expansion-panel>
 
-    <mat-expansion-panel hideToggle>
+    <mat-expansion-panel hideToggle [expanded]="openModule === 'volunteers'">
         <mat-expansion-panel-header>
             <img class="dropdown-btn volunteers" [src]="base_url+'assets/businessman-and-strategy (2).png'">
-            <a class="dropdown-link" (click) = "isButtonClicked('volunteers')" routerLink="/volunteers">Volunteers</a>
+            <a class="dropdown-link" (click) = "isButtonClicked('voluntersList','volunteers')" routerLink="/volunteers">Volunteers</a>
             <span class="mat-expansion-arrow"></span>
         </mat-expansion-panel-header>
         <mat-panel-description>
             <div class="menu-items-block">
-                <button class="menu-items" (click) = "isButtonClicked('volunteerList')">
-                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerList'||'volunteers' && activeLink!='volunteerQuires'}" routerLink="/volunteers">List of volunteers</a>
+                <button class="menu-items" (click) = "isButtonClicked('voluntersList','volunteers')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='voluntersList'}" routerLink="/volunteers">List of volunteers</a>
                 </button>
-                <button class="menu-items" (click) = "isButtonClicked('volunteerQuires')">
+                <button class="menu-items" (click) = "isButtonClicked('volunteerQuires','volunteers')">
                     <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerQuires'}" routerLink="">Volunteer Quires</a>
                 </button>
-                <button class="menu-items" (click) = "isButtonClicked('volunteerImportLog')">
-                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='volunteerImportLog'}" routerLink="/volunteers/ImportLog">Bulk Import Logs</a>
+                <button class="menu-items" (click) = "isButtonClicked('ImportLog','volunteers')">
+                    <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='ImportLog'}" routerLink="/volunteers/ImportLog">Bulk Import Logs</a>
                 </button>
             </div>
         </mat-panel-description>
     </mat-expansion-panel>
 
-    <mat-expansion-panel hideToggle>
+    <mat-expansion-panel hideToggle  [expanded]="openModule === 'seniorCitizens'">
         <mat-expansion-panel-header>
             <img class="dropdown-btn citizens" [src]="base_url+'assets/group (2).png'">
-            <a class="dropdown-link" (click) = "isButtonClicked('citizens')" routerLink="/seniorCitizens">Senior Citizens</a>
+            <a class="dropdown-link" (click) = "isButtonClicked('CitizenList','seniorCitizens')" routerLink="/seniorCitizens">Senior Citizens</a>
             <span class="mat-expansion-arrow"></span>
         </mat-expansion-panel-header>
         <mat-panel-description>
             <div class="menu-items-block">
-                <button class="menu-items" (click) = "isButtonClicked('CitizenList')">
+                <button class="menu-items" (click) = "isButtonClicked('CitizenList','seniorCitizens')">
                     <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenList' || 'citizens' && activeLink!='CitizenQuires'}" routerLink="/seniorCitizens">List of Sr. Citizen</a>
                 </button>
-                <button class="menu-items" (click) = "isButtonClicked('CitizenQuires')">
+                <button class="menu-items" (click) = "isButtonClicked('CitizenQuires','seniorCitizens')">
                     <a class="menu-button-link" [ngClass]="{'link-active': activeLink=='CitizenQuires'}" routerLink="">Sr. Citizen Quires</a>
                 </button>
             </div>
